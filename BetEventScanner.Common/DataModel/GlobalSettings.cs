@@ -21,6 +21,10 @@ namespace BetEventScanner.Common.DataModel
             SupportedLeagues = GetSupportedLeagues(supportedLeagues);
         }
 
+        public CommonSettings CommonSettings { get; set; }
+
+        public ApiSettings ApiSettings { get; set; }
+
         public string Version { get; }
 
         public string BaseUrl { get; }
@@ -35,5 +39,13 @@ namespace BetEventScanner.Common.DataModel
         {
             return supportedLeagues.Split(new[] { ";" }, StringSplitOptions.None).Select(int.Parse);
         }
+    }
+
+    public class ApiSettings
+    {
+    }
+
+    public class CommonSettings
+    {
     }
 }

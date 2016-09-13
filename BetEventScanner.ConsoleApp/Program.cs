@@ -1,15 +1,11 @@
 ﻿using System;
 using BetEventScanner.Common.Contracts;
-using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services;
-using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.ConsoleApp
 {
     class Program
     {
-        private static bool _isStatisticsUpdated = false;
-
         static void Main(string[] args)
         {
             #region Football API only EPL
@@ -48,36 +44,11 @@ namespace BetEventScanner.ConsoleApp
 
             #endregion
 
-            if (false)
-            {
-                var oddsService = new OddsService();
-                var oddsData = oddsService.GetData();
-            }
+            var globalSettings = GlobalSettingsReader.GetGlobalSettings();
 
-            //mongoProvider.GetData("Test");
-            ////mongoProvider.SaveData();
-
-
-            //var ss = @"http://api.football-data.org/v1/soccerseasons/394";
-            //var test = GetData<SoccerSeason>(ss);
             ICountryMap footbalDataCountryMap = new FootballDataCountryMap();
             var footballDataService = new FootballDataService(GlobalSettingsReader.GetGlobalSettings(), footbalDataCountryMap, null);
-
             footballDataService.Start();
-
-            var germany = footballDataService.CreateCountryData(new []{"394", "395", "403"});
-            var italy = footballDataService.CreateCountryData(new[] { "401" });
-
-            //var mongoProvider = new MongoDbProvider();
-            //if (mongoProvider.CreateCollection("Germany"))
-            //{
-            //    mongoProvider.InitializeCollection("Germany", germany);
-            //}
-
-            //if (mongoProvider.CreateCollection("Italy"))
-            //{
-            //    mongoProvider.InitializeCollection("Italy", italy);
-            //}
 
             Console.ReadLine();
         }
