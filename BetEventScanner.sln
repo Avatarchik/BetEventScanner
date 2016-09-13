@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DataAccess", "BetEventScanner.DataAccess\BetEventScanner.DataAccess.csproj", "{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Business", "BetEventScanner.Business\BetEventScanner.Business.csproj", "{B09A18FF-A30C-43FE-9804-5CAF637A8BF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Common", "BetEventScanner.Common\BetEventScanner.Common.csproj", "{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.ConsoleApp", "BetEventScanner.ConsoleApp\BetEventScanner.ConsoleApp.csproj", "{0674882F-3FE1-4011-AE85-43EA0D73C163}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DesktopUI", "BetEventScanner.DesktopUI\BetEventScanner.DesktopUI.csproj", "{1B7C484D-F0B5-4D81-94A5-FAE3DB4EFC72}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B09A18FF-A30C-43FE-9804-5CAF637A8BF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B09A18FF-A30C-43FE-9804-5CAF637A8BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B09A18FF-A30C-43FE-9804-5CAF637A8BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B09A18FF-A30C-43FE-9804-5CAF637A8BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B7C484D-F0B5-4D81-94A5-FAE3DB4EFC72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B7C484D-F0B5-4D81-94A5-FAE3DB4EFC72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B7C484D-F0B5-4D81-94A5-FAE3DB4EFC72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B7C484D-F0B5-4D81-94A5-FAE3DB4EFC72}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
