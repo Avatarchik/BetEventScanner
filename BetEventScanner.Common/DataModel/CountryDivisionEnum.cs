@@ -1,6 +1,6 @@
 ﻿namespace BetEventScanner.Common.DataModel
 {
-    public enum CountryEnum
+    public enum CountryDivisionEnum
     {
         England1 = 1,
         England2 = 2,

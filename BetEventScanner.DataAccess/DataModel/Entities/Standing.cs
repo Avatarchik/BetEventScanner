@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Linq;
+using System.Runtime.Serialization;
 
 namespace BetEventScanner.DataAccess.DataModel.Entities
 {
@@ -31,8 +33,10 @@ namespace BetEventScanner.DataAccess.DataModel.Entities
     [DataContract]
     public class Team
     {
+        public int Id { get; set; }
+
         [DataMember(Name = "_links")]
-        public Link[] Links { get; set; }
+        public Link Links { get; set; }
 
         [DataMember(Name = "name")]
         public string Name { get; set; }
@@ -43,8 +47,19 @@ namespace BetEventScanner.DataAccess.DataModel.Entities
         [DataMember(Name = "shortName")]
         public string ShortName { get; set; }
 
-        [DataMember(Name = "squadMarketValue")]
-        public string SquadMarketValue { get; set; }
+        public int GetIdFromUrl()
+        {
+            var id = 0;
+
+            var strId = Links.Self.Value.Split(new[] {"/"}, StringSplitOptions.None).Last();
+
+            if (id == 0)
+            {
+                throw new Exception();
+            }
+
+            return 1;
+        }
     }
 
     [DataContract]

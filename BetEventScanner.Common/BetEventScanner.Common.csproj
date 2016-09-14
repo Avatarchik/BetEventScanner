@@ -54,7 +54,7 @@
     <Compile Include="Contracts\IFixture.cs" />
     <Compile Include="Contracts\ITeam.cs" />
     <Compile Include="DataModel\Calendar.cs" />
-    <Compile Include="DataModel\CountryEnum.cs" />
+    <Compile Include="DataModel\CountryDivisionEnum.cs" />
     <Compile Include="DataModel\CountrySeasonCard.cs" />
     <Compile Include="DataModel\GlobalData.cs" />
     <Compile Include="DataModel\GlobalSettings.cs" />

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -27,14 +28,19 @@ namespace BetEventScanner.DataAccess.Providers
                 return;
             }
              
-            _db.CreateCollection(collectionName);
-            
+            _db.CreateCollection(collectionName);   
         }
 
         public void InsertDocumentToCollection<T>(string collectionName, T document)
         {
             var collection = _db.GetCollection<T>(collectionName);
             collection.InsertOne(document);
+        }
+
+        public void InsertDocumentsToCollection<T>(string collectionName, IEnumerable<T> documents)
+        {
+            var collection = _db.GetCollection<T>(collectionName);
+            collection.InsertMany(documents);
         }
 
         public void StoreData(object data)

@@ -1,5 +1,6 @@
 ﻿using System;
-using BetEventScanner.Common.Contracts;
+using System.Linq;
+using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services;
 using BetEventScanner.DataAccess.DataModel.Entities;
 using BetEventScanner.DataAccess.Providers;
@@ -13,10 +14,27 @@ namespace BetEventScanner.ConsoleApp
             #region Football API only EPL
 
             var globalSettings = GlobalSettingsReader.GetGlobalSettings();
+            var footbalDataCountryMap = new FootballDataCountryMap();
+            var mongo = new MongoDbProvider();
 
-            var apikey = globalSettings.ApiKey;
+            foreach (var supportedLeague in globalSettings.SupportedLeagues)
+            {
+                var country = (CountryDivisionEnum)supportedLeague;
+                var countryId = footbalDataCountryMap.Map[country];
 
-            var standing = RestApiService.GetData<DivisionTeams>("http://api.football-data.org/v1/competitions/398/teams");
+                var url = $"http://api.football-data.org/v1/competitions/{countryId}/teams";
+                var divisionTeams = RestApiService.GetData<DivisionTeams>(url);
+
+                var collectionName = GetCountryTeamsCollectionName(country);
+
+                foreach (var divisionTeam in divisionTeams.Teams)
+                {
+                    divisionTeam.GetIdFromUrl();
+                }
+
+                mongo.CreateCollection(collectionName);
+                
+            }
 
             //    foreach (var team in standing.Teams.OrderByDescending(x => x.StandPoints))
             //    {
@@ -48,7 +66,7 @@ namespace BetEventScanner.ConsoleApp
 
             Console.WriteLine("Service started");
 
-            ICountryMap footbalDataCountryMap = new FootballDataCountryMap();
+         
             
             var footballDataApi = new FootballDataApiClient(globalSettings, footbalDataCountryMap);
 
@@ -58,6 +76,19 @@ namespace BetEventScanner.ConsoleApp
             Console.WriteLine("Press ENTER to continue...");
             Console.ReadLine();
 
+        }
+
+        private static string GetCountryTeamsCollectionName(CountryDivisionEnum countryDivision)
+        {
+            foreach (var map in CountDivisionMap.Map)
+            {
+                if (map.Value.Contains(countryDivision))
+                {
+                    return map.Key.ToString();
+                }
+            }
+
+            throw new Exception("Country by division not found");
         }
     }
 }
