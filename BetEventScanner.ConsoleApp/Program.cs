@@ -1,6 +1,8 @@
 ﻿using System;
 using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.Services;
+using BetEventScanner.DataAccess.DataModel.Entities;
+using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.ConsoleApp
 {
@@ -10,13 +12,11 @@ namespace BetEventScanner.ConsoleApp
         {
             #region Football API only EPL
 
-            //if (false)
-            //{
-            //    var comp_id = 1204;
-            //    var apikey = "2bab3f7d-881b-a6d6-4bb7de8099b0";
-            //    var urlStanding = $"http://football-api.com/api/?Action=standings&APIKey={apikey}&comp_id={comp_id}";
+            var globalSettings = GlobalSettingsReader.GetGlobalSettings();
 
-            //    var standing = RestApiService.GetData<Standing>(urlStanding);
+            var apikey = globalSettings.ApiKey;
+
+            var standing = RestApiService.GetData<DivisionTeams>("http://api.football-data.org/v1/competitions/398/teams");
 
             //    foreach (var team in standing.Teams.OrderByDescending(x => x.StandPoints))
             //    {
@@ -40,20 +40,25 @@ namespace BetEventScanner.ConsoleApp
 
             //        }
             //    }
-            //}
+
+
+            return;
 
             #endregion
 
-            var globalSettings = GlobalSettingsReader.GetGlobalSettings();
+            Console.WriteLine("Service started");
 
             ICountryMap footbalDataCountryMap = new FootballDataCountryMap();
-            var footballDataService = new FootballDataService(GlobalSettingsReader.GetGlobalSettings(), footbalDataCountryMap, null);
+            
+            var footballDataApi = new FootballDataApiClient(globalSettings, footbalDataCountryMap);
+
+            var footballDataService = new FootballDataService(footballDataApi, new MongoDbProvider());
             footballDataService.Start();
 
+            Console.WriteLine("Press ENTER to continue...");
             Console.ReadLine();
-        }
 
-        
+        }
     }
 }
 

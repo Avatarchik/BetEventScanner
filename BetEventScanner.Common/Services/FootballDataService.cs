@@ -1,33 +1,30 @@
-﻿using System.Diagnostics;
+﻿using System.Threading;
 using System.Timers;
-using BetEventScanner.Common.Contracts;
-using BetEventScanner.Common.DataModel;
 using BetEventScanner.DataAccess.Providers;
+using Timer = System.Timers.Timer;
 
 namespace BetEventScanner.Common.Services
 {
     // From Daniel Freitag
     public class FootballDataService
     {
-        private readonly ICountryMap _countryMap;
-        private readonly string _baseUrl;
+        private readonly IApiClient _apiClient;
+        private readonly IDbProvider _dbProvider;
         // define timer period in appconfig
         private readonly Timer _timer;
-        private FootballDataApiClient _apiClient;
-
-        public FootballDataService(GlobalSettings globalSettings, ICountryMap countryMap, IDbProvider dbProvider)
+        
+        public FootballDataService(IApiClient apiClient, IDbProvider dbProvider)
         {
-            _countryMap = countryMap;
-            // todo remo it to api
-            _baseUrl = globalSettings.Url;
-            _apiClient = new FootballDataApiClient(globalSettings);
+            _apiClient = apiClient;
+            _dbProvider = dbProvider;
             _timer = new Timer(10000);
             _timer.Elapsed += Timer_Elapsed;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            Debugger.Break();
+            var data = GetApiData();
+            StoreData(data);
         }
 
         public bool Started { get; private set; }
@@ -42,6 +39,32 @@ namespace BetEventScanner.Common.Services
         {
             Started = false;
             _timer.Stop();
+        }
+
+        private object GetApiData()
+        {
+            return _apiClient.GetData<string>(string.Empty);
+        }
+
+        private void StoreData(object data)
+        {
+            _dbProvider.StoreData(data);
+        }
+
+    }
+
+    public class AdminFootballDataService
+    {
+        private readonly IApiClient _apiClient;
+
+        public AdminFootballDataService(IApiClient apiClient)
+        {
+            _apiClient = apiClient;
+        }
+
+        public void GetCountryDivisionTemas(int divisionId)
+        {
+
         }
     }
 }

@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Work\BetEventScanner\BetEventScanner.DesktopUI\obj\Debug\
+C:\Work\my\BetEventScanner\BetEventScanner.DesktopUI\obj\Debug\
 BetEventScanner.DesktopUI
 none
 false
 DEBUG;TRACE
-C:\Work\BetEventScanner\BetEventScanner.DesktopUI\App.xaml
+C:\Work\my\BetEventScanner\BetEventScanner.DesktopUI\App.xaml
 3-1236399828
 
-16-1454045663
-14-1597625123
+16286123722
+14-1170617863
 MainWindow.xaml;View\AdminView.xaml;View\ImportView.xaml;
 
 False

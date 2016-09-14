@@ -36,5 +36,10 @@ namespace BetEventScanner.DataAccess.Providers
             var collection = _db.GetCollection<T>(collectionName);
             collection.InsertOne(document);
         }
+
+        public void StoreData(object data)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -2,5 +2,6 @@
 {
     public interface IDbProvider
     {
+        void StoreData(object data);
     }
 }

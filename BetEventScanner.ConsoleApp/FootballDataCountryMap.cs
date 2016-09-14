@@ -8,7 +8,7 @@ namespace BetEventScanner.ConsoleApp
 {
     public class FootballDataCountryMap : ICountryMap
     {
-        private static IDictionary<CountryEnum, int> _map = new Dictionary<CountryEnum, int>
+        private static readonly IDictionary<CountryEnum, int> _map = new Dictionary<CountryEnum, int>
         {
             { CountryEnum.Germany1, 394 },
             { CountryEnum.Germany2, 395 }
