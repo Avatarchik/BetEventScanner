@@ -5,7 +5,7 @@ namespace BetEventScanner.Common.Contracts
 {
     public interface ICountryMap
     {
-        IDictionary<CountryDivision, int> Map { get; }
+        IDictionary<CountryDivision, int> IdMap { get; }
 
         CountryDivision GetCompetitionById(int divisionId);
 

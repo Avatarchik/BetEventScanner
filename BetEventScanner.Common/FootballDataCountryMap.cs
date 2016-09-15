@@ -8,7 +8,7 @@ namespace BetEventScanner.Common
 {
     public class FootballDataCountryMap : ICountryMap
     {
-        private readonly IDictionary<CountryDivision, int> _idMap = new Dictionary<CountryDivision, int>
+        private readonly IDictionary<CountryDivision, int> _idIdMap = new Dictionary<CountryDivision, int>
         {
             { CountryDivision.England1, 398 },
             { CountryDivision.England2, 427 },
@@ -31,11 +31,13 @@ namespace BetEventScanner.Common
             { CountryDivision.Spain2,   CountryCode.SD }
         };
 
-        public IDictionary<CountryDivision, int> Map => _idMap;
+        public IDictionary<CountryDivision, int> IdMap => _idIdMap;
+
+        public IDictionary<CountryDivision, CountryCode> CodeMap => _codeMap;
 
         public CountryDivision GetCompetitionById(int divisionId)
         {
-            return _idMap.FirstOrDefault(x => x.Value.Equals(divisionId)).Key;
+            return _idIdMap.FirstOrDefault(x => x.Value.Equals(divisionId)).Key;
         }
 
         public CountryDivision GetCompetitionByCode(string code)

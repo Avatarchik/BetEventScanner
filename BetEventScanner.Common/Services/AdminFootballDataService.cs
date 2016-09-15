@@ -36,7 +36,7 @@ namespace BetEventScanner.Common.Services
             foreach (var supportedLeague in _settings.SupportedLeagues)
             {
                 var countryDivision = (CountryDivision)supportedLeague;
-                var countryId = _footbalDataCountryMap.Map[countryDivision];
+                var countryId = _footbalDataCountryMap.IdMap[countryDivision];
 
                 var url = string.Concat(_settings.Url, $"/competitions/{countryId}/teams");
                 var divisionTeams = RestApiService.GetData<DivisionTeamsContract>(url);

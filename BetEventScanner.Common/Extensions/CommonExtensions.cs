@@ -2,7 +2,7 @@
 
 namespace BetEventScanner.Common.Extensions
 {
-    public static class Ext
+    public static class CommonExtensions
     {
         public static string DescriptionAttr<T>(this T source)
         {
@@ -10,9 +10,7 @@ namespace BetEventScanner.Common.Extensions
 
             var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-            if (attributes != null && attributes.Length > 0) return attributes[0].Description;
-
-            return source.ToString();
+            return attributes.Length > 0 ? attributes[0].Description : source.ToString();
         }
     }
 }
