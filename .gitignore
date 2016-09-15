@@ -87,3 +87,4 @@ _[Ss]cripts
 /AssessmentTool/src/AssessmentTool.ngWeb/wwwroot/js/app.min.js
 /AssessmentTool/src/AssessmentTool.ngWeb/wwwroot/js/vendor.custom.min.js
 /AssessmentTool/src/AssessmentTool.ngWeb/wwwroot/js/vendor.min.js
+/BetEventScanner.Common/obj/Debug/*.cache
