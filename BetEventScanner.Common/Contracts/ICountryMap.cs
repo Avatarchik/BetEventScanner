@@ -8,5 +8,7 @@ namespace BetEventScanner.Common.Contracts
         IDictionary<CountryDivision, int> Map { get; }
 
         CountryDivision GetCompetitionById(int divisionId);
+
+        CountryDivision GetCompetitionByCode(string code);
     }
 }

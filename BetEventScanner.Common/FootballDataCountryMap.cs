@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.DataModel;
@@ -7,7 +8,7 @@ namespace BetEventScanner.Common
 {
     public class FootballDataCountryMap : ICountryMap
     {
-        private static readonly IDictionary<CountryDivision, int> _map = new Dictionary<CountryDivision, int>
+        private readonly IDictionary<CountryDivision, int> _idMap = new Dictionary<CountryDivision, int>
         {
             { CountryDivision.England1, 398 },
             { CountryDivision.England2, 427 },
@@ -18,11 +19,28 @@ namespace BetEventScanner.Common
             { CountryDivision.Spain2, 437 }
         };
 
-        public IDictionary<CountryDivision, int> Map => _map;
+        private readonly IDictionary<CountryDivision, CountryCode> _codeMap = new Dictionary<CountryDivision, CountryCode>
+        {
+            { CountryDivision.England1, CountryCode.PL },
+            { CountryDivision.England2, CountryCode.ELC },
+            { CountryDivision.Germany1, CountryCode.BL1 },
+            { CountryDivision.Germany2, CountryCode.BL2 },
+            { CountryDivision.Italy1,   CountryCode.SA },
+            { CountryDivision.Italy2,   CountryCode.SB },
+            { CountryDivision.Spain1,   CountryCode.PD },
+            { CountryDivision.Spain2,   CountryCode.SD }
+        };
+
+        public IDictionary<CountryDivision, int> Map => _idMap;
 
         public CountryDivision GetCompetitionById(int divisionId)
         {
-            return _map.FirstOrDefault(x => x.Value.Equals(divisionId)).Key;
+            return _idMap.FirstOrDefault(x => x.Value.Equals(divisionId)).Key;
+        }
+
+        public CountryDivision GetCompetitionByCode(string code)
+        {
+            return _codeMap.FirstOrDefault(x => x.Value.ToString().Equals(code)).Key;
         }
     }
 }

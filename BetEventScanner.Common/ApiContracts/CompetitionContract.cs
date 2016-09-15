@@ -12,7 +12,7 @@ namespace BetEventScanner.Common.ApiDataModel
         public string Id { get; set; }
 
         [DataMember(Name = "league")]
-        public string ShortName { get; set; }
+        public string Code { get; set; }
 
         [DataMember(Name = "caption")]
         public string Name { get; set; }

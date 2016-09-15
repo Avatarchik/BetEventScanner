@@ -60,6 +60,7 @@
     <Compile Include="Contracts\IDataImport.cs" />
     <Compile Include="Contracts\IFixture.cs" />
     <Compile Include="Contracts\ITeam.cs" />
+    <Compile Include="CountryCode.cs" />
     <Compile Include="CountryDivisionMap.cs" />
     <Compile Include="CountryDivisionIdMap.cs" />
     <Compile Include="Country.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="DataModel\Season.cs" />
     <Compile Include="DataModel\Team.cs" />
     <Compile Include="EntitiesToStore.cs" />
+    <Compile Include="Extensions\Ext.cs" />
     <Compile Include="FootballDataCountryMap.cs" />
     <Compile Include="GlobalSettingsReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

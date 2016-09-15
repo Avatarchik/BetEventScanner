@@ -32,6 +32,7 @@ namespace BetEventScanner.Common.Services
 
         private void UploadCountryTeams()
         {
+            return;
             foreach (var supportedLeague in _settings.SupportedLeagues)
             {
                 var countryDivision = (CountryDivision)supportedLeague;
@@ -68,8 +69,7 @@ namespace BetEventScanner.Common.Services
 
             foreach (var competition in competitions)
             {
-                var competitionId = int.Parse(competition.Id);
-                var countryDivision = _footbalDataCountryMap.GetCompetitionById(competitionId);
+                var countryDivision = _footbalDataCountryMap.GetCompetitionByCode(competition.Code);
                 if (countryDivision == 0)
                 {
                     continue;
@@ -79,7 +79,7 @@ namespace BetEventScanner.Common.Services
                 _entitiesToStore.AddCompetition(country, new CompetitionEntity
                 {
                     Id = competition.Id,
-                    ShortName = competition.ShortName,
+                    ShortName = competition.Code,
                     Name = competition.Name,
                     Year = competition.Year,
                     NumberOfMatchdays = competition.NumberOfMatchdays,
@@ -111,7 +111,13 @@ namespace BetEventScanner.Common.Services
             foreach (var competition in competitions)
             {
                 mongo.CreateCollection(competition.Key.ToString());
-                mongo.InsertDocumentToCollection(competition.Key.ToString(), competition.Value);
+
+                foreach (var competitionEntity in competition.Value)
+                {
+                    mongo.InsertDocumentToCollection(competition.Key.ToString(), competitionEntity);
+                }
+
+              
             }
         }
 
