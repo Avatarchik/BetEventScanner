@@ -1,11 +1,12 @@
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace BetEventScanner.Common.ApiDataModel
 {
-    [DataContract]
-    public class SeasonCompetitionsContract
+    //[DataContract]
+    [CollectionDataContract]
+    public class SeasonCompetitionsContract : List<CompetitionContract>
     {
-        [DataMember(Order = 0)]
-        public CompetitionContract[] Competitions { get; set; }
+        //public CompetitionContract[] Competitions { get; set; }
     }
 }
