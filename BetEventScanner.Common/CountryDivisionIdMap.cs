@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BetEventScanner.Common.DataModel;
 
-namespace BetEventScanner.ConsoleApp
+namespace BetEventScanner.Common
 {
     public static class CountryDivisionIdMap
     {

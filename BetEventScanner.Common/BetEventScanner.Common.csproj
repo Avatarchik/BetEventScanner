@@ -35,6 +35,7 @@
       <HintPath>..\packages\MongoDB.Bson.2.2.2\lib\net45\MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -45,14 +46,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiContracts\DivisionTeamsContract.cs" />
+    <Compile Include="ApiContracts\LinkContract.cs" />
+    <Compile Include="ApiContracts\LinkValueContract.cs" />
+    <Compile Include="ApiContracts\StandingContract.cs" />
+    <Compile Include="ApiContracts\TeamContract.cs" />
     <Compile Include="ApiDataModel\ApiCountryTeams.cs" />
     <Compile Include="ApiDataModel\ApiMatch.cs" />
     <Compile Include="ApiDataModel\ApiMatches.cs" />
     <Compile Include="ApiDataModel\ApiResult.cs" />
+    <Compile Include="ApiDataModel\SeasonCompetitionsContract.cs" />
     <Compile Include="Contracts\ICountryMap.cs" />
     <Compile Include="Contracts\IDataImport.cs" />
     <Compile Include="Contracts\IFixture.cs" />
     <Compile Include="Contracts\ITeam.cs" />
+    <Compile Include="CountDivisionMap.cs" />
+    <Compile Include="CountryDivisionIdMap.cs" />
+    <Compile Include="CountryEnum.cs" />
     <Compile Include="DataModel\Calendar.cs" />
     <Compile Include="DataModel\CountryDivisionEnum.cs" />
     <Compile Include="DataModel\CountrySeasonCard.cs" />
@@ -66,16 +76,20 @@
     <Compile Include="DataModel\Match.cs" />
     <Compile Include="DataModel\Odd.cs" />
     <Compile Include="DataModel\OddsMatch.cs" />
-    <Compile Include="ApiDataModel\ApiSoccerSeason.cs" />
+    <Compile Include="ApiDataModel\CompetitionContract.cs" />
     <Compile Include="DataModel\Player.cs" />
     <Compile Include="ApiDataModel\ApiTeam.cs" />
     <Compile Include="DataModel\Season.cs" />
     <Compile Include="DataModel\Team.cs" />
+    <Compile Include="EntitiesToStore.cs" />
+    <Compile Include="FootballDataCountryMap.cs" />
+    <Compile Include="GlobalSettingsReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AdminFootballDataService.cs" />
     <Compile Include="Services\FootballApiStatisticsService.cs" />
     <Compile Include="Services\FootballDataApiClient.cs" />
-    <Compile Include="Services\IApiClient.cs" />
-    <Compile Include="Services\IStatisticsService.cs" />
+    <Compile Include="Contracts\IApiClient.cs" />
+    <Compile Include="Contracts\IStatisticsService.cs" />
     <Compile Include="Services\OddsService.cs" />
     <Compile Include="Services\FootballDataService.cs" />
     <Compile Include="Services\RestApiService.cs" />

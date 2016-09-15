@@ -45,7 +45,6 @@ namespace BetEventScanner.DataAccess.Providers
 
         public void StoreData(object data)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

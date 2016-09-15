@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModel\Entities\AuxTeam.cs" />
+    <Compile Include="DataModel\Entities\CountryTeamsEntity.cs" />
     <Compile Include="DataModel\Entities\Commentaries.cs" />
     <Compile Include="DataModel\Entities\CommMatchPlayerStats.cs" />
     <Compile Include="DataModel\Entities\FixtureStatTeam.cs" />
@@ -72,8 +73,8 @@
     <Compile Include="DataModel\Entities\MatchEvent.cs" />
     <Compile Include="DataModel\Entities\Player.cs" />
     <Compile Include="DataModel\Entities\SchedulerAndResults.cs" />
-    <Compile Include="DataModel\Entities\Standing.cs" />
     <Compile Include="DataModel\Entities\StandinfTeam.cs" />
+    <Compile Include="DataModel\Entities\TeamEntity.cs" />
     <Compile Include="MongoEntities\Ent1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\IDbProvider.cs" />

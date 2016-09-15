@@ -1,4 +1,4 @@
-﻿namespace BetEventScanner.ConsoleApp
+﻿namespace BetEventScanner.Common
 {
     public enum CountryEnum
     {

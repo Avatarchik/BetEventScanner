@@ -62,11 +62,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CountDivisionMap.cs" />
-    <Compile Include="CountryDivisionIdMap.cs" />
-    <Compile Include="CountryEnum.cs" />
-    <Compile Include="FootballDataCountryMap.cs" />
-    <Compile Include="GlobalSettingsReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

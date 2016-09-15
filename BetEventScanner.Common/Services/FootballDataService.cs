@@ -1,5 +1,7 @@
 ﻿using System.Threading;
 using System.Timers;
+using BetEventScanner.Common.ApiDataModel;
+using BetEventScanner.Common.Contracts;
 using BetEventScanner.DataAccess.Providers;
 using Timer = System.Timers.Timer;
 
@@ -43,7 +45,10 @@ namespace BetEventScanner.Common.Services
 
         private object GetApiData()
         {
-            return _apiClient.GetData<string>(string.Empty);
+            _timer.Stop();
+            var data = _apiClient.GetData<SeasonCompetitionsContract>(string.Empty);
+            _timer.Start();
+            return data;
         }
 
         private void StoreData(object data)
@@ -51,20 +56,5 @@ namespace BetEventScanner.Common.Services
             _dbProvider.StoreData(data);
         }
 
-    }
-
-    public class AdminFootballDataService
-    {
-        private readonly IApiClient _apiClient;
-
-        public AdminFootballDataService(IApiClient apiClient)
-        {
-            _apiClient = apiClient;
-        }
-
-        public void GetCountryDivisionTemas(int divisionId)
-        {
-
-        }
     }
 }
