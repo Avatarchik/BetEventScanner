@@ -60,11 +60,11 @@
     <Compile Include="Contracts\IDataImport.cs" />
     <Compile Include="Contracts\IFixture.cs" />
     <Compile Include="Contracts\ITeam.cs" />
-    <Compile Include="CountDivisionMap.cs" />
+    <Compile Include="CountryDivisionMap.cs" />
     <Compile Include="CountryDivisionIdMap.cs" />
-    <Compile Include="CountryEnum.cs" />
+    <Compile Include="Country.cs" />
     <Compile Include="DataModel\Calendar.cs" />
-    <Compile Include="DataModel\CountryDivisionEnum.cs" />
+    <Compile Include="DataModel\CountryDivision.cs" />
     <Compile Include="DataModel\CountrySeasonCard.cs" />
     <Compile Include="DataModel\GlobalData.cs" />
     <Compile Include="DataModel\GlobalSettings.cs" />
@@ -76,7 +76,7 @@
     <Compile Include="DataModel\Match.cs" />
     <Compile Include="DataModel\Odd.cs" />
     <Compile Include="DataModel\OddsMatch.cs" />
-    <Compile Include="ApiDataModel\CompetitionContract.cs" />
+    <Compile Include="ApiContracts\CompetitionContract.cs" />
     <Compile Include="DataModel\Player.cs" />
     <Compile Include="ApiDataModel\ApiTeam.cs" />
     <Compile Include="DataModel\Season.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="Contracts\IApiClient.cs" />
     <Compile Include="Contracts\IStatisticsService.cs" />
     <Compile Include="Services\OddsService.cs" />
-    <Compile Include="Services\FootballDataService.cs" />
+    <Compile Include="Services\RequestService.cs" />
     <Compile Include="Services\RestApiService.cs" />
   </ItemGroup>
   <ItemGroup>

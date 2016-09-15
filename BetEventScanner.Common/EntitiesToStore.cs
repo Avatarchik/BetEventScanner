@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BetEventScanner.Common.DataModel;
+﻿using System.Collections.Generic;
 using BetEventScanner.DataAccess.DataModel.Entities;
 
 namespace BetEventScanner.Common
 {
     public class EntitiesToStore
     {
-        public IDictionary<CountryEnum, CountryTeamsEntity> CountryTeamsStorage { get; } = new Dictionary<CountryEnum, CountryTeamsEntity>();
+        public IDictionary<Country, CountryTeamsEntity> CountryTeamsStorage { get; } = new Dictionary<Country, CountryTeamsEntity>();
 
-        public void AddCountryTeam(CountryDivisionEnum countryDivision, IEnumerable<TeamEntity> teams)
+        public IDictionary<Country, IList<CompetitionEntity>> Competitions { get; } = new Dictionary<Country, IList<CompetitionEntity>>();
+
+        public void AddCountryTeam(Country country, IEnumerable<TeamEntity> teams)
         {
-            var key = GetCountryNameByDivision(countryDivision);
+            var key = country;
 
             if (!CountryTeamsStorage.ContainsKey(key))
             {
@@ -26,17 +25,18 @@ namespace BetEventScanner.Common
             }
         }
 
-        private static CountryEnum GetCountryNameByDivision(CountryDivisionEnum countryDivision)
+        public void AddCompetition(Country country, CompetitionEntity competitionEntity)
         {
-            foreach (var map in CountDivisionMap.Map)
-            {
-                if (map.Value.Contains(countryDivision))
-                {
-                    return map.Key;
-                }
-            }
+            var key = country;
 
-            throw new Exception("Country by division not found");
+            if (!Competitions.ContainsKey(key))
+            {
+                Competitions.Add(key, new List<CompetitionEntity> { competitionEntity });
+            }
+            else
+            {
+                Competitions[key].Add(competitionEntity);
+            }
         }
 
     }

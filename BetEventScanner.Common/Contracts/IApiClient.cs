@@ -2,6 +2,6 @@
 {
     public interface IApiClient
     {
-        T GetData<T>(string url);
+        T GetCountryCompetitionData<T>();
     }
 }

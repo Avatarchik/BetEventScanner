@@ -5,10 +5,10 @@ namespace BetEventScanner.Common
 {
     public static class CountryDivisionIdMap
     {
-        public static IDictionary<CountryDivisionEnum, int> Map { get; } = new Dictionary<CountryDivisionEnum, int>
+        public static IDictionary<CountryDivision, int> Map { get; } = new Dictionary<CountryDivision, int>
         {
-            { CountryDivisionEnum.Germany1, 394 },
-            { CountryDivisionEnum.Germany2, 395 }
+            { CountryDivision.Germany1, 394 },
+            { CountryDivision.Germany2, 395 }
         };
     }
 }

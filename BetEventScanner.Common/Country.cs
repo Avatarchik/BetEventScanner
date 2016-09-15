@@ -1,6 +1,6 @@
 ﻿namespace BetEventScanner.Common
 {
-    public enum CountryEnum
+    public enum Country
     {
         England = 1,
         Germany = 2,

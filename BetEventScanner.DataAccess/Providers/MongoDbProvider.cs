@@ -13,7 +13,6 @@ namespace BetEventScanner.DataAccess.Providers
         public MongoDbProvider()
         {
             _client = new MongoClient();
-
             // ToDo define db name in appconfig
             _db = _client.GetDatabase("footballdb");
         }

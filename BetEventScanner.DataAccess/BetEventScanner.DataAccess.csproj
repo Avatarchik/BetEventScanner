@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataModel\Entities\AuxTeam.cs" />
+    <Compile Include="DataModel\Entities\CompetitionEntity.cs" />
     <Compile Include="DataModel\Entities\CountryTeamsEntity.cs" />
     <Compile Include="DataModel\Entities\Commentaries.cs" />
     <Compile Include="DataModel\Entities\CommMatchPlayerStats.cs" />

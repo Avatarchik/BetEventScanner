@@ -1,5 +1,4 @@
 ﻿using System;
-using BetEventScanner.Common.ApiDataModel;
 using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.DataModel;
 
@@ -18,10 +17,11 @@ namespace BetEventScanner.Common.Services
             _countryMap = countryMap;
         }
 
-        public T GetData<T>(string url)
+        public T GetCountryCompetitionData<T>()
         {
             var year = DateTime.Now.Year;
-            var currentCompetitions = RestApiService.GetData<T>($"http://api.football-data.org/v1/competitions/?season={year}");
+            var url = string.Concat(_settins.Url, $"competitions/?season={year}");
+            var currentCompetitions = RestApiService.GetData<T>(url);
             return currentCompetitions;
         }
     }
