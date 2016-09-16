@@ -1,6 +1,7 @@
 ﻿namespace BetEventScanner.DataAccess.Providers
 {
-    class MsSqlServerProvider
+    public interface IEntity
     {
+        int Id { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using BetEventScanner.Common.ApiContracts;
 using BetEventScanner.Common.ApiDataModel;
 using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.DataModel;
-using BetEventScanner.DataAccess.DataModel.Entities;
+using BetEventScanner.DataAccess.DataModel.DbEntities;
 using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.Common.Services
@@ -76,18 +76,17 @@ namespace BetEventScanner.Common.Services
                 }
 
                 var country = GetCountryNameByDivision(countryDivision);
-                _entitiesToStore.AddCompetition(country, new CompetitionEntity
-                {
-                    Id = competition.Id,
-                    ShortName = competition.Code,
-                    Name = competition.Name,
-                    Year = competition.Year,
-                    NumberOfMatchdays = competition.NumberOfMatchdays,
-                    NumberOfTeams = competition.NumberOfTeams,
-                    NumberOfGames = competition.NumberOfGames,
-                    LastUpdated = DateTime.Parse( competition.LastUpdated)
-                });
+                _entitiesToStore.AddCompetition(country, competition.ToEntity());
+
+                UploadFixtures(country, competition.Id);
             }
+        }
+
+        private void UploadFixtures(Country country, string id)
+        {
+            var url = string.Concat(_settings.Url, $"/competitions/{id}/fixtures");
+            var fixtures = RestApiService.GetData<FixturesContract>(url);
+            _entitiesToStore.AddFixtures(country, fixtures);
         }
 
         private  void StoreData()
@@ -95,6 +94,7 @@ namespace BetEventScanner.Common.Services
             var mongo = new MongoDbProvider();
             StoreTeams(mongo, _entitiesToStore.CountryTeamsStorage);
             StoreCompetitions(mongo, _entitiesToStore.Competitions);
+            StoreFixtures(mongo, _entitiesToStore.Fixtures);
         }
 
         private static void StoreTeams(MongoDbProvider mongo, IDictionary<Country, CountryTeamsEntity> countryTeams)
@@ -116,8 +116,17 @@ namespace BetEventScanner.Common.Services
                 {
                     mongo.InsertDocumentToCollection(competition.Key.ToString(), competitionEntity);
                 }
+            }
+        }
 
-              
+        private void StoreFixtures(MongoDbProvider mongo, IDictionary<Country, IList<FixturesContract>> fixtures)
+        {
+            foreach (var countryFixtures in fixtures)
+            {
+                foreach (var divisionFixture in countryFixtures.Value)
+                {
+                    mongo.InsertDocumentToCollection(countryFixtures.Key.ToString(), divisionFixture);
+                }
             }
         }
 

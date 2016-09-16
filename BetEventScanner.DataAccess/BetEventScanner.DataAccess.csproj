@@ -63,24 +63,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataModel\Entities\AuxTeam.cs" />
     <Compile Include="DataModel\Entities\CompetitionEntity.cs" />
     <Compile Include="DataModel\Entities\CountryTeamsEntity.cs" />
-    <Compile Include="DataModel\Entities\Commentaries.cs" />
-    <Compile Include="DataModel\Entities\CommMatchPlayerStats.cs" />
-    <Compile Include="DataModel\Entities\FixtureStatTeam.cs" />
-    <Compile Include="DataModel\Entities\MatchCommentaries.cs" />
-    <Compile Include="DataModel\Entities\Match.cs" />
-    <Compile Include="DataModel\Entities\MatchEvent.cs" />
-    <Compile Include="DataModel\Entities\Player.cs" />
-    <Compile Include="DataModel\Entities\SchedulerAndResults.cs" />
-    <Compile Include="DataModel\Entities\StandinfTeam.cs" />
+    <Compile Include="DataModel\Entities\Old\Commentaries.cs" />
+    <Compile Include="DataModel\Entities\Old\MatchCommentaries.cs" />
+    <Compile Include="DataModel\Entities\Old\Match.cs" />
+    <Compile Include="DataModel\Entities\Old\MatchEvent.cs" />
+    <Compile Include="DataModel\Entities\Old\Player.cs" />
+    <Compile Include="DataModel\Entities\Old\SchedulerAndResults.cs" />
+    <Compile Include="DataModel\Entities\Old\StandinfTeam.cs" />
     <Compile Include="DataModel\Entities\TeamEntity.cs" />
-    <Compile Include="MongoEntities\Ent1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\IDbProvider.cs" />
+    <Compile Include="Providers\IEntity.cs" />
     <Compile Include="Providers\MongoDbProvider.cs" />
-    <Compile Include="Providers\MsSqlServerProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

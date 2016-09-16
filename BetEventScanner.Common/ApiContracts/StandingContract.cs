@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using BetEventScanner.DataAccess.DataModel.Entities;
+using BetEventScanner.DataAccess.DataModel.DbEntities.Old;
 
 namespace BetEventScanner.Common.ApiContracts
 {

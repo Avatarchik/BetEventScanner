@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace BetEventScanner.DataAccess.DataModel.Entities
+namespace BetEventScanner.DataAccess.DataModel.DbEntities.Old
 {
     [DataContract]
     public class Commentaries
@@ -13,10 +13,5 @@ namespace BetEventScanner.DataAccess.DataModel.Entities
 
         //[DataMember(Name = "comm_match_info")]
         //public CommonMatchInfo CommonMatchInfo { get; set; }
-
-        [DataMember(Name = "comm_match_player_stats")]
-        public CommMatchPlayerStats CommMatchPlayerStats { get; set; }
-        
-
     }
 }

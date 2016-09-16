@@ -1,6 +1,7 @@
 using System.Runtime.Serialization;
+using BetEventScanner.Common.ApiDataModel;
 
-namespace BetEventScanner.Common.ApiDataModel
+namespace BetEventScanner.Common.ApiContracts
 {
     [DataContract]
     public class CompetitionContract
@@ -11,14 +12,17 @@ namespace BetEventScanner.Common.ApiDataModel
         [DataMember(Name = "id")]
         public string Id { get; set; }
 
-        [DataMember(Name = "league")]
-        public string Code { get; set; }
-
         [DataMember(Name = "caption")]
         public string Name { get; set; }
 
+        [DataMember(Name = "league")]
+        public string Code { get; set; }
+
         [DataMember(Name = "year")]
         public string Year { get; set; }
+
+        [DataMember(Name = "currentMatchday")]
+        public string CurrentMatchday { get; set; }
 
         [DataMember(Name = "numberOfMatchdays")]
         public string NumberOfMatchdays { get; set; }

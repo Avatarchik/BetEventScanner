@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace BetEventScanner.DataAccess.DataModel.Entities
+namespace BetEventScanner.DataAccess.DataModel.DbEntities.Old
 {
     [DataContract]
     public class Match

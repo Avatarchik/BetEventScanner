@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using BetEventScanner.Common.ApiContracts;
 
 namespace BetEventScanner.Common.ApiDataModel
 {

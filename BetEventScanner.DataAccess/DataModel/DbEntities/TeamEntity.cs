@@ -1,4 +1,4 @@
-﻿namespace BetEventScanner.DataAccess.DataModel.Entities
+﻿namespace BetEventScanner.DataAccess.DataModel.DbEntities
 {
     public class TeamEntity
     {

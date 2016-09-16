@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiContracts\DivisionTeamsContract.cs" />
+    <Compile Include="ApiContracts\FixturesContract.cs" />
     <Compile Include="ApiContracts\LinkContract.cs" />
     <Compile Include="ApiContracts\LinkValueContract.cs" />
     <Compile Include="ApiContracts\StandingContract.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Contracts\IDataImport.cs" />
     <Compile Include="Contracts\IFixture.cs" />
     <Compile Include="Contracts\ITeam.cs" />
+    <Compile Include="Converters.cs" />
     <Compile Include="CountryCode.cs" />
     <Compile Include="CountryDivisionMap.cs" />
     <Compile Include="CountryDivisionIdMap.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="DataModel\Team.cs" />
     <Compile Include="EntitiesToStore.cs" />
     <Compile Include="Extensions\CommonExtensions.cs" />
+    <Compile Include="ApiContracts\FixtureContract.cs" />
     <Compile Include="FootballDataCountryMap.cs" />
     <Compile Include="GlobalSettingsReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

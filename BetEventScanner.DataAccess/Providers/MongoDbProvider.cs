@@ -42,7 +42,27 @@ namespace BetEventScanner.DataAccess.Providers
             collection.InsertMany(documents);
         }
 
-        public void StoreData(object data)
+        public void GetEntity<T>(int id)
+        {
+        }
+
+        public void GetEntities<T>()
+        {
+        }
+
+        public void InsertEntity<T>(T entity)
+        {
+        }
+
+        public void InsertEntities<T>(IEnumerable<T> entities)
+        {
+        }
+
+        public void UpdateEntity<T>(T entity)
+        {
+        }
+
+        public void DeleteEntity(int id)
         {
         }
     }

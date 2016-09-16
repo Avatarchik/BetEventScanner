@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
-using Newtonsoft.Json;
 
-namespace BetEventScanner.DataAccess.DataModel.Entities
+namespace BetEventScanner.DataAccess.DataModel.DbEntities.Old
 {
     [DataContract]
     public class StandinfTeam

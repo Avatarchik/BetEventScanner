@@ -1,7 +1,6 @@
 ﻿using System;
 using BetEventScanner.Common;
 using BetEventScanner.Common.Services;
-using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.ConsoleApp
 {
