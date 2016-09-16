@@ -78,13 +78,4 @@ _[Ss]cripts
 *.dot[Cc]over
 *.xproj.user
 .vs/
-/AssessmentTool/src/AssessmentTool.ngWeb/web.config
-
-/AssessmentTool/src/AssessmentTool.ngWeb/wwwroot/js/app/**/*.js
-
-/AssessmentTool/src/AssessmentTool.ngWeb/wwwroot/css/app.min.css
-/AssessmentTool/src/AssessmentTool.ngWeb/wwwroot/css/vendor.min.css
-/AssessmentTool/src/AssessmentTool.ngWeb/wwwroot/js/app.min.js
-/AssessmentTool/src/AssessmentTool.ngWeb/wwwroot/js/vendor.custom.min.js
-/AssessmentTool/src/AssessmentTool.ngWeb/wwwroot/js/vendor.min.js
 /BetEventScanner.Common/obj/Debug/*.cache
