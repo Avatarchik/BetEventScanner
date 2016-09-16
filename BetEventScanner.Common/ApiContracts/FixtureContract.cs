@@ -21,7 +21,7 @@ namespace BetEventScanner.Common.ApiContracts
         public string AwayTeamName { get; set; }
 
         [DataMember(Name = "result")]
-        public ResultContract Result { get; set; }
+        public MatchResultContract MatchResult { get; set; }
 
         [DataMember(Name = "odds")]
         public OddsContract Odds { get; set; }

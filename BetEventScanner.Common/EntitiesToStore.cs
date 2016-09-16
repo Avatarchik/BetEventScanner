@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 using BetEventScanner.Common.ApiContracts;
 using BetEventScanner.DataAccess.DataModel.DbEntities;
 
@@ -58,46 +57,4 @@ namespace BetEventScanner.Common
         }
 
     }
-
-    [DataContract]
-    public class OddsContract
-    {
-        [DataMember(Name = "homeWin")]
-        public string HomeWin { get; set; }
-
-        [DataMember(Name = "draw")]
-        public string Draw { get; set; }
-
-        [DataMember(Name = "awayWin")]
-        public string AwayWin { get; set; }
-    }
-
-    [DataContract]
-    public class ResultContract
-    {
-        [DataMember(Name = "goalsHomeTeam")]
-        public string GoalsHomeTeam { get; set; }
-
-        [DataMember(Name = "goalsAwayTeam")]
-        public string GoalsAwayTeam { get; set; }
-
-    }
 }
-
-/*
- * 
- * date: "2016-08-13T11:30:00Z",
-status: "FINISHED",
-matchday: 1,
-homeTeamName: "Hull City FC",
-awayTeamName: "Leicester City FC",
-result: {
-goalsHomeTeam: 2,
-goalsAwayTeam: 1
-},
-odds: {
-homeWin: 3.25,
-draw: 3.25,
-awayWin: 2.2
-}
- */
