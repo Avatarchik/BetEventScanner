@@ -1,6 +1,6 @@
 ﻿namespace BetEventScanner.DataAccess.Providers
 {
-    public interface IEntity
+    public interface IDocEntity
     {
         int Id { get; set; }
     }

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using BetEventScanner.Common.ApiContracts;
 
-namespace BetEventScanner.Common.ApiDataModel
+namespace BetEventScanner.Common.ApiContracts
 {
     [CollectionDataContract]
     public class SeasonCompetitionsContract : List<CompetitionContract>

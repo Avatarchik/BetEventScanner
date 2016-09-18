@@ -3,7 +3,7 @@ using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.DataAccess.DataModel.DbEntities
 {
-    public class CompetitionEntity : IEntity
+    public class CompetitionEntity 
     {
         public int Id { get; set; }
 

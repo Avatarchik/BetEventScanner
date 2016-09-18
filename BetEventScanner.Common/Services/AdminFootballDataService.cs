@@ -25,18 +25,22 @@ namespace BetEventScanner.Common.Services
 
         public void Init()
         {
+            UploadCommon();
             UploadCountryTeams();
             UploadCompetitions();
             StoreData();
         }
 
+        private void UploadCommon()
+        {
+            _entitiesToStore.AddCountries(_settings.SupportedCountries);
+        }
+
         private void UploadCountryTeams()
         {
-            return;
-            foreach (var supportedLeague in _settings.SupportedLeagues)
+            foreach (var division in _settings.SupportedCountryDivisions)
             {
-                var countryDivision = (CountryDivision)supportedLeague;
-                var countryId = _footbalDataCountryMap.IdMap[countryDivision];
+                var countryId = _footbalDataCountryMap.IdMap[division];
 
                 var url = string.Concat(_settings.Url, $"/competitions/{countryId}/teams");
                 var divisionTeams = RestApiService.GetData<DivisionTeamsContract>(url);
@@ -46,16 +50,10 @@ namespace BetEventScanner.Common.Services
                 foreach (var divisionTeam in divisionTeams.Teams)
                 {
                     divisionTeam.GetIdFromUrl();
-                    teamsList.Add(new TeamEntity
-                    {
-                        Id = divisionTeam.Id,
-                        Code = divisionTeam.Code,
-                        ShortName = divisionTeam.ShortName,
-                        Name = divisionTeam.Name
-                    });
+                    teamsList.Add(divisionTeam.ToEntity());
                 }
 
-                var country = GetCountryNameByDivision(countryDivision);
+                var country = GetCountryNameByDivision(division);
 
                 _entitiesToStore.AddCountryTeam(country, teamsList);
             }
@@ -65,36 +63,86 @@ namespace BetEventScanner.Common.Services
         {
             var year = DateTime.Now.Year;
             var url = string.Concat(_settings.Url, $"/competitions/?season={year}");
-            var competitions = RestApiService.GetData<SeasonCompetitionsContract>(url);
+            var competitionContracts = RestApiService.GetData<SeasonCompetitionsContract>(url);
 
-            foreach (var competition in competitions)
+            foreach (var competitioContract in competitionContracts)
             {
-                var countryDivision = _footbalDataCountryMap.GetCompetitionByCode(competition.Code);
+                var countryDivision = _footbalDataCountryMap.GetCompetitionByCode(competitioContract.Code);
                 if (countryDivision == 0)
                 {
                     continue;
                 }
 
-                var country = GetCountryNameByDivision(countryDivision);
-                _entitiesToStore.AddCompetition(country, competition.ToEntity());
+                if (!_settings.SupportedCountryDivisions.Contains(countryDivision))
+                {
+                    continue;
+                }
 
-                UploadFixtures(country, competition.Id);
+                var country = GetCountryNameByDivision(countryDivision);
+
+                var competitionEntity = competitioContract.ToEntity();
+
+                _entitiesToStore.AddCompetition(country, competitionEntity);
+
+                CreateStatiscs(country, competitioContract.Id);
+
+                UploadFixtures(country, competitioContract.Id);
             }
         }
+
+        private void CreateStatiscs(Country country, string id)
+        {
+            var statistics = new CompetitionStatisticsEntity
+            {
+                Id = int.Parse(id)
+            };
+
+            _entitiesToStore.AddStatistics(country, statistics);
+        }
+
 
         private void UploadFixtures(Country country, string id)
         {
             var url = string.Concat(_settings.Url, $"/competitions/{id}/fixtures");
-            var fixtures = RestApiService.GetData<FixturesContract>(url);
-            _entitiesToStore.AddFixtures(country, fixtures);
+            var fixtureContracts = RestApiService.GetData<FixturesContract>(url);
+
+            var entities = fixtureContracts.Fixtures.Select(x => x.ToEntity()).ToList();
+
+            var fixtureEntities = new CompetitionFixturesEntity
+            {
+                Id = int.Parse(id),
+                Fixtures = entities
+            };
+
+            _entitiesToStore.AddFixtures(country, fixtureEntities);
         }
 
         private  void StoreData()
         {
             var mongo = new MongoDbProvider();
+            StoreCommon(mongo, _entitiesToStore.Countries);
+            StoreStatistics(mongo, _entitiesToStore.Statistics);
             StoreTeams(mongo, _entitiesToStore.CountryTeamsStorage);
             StoreCompetitions(mongo, _entitiesToStore.Competitions);
             StoreFixtures(mongo, _entitiesToStore.Fixtures);
+        }
+
+        private void StoreStatistics(MongoDbProvider mongo, IDictionary<Country, CountryCompetitionsStatisticsEntity> statistics)
+        {
+            foreach (var stat in statistics)
+            {
+                mongo.InsertDocumentToCollection(stat.Key.ToString(), stat.Value);
+            }
+        }
+
+        private void StoreCommon(MongoDbProvider mongo, List<Country> countries)
+        {
+            foreach (var country in countries)
+            {
+                var collectionName = country.ToString();
+                mongo.CreateCollection(collectionName);
+                mongo.InsertDocumentToCollection(collectionName, new GeneralTableEntity());
+            }
         }
 
         private static void StoreTeams(MongoDbProvider mongo, IDictionary<Country, CountryTeamsEntity> countryTeams)
@@ -106,27 +154,21 @@ namespace BetEventScanner.Common.Services
             }
         }
 
-        private void StoreCompetitions(MongoDbProvider mongo, IDictionary<Country, IList<CompetitionEntity>> competitions)
+        private void StoreCompetitions(MongoDbProvider mongo, IDictionary<Country, CountryCompetitionsEntity> competitions)
         {
             foreach (var competition in competitions)
             {
                 mongo.CreateCollection(competition.Key.ToString());
-
-                foreach (var competitionEntity in competition.Value)
-                {
-                    mongo.InsertDocumentToCollection(competition.Key.ToString(), competitionEntity);
-                }
+                mongo.InsertDocumentToCollection(competition.Key.ToString(), competition.Value);
             }
         }
 
-        private void StoreFixtures(MongoDbProvider mongo, IDictionary<Country, IList<FixturesContract>> fixtures)
+        private void StoreFixtures(MongoDbProvider mongo, IDictionary<Country, CountryCompetitionFixturesEntity> fixtures)
         {
             foreach (var countryFixtures in fixtures)
             {
-                foreach (var divisionFixture in countryFixtures.Value)
-                {
-                    mongo.InsertDocumentToCollection(countryFixtures.Key.ToString(), divisionFixture);
-                }
+                mongo.CreateCollection(countryFixtures.Key.ToString());
+                mongo.InsertDocumentToCollection(countryFixtures.Key.ToString(), countryFixtures.Value);
             }
         }
 
@@ -140,7 +182,7 @@ namespace BetEventScanner.Common.Services
                 }
             }
 
-            throw new Exception("Country by division not found");
+            throw new Exception("CountryClass by division not found");
         }
     }
 }

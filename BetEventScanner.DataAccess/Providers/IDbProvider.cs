@@ -4,9 +4,9 @@ namespace BetEventScanner.DataAccess.Providers
 {
     public interface IDbProvider
     {
-        void GetEntity<T>(int id);
+        void GetEntity<T>(string collectionName, int id);
 
-        void GetEntities<T>();
+        void GetEntities<T>(string collectionName);
 
         void InsertEntity<T>(T entity);
 

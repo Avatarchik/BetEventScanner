@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace BetEventScanner.Common
+namespace BetEventScanner.Common.ApiContracts
 {
     [DataContract]
     public class MatchResultContract

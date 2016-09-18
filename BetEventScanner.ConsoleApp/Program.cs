@@ -8,10 +8,8 @@ namespace BetEventScanner.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var adminService = new AdminFootballDataService();
-            adminService.Init();
-
-            return;
+            //var adminService = new AdminFootballDataService();
+            //adminService.Init();
 
             Console.WriteLine("Service started");
 

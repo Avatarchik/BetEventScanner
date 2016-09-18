@@ -42,11 +42,14 @@ namespace BetEventScanner.DataAccess.Providers
             collection.InsertMany(documents);
         }
 
-        public void GetEntity<T>(int id)
+        public void GetEntity<T>(string collectionName, int id)
         {
+            var collection = _db.GetCollection<T>(collectionName);
+            var filter = new BsonDocument("Id", id);
+            IFindFluent<T, T> r = collection.Find(new BsonDocumentFilterDefinition<T>(filter));
         }
 
-        public void GetEntities<T>()
+        public void GetEntities<T>(string collectionName)
         {
         }
 

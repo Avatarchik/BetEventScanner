@@ -56,7 +56,7 @@
     <Compile Include="ApiDataModel\ApiMatch.cs" />
     <Compile Include="ApiDataModel\ApiMatches.cs" />
     <Compile Include="ApiDataModel\ApiResult.cs" />
-    <Compile Include="ApiDataModel\SeasonCompetitionsContract.cs" />
+    <Compile Include="ApiContracts\SeasonCompetitionsContract.cs" />
     <Compile Include="Contracts\ICountryMap.cs" />
     <Compile Include="Contracts\IDataImport.cs" />
     <Compile Include="Contracts\IFixture.cs" />
@@ -72,7 +72,7 @@
     <Compile Include="DataModel\GlobalData.cs" />
     <Compile Include="DataModel\GlobalSettings.cs" />
     <Compile Include="DataModel\Common.cs" />
-    <Compile Include="DataModel\Country.cs" />
+    <Compile Include="DataModel\CountryClass.cs" />
     <Compile Include="DataModel\League.cs" />
     <Compile Include="ApiDataModel\ApiLink.cs" />
     <Compile Include="ApiDataModel\ApiLinks.cs" />
@@ -89,15 +89,19 @@
     <Compile Include="ApiContracts\FixtureContract.cs" />
     <Compile Include="FootballDataCountryMap.cs" />
     <Compile Include="GlobalSettingsReader.cs" />
+    <Compile Include="ApiContracts\MatchResultContract.cs" />
+    <Compile Include="ApiContracts\OddsContract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AdminFootballDataService.cs" />
     <Compile Include="Services\FootballApiStatisticsService.cs" />
     <Compile Include="Services\FootballDataApiClient.cs" />
     <Compile Include="Contracts\IApiClient.cs" />
     <Compile Include="Contracts\IStatisticsService.cs" />
+    <Compile Include="Services\FootballService.cs" />
     <Compile Include="Services\OddsService.cs" />
     <Compile Include="Services\RequestService.cs" />
     <Compile Include="Services\RestApiService.cs" />
+    <Compile Include="Services\StatisticsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BetEventScanner.DataAccess\BetEventScanner.DataAccess.csproj">

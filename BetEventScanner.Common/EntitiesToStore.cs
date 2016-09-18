@@ -6,11 +6,20 @@ namespace BetEventScanner.Common
 {
     public class EntitiesToStore
     {
+        public List<Country> Countries { get; } = new List<Country>();
+
         public IDictionary<Country, CountryTeamsEntity> CountryTeamsStorage { get; } = new Dictionary<Country, CountryTeamsEntity>();
 
-        public IDictionary<Country, IList<CompetitionEntity>> Competitions { get; } = new Dictionary<Country, IList<CompetitionEntity>>();
+        public IDictionary<Country, CountryCompetitionsEntity> Competitions { get; } = new Dictionary<Country, CountryCompetitionsEntity>();
 
-        public IDictionary<Country, IList<FixturesContract>> Fixtures { get; } = new Dictionary<Country, IList<FixturesContract>>();
+        public IDictionary<Country, CountryCompetitionFixturesEntity> Fixtures { get; } = new Dictionary<Country, CountryCompetitionFixturesEntity>();
+
+        public IDictionary<Country, CountryCompetitionsStatisticsEntity> Statistics { get; } = new Dictionary<Country, CountryCompetitionsStatisticsEntity>();
+
+        public void AddCountries(IEnumerable<Country> countries)
+        {
+            Countries.AddRange(countries);
+        }
 
         public void AddCountryTeam(Country country, IEnumerable<TeamEntity> teams)
         {
@@ -34,27 +43,46 @@ namespace BetEventScanner.Common
 
             if (!Competitions.ContainsKey(key))
             {
-                Competitions.Add(key, new List<CompetitionEntity> { competitionEntity });
+                var countryCompetitons = new CountryCompetitionsEntity();
+                countryCompetitons.Competitions.Add(competitionEntity);
+                Competitions.Add(country, countryCompetitons);
             }
             else
             {
-                Competitions[key].Add(competitionEntity);
+                Competitions[key].Competitions.Add(competitionEntity);
             }
         }
 
-        public void AddFixtures(Country country, FixturesContract fixtures)
+        public void AddFixtures(Country country, CompetitionFixturesEntity fixtures)
         {
             var key = country;
 
             if (!Fixtures.ContainsKey(key))
             {
-                Fixtures.Add(key, new List<FixturesContract> { fixtures });
+                var countryCompetitionFixtures = new CountryCompetitionFixturesEntity();
+                countryCompetitionFixtures.CompetitionFixtures.Add(fixtures);
+                Fixtures.Add(key, countryCompetitionFixtures);
             }
             else
             {
-                Fixtures[key].Add(fixtures);
+                Fixtures[key].CompetitionFixtures.Add(fixtures);
             }
         }
 
+        public void AddStatistics(Country country, CompetitionStatisticsEntity statistics)
+        {
+            var key = country;
+
+            if (!Statistics.ContainsKey(key))
+            {
+                var countryStatistics = new CountryCompetitionsStatisticsEntity();
+                countryStatistics.Statistics.Add(statistics);
+                Statistics.Add(country, countryStatistics);
+            }
+            else
+            {
+                Statistics[key].Statistics.Add(statistics);
+            }  
+        }
     }
 }

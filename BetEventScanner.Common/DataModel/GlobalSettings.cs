@@ -18,7 +18,7 @@ namespace BetEventScanner.Common.DataModel
                 Path = Version
             };
             Url = uriBuilder.ToString();
-            SupportedLeagues = GetSupportedLeagues(supportedLeagues);
+            GetSupportedLeagues(supportedLeagues);
         }
 
         public CommonSettings CommonSettings { get; set; }
@@ -33,11 +33,32 @@ namespace BetEventScanner.Common.DataModel
 
         public string Url { get; set; }
 
-        public IEnumerable<int> SupportedLeagues { get; set; }
+        public IEnumerable<Country> SupportedCountries { get; set; }
 
-        private IEnumerable<int> GetSupportedLeagues(string supportedLeagues)
+        public IEnumerable<CountryDivision> SupportedCountryDivisions { get; set; }
+
+        private void GetSupportedLeagues(string supportedLeagues)
         {
-            return supportedLeagues.Split(new[] { ";" }, StringSplitOptions.None).Select(int.Parse);
+            var supported = supportedLeagues.Split(new[] { ";" }, StringSplitOptions.None).Select(int.Parse);
+
+            var divisions = supported.Cast<CountryDivision>().ToList();
+
+            SupportedCountries = divisions.Select(GetCountryByDivision).Distinct();
+
+            SupportedCountryDivisions = divisions;
+        }
+
+        private static Country GetCountryByDivision(CountryDivision countryDivision)
+        {
+            foreach (var map in CountryDivisionMap.Map)
+            {
+                if (map.Value.Contains(countryDivision))
+                {
+                    return map.Key;
+                }
+            }
+
+            throw new Exception("CountryClass by division not found");
         }
     }
 
