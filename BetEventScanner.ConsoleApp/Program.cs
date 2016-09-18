@@ -10,7 +10,9 @@ namespace BetEventScanner.ConsoleApp
         {
             //var adminService = new AdminFootballDataService();
             //adminService.Init();
-
+				
+				// Test
+				
             Console.WriteLine("Service started");
 
             var globalSettings = GlobalSettingsReader.GetGlobalSettings();
