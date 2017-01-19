@@ -46,7 +46,7 @@ namespace BetEventScanner.DataAccess.Providers
         {
             var collection = _db.GetCollection<T>(collectionName);
             var filter = new BsonDocument("Id", id);
-            IFindFluent<T, T> r = collection.Find(new BsonDocumentFilterDefinition<T>(filter));
+            var r = collection.Find(new BsonDocumentFilterDefinition<T>(filter));
         }
 
         public void GetEntities<T>(string collectionName)

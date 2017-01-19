@@ -1,5 +1,6 @@
 ﻿using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.DataModel;
+using BetEventScanner.Common.ResultsService;
 using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.Common.Services
@@ -25,11 +26,17 @@ namespace BetEventScanner.Common.Services
 
         private void UpdateCompetitions()
         {
+            FootballDataService fds = new FootballDataService();
+            fds.ProcessData();
+
+            IResultsService resService = new FootballDataCsvParser();
+            var res = resService.GetResults("C:\\MongoDB\\parseData\\I1.csv");
+
         }
 
         private void UpdateStatistics()
         {
-            var stat = new StatisticsService();
+            //var stat = new StatisticsService();
         }
 
         //private SeasonCompetitionsContract GetApiData()

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using BetEventScanner.DataAccess.Contracts;
 using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.DataAccess.DataModel.DbEntities
 {
-    public class CountryCompetitionsDocEntity : IDocEntity
+    public class CountryCompetitionsDocEntity : IEntity
     {
         public int Id { get; set; } = 2;
 

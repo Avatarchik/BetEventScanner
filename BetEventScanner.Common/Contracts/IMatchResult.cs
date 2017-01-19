@@ -1,6 +1,6 @@
 namespace BetEventScanner.Common.Contracts
 {
-    internal interface IFixture
+    public interface IMatchResult
     {
         ITeam HomeTeam { get; set; }
 
@@ -12,5 +12,6 @@ namespace BetEventScanner.Common.Contracts
 
         int AwayTeamScored { get; set; }
 
+        IStatistics Statistics { get; set; }
     }
 }

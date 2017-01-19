@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BetEventScanner.DataAccess.DataModel.DbEntities;
 using MongoDB.Bson;
 
 namespace BetEventScanner.Common.DataModel

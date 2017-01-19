@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using BetEventScanner.Common.ApiContracts;
 using BetEventScanner.DataAccess.DataModel.DbEntities;
 
 namespace BetEventScanner.Common
@@ -21,7 +20,7 @@ namespace BetEventScanner.Common
             Countries.AddRange(countries);
         }
 
-        public void AddCountryTeam(Country country, IEnumerable<TeamEntity> teams)
+        public void AddCountryTeam(Country country, IEnumerable<Team> teams)
         {
             var key = country;
 

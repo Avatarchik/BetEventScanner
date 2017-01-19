@@ -39,10 +39,5 @@ namespace BetEventScanner.Common.Services
 
             _timer.Start();
         }
-
-        private void Test()
-        {
-        }
-
     }
 }

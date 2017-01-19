@@ -1,9 +1,10 @@
 ﻿using System;
+using BetEventScanner.DataAccess.Contracts;
 using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.DataAccess.DataModel.DbEntities
 {
-    public class FixtureEntity : IDocEntity
+    public class FixtureEntity : IEntity
     {
         public int Id { get; set; }
 

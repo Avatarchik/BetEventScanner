@@ -82,10 +82,10 @@
     <Compile Include="DataModel\DbEntities\Old\SchedulerAndResults.cs" />
     <Compile Include="DataModel\DbEntities\Old\StandinfTeam.cs" />
     <Compile Include="DataModel\DbEntities\CountryCompetitionsStatisticsEntity.cs" />
-    <Compile Include="DataModel\DbEntities\TeamEntity.cs" />
+    <Compile Include="DataModel\DbEntities\Team.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\IDbProvider.cs" />
-    <Compile Include="Providers\IDocEntity.cs" />
+    <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Providers\MongoDbProvider.cs" />
   </ItemGroup>
   <ItemGroup>

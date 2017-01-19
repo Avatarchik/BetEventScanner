@@ -7,6 +7,7 @@ using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.DataModel;
 using BetEventScanner.DataAccess.DataModel.DbEntities;
 using BetEventScanner.DataAccess.Providers;
+using Team = BetEventScanner.DataAccess.DataModel.DbEntities.Team;
 
 namespace BetEventScanner.Common.Services
 {
@@ -45,7 +46,7 @@ namespace BetEventScanner.Common.Services
                 var url = string.Concat(_settings.Url, $"/competitions/{countryId}/teams");
                 var divisionTeams = RestApiService.GetData<DivisionTeamsContract>(url);
 
-                var teamsList = new List<TeamEntity>();
+                var teamsList = new List<Team>();
 
                 foreach (var divisionTeam in divisionTeams.Teams)
                 {

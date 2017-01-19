@@ -29,7 +29,7 @@ namespace BetEventScanner.Common.ApiContracts
 
             if (Id == 0)
             {
-                throw new Exception("TeamEntity Id is zero");
+                throw new Exception("Team Id is zero");
             }
         }
     }

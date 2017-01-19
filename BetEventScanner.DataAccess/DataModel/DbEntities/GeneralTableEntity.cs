@@ -1,8 +1,9 @@
-﻿using BetEventScanner.DataAccess.Providers;
+﻿using BetEventScanner.DataAccess.Contracts;
+using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.DataAccess.DataModel.DbEntities
 {
-    public class GeneralTableEntity : IDocEntity
+    public class GeneralTableEntity : IEntity
     {
         public int Id { get; set; } = 1;
 

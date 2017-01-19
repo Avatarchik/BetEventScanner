@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using BetEventScanner.Common;
 using BetEventScanner.Common.Services;
 
@@ -13,17 +12,17 @@ namespace BetEventScanner.ConsoleApp
             //var adminService = new AdminFootballDataService();
             //adminService.Init();
 
-            console.writeline("service started");
+            Console.WriteLine("service started");
 
-            var globalsettings = globalsettingsreader.getglobalsettings();
-            var footbaldatacountrymap = new footballdatacountrymap();
-            var footballdataapi = new footballdataapiclient(globalsettings, footbaldatacountrymap);
+            var globalsettings = GlobalSettingsReader.GetGlobalSettings();
+            var footbaldatacountrymap = new FootballDataCountryMap();
+            var footballdataapi = new FootballDataApiClient(globalsettings, footbaldatacountrymap);
 
-            var footballdataservice = new requestservice();
-            footballdataservice.start();
+            var footballdataservice = new RequestService();
+            footballdataservice.Start();
 
-            console.writeline("press enter to continue...");
-            console.readline();
+            Console.WriteLine("press enter to continue...");
+            Console.ReadLine();
         }
     }
 }
