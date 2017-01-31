@@ -1,4 +1,4 @@
-﻿namespace BetEventScanner.Common.Contracts
+﻿namespace BetEventScanner.Common.Contracts.Services
 {
     public interface IStatisticsService
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BetEventScanner.Common.Contracts
+namespace BetEventScanner.Common.Contracts.Services
 {
     public interface IResultsService
     {

@@ -64,7 +64,9 @@
     <Compile Include="Contracts\ICountryMap.cs" />
     <Compile Include="Contracts\IDataImport.cs" />
     <Compile Include="Contracts\IMatchResult.cs" />
+    <Compile Include="Contracts\Services\IOddsSourceService.cs" />
     <Compile Include="Contracts\IStatistics.cs" />
+    <Compile Include="Contracts\IStatValue.cs" />
     <Compile Include="Contracts\ITeam.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="CountryCode.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="DataModel\Calendar.cs" />
     <Compile Include="DataModel\CountryDivision.cs" />
     <Compile Include="DataModel\CountrySeasonCard.cs" />
+    <Compile Include="DataModel\Division.cs" />
     <Compile Include="DataModel\FootballDivision.cs" />
     <Compile Include="DataModel\FootballDivisionCode.cs" />
     <Compile Include="DataModel\GlobalData.cs" />
@@ -83,10 +86,12 @@
     <Compile Include="DataModel\League.cs" />
     <Compile Include="ApiDataModel\ApiLink.cs" />
     <Compile Include="ApiDataModel\ApiLinks.cs" />
+    <Compile Include="DataModel\LeagueOdds.cs" />
     <Compile Include="DataModel\Match.cs" />
     <Compile Include="DataModel\Odd.cs" />
-    <Compile Include="DataModel\OddsMatch.cs" />
+    <Compile Include="DataModel\MatchOdds.cs" />
     <Compile Include="ApiContracts\CompetitionContract.cs" />
+    <Compile Include="DataModel\OddsSource.cs" />
     <Compile Include="DataModel\Player.cs" />
     <Compile Include="ApiDataModel\ApiTeam.cs" />
     <Compile Include="DataModel\MathcMatchResult.cs" />
@@ -103,26 +108,31 @@
     <Compile Include="ResultsService\FootaballDataResultDto.cs" />
     <Compile Include="ResultsService\FootballDataCsvParser.cs" />
     <Compile Include="ResultsService\FootballDataResultMapping.cs" />
+    <Compile Include="Contracts\Services\IFileService.cs" />
+    <Compile Include="DataModel\Status.cs" />
+    <Compile Include="Services\FileService.cs" />
+    <Compile Include="Services\FootbalDataCoUk\Dto\StatusDto.cs" />
+    <Compile Include="Services\FootbalDataCoUk\FootballDataCoUkService.cs" />
     <Compile Include="Services\AdminFootballDataService.cs" />
+    <Compile Include="Services\FootbalDataCoUk\IFootballService.cs" />
     <Compile Include="Services\FootballApiStatisticsService.cs" />
     <Compile Include="Services\FootballDataApiClient.cs" />
     <Compile Include="Contracts\IApiClient.cs" />
-    <Compile Include="Contracts\IStatisticsService.cs" />
-    <Compile Include="Services\FootballService.cs" />
-    <Compile Include="Contracts\IResultsService.cs" />
+    <Compile Include="Contracts\Services\IStatisticsService.cs" />
+    <Compile Include="Services\ApiFootballDataOrgService.cs" />
+    <Compile Include="Contracts\Services\IResultsService.cs" />
     <Compile Include="Services\OddsService.cs" />
-    <Compile Include="Services\RequestService.cs" />
+    <Compile Include="Services\OddsSourceService.cs" />
+    <Compile Include="Services\Bot.cs" />
+    <Compile Include="Services\OddsRepository.cs" />
     <Compile Include="Services\RestApiService.cs" />
     <Compile Include="Services\StatisticsService.cs" />
+    <Compile Include="Services\StatusService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BetEventScanner.DataAccess\BetEventScanner.DataAccess.csproj">
       <Project>{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}</Project>
       <Name>BetEventScanner.DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BetEventScanner.DesktopUI\BetEventScanner.DesktopUI.csproj">
-      <Project>{1B7C484D-F0B5-4D81-94A5-FAE3DB4EFC72}</Project>
-      <Name>BetEventScanner.DesktopUI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

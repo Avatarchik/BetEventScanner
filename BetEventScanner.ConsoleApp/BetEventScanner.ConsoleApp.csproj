@@ -72,10 +72,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BetEventScanner.Business\BetEventScanner.Business.csproj">
-      <Project>{b09a18ff-a30c-43fe-9804-5caf637a8bf3}</Project>
-      <Name>BetEventScanner.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BetEventScanner.Common\BetEventScanner.Common.csproj">
       <Project>{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}</Project>
       <Name>BetEventScanner.Common</Name>

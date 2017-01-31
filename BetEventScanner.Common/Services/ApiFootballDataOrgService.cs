@@ -1,21 +1,25 @@
-﻿using BetEventScanner.Common.Contracts;
+﻿using System;
+using System.Collections.Generic;
+using BetEventScanner.Common.Contracts;
+using BetEventScanner.Common.Contracts.Services;
 using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.ResultsService;
+using BetEventScanner.Common.Services.FootbalDataCoUk;
 using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.Common.Services
 {
-    public class FootballService
+    public class ApiFootballDataOrgService : IFootballService
     {
         private readonly GlobalSettings _globalSettings;
         private readonly IApiClient _apiClient;
         private readonly IDbProvider _dbProvider;
 
-        public FootballService(GlobalSettings globalSettings,  IApiClient apiClient, IDbProvider dbProvider)
+        public ApiFootballDataOrgService()
         {
-            _globalSettings = globalSettings;
-            _apiClient = apiClient;
-            _dbProvider = dbProvider;
+            _globalSettings = GlobalSettingsReader.GetGlobalSettings();
+            //_apiClient = apiClient;
+            //_dbProvider = dbProvider;
         }
 
         public void DoWork()
@@ -26,9 +30,11 @@ namespace BetEventScanner.Common.Services
 
         private void UpdateCompetitions()
         {
-            FootballDataService fds = new FootballDataService();
-            fds.ProcessData();
+            FootballDataCoUkService fds = new FootballDataCoUkService();
+            fds.Init();
 
+            return;
+            
             IResultsService resService = new FootballDataCsvParser();
             var res = resService.GetResults("C:\\MongoDB\\parseData\\I1.csv");
 
@@ -53,5 +59,25 @@ namespace BetEventScanner.Common.Services
         //{
         //    _dbProvider.StoreData(data);
         //}
+        public string Name { get; } = "ApiFootballDataOrgService";
+
+        public void Init()
+        {
+        }
+
+        public IEnumerable<IMatchResult> GetAllResults()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<IMatchResult> IFootballService.GetLastResults(CountryDivision countryDivision, DateTime fromDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetLastResults(CountryDivision countryDivision, DateTime fromDate)
+        {
+
+        }
     }
 }

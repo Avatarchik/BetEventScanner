@@ -7,14 +7,12 @@ namespace BetEventScanner.DataAccess.Providers
 {
     public class MongoDbProvider : IDbProvider
     {
-        private MongoClient _client;
-        private IMongoDatabase _db;
+        private readonly IMongoDatabase _db;
 
         public MongoDbProvider()
         {
-            _client = new MongoClient();
-            // ToDo define db name in appconfig
-            _db = _client.GetDatabase("footballdb");
+            var client = new MongoClient();
+            _db = client.GetDatabase("footballdb");
         }
 
         public void CreateCollection(string collectionName)
@@ -42,23 +40,32 @@ namespace BetEventScanner.DataAccess.Providers
             collection.InsertMany(documents);
         }
 
-        public void GetEntity<T>(string collectionName, int id)
+        public T GetEntity<T>(string collectionName, int id)
         {
             var collection = _db.GetCollection<T>(collectionName);
             var filter = new BsonDocument("Id", id);
             var r = collection.Find(new BsonDocumentFilterDefinition<T>(filter));
+            return default(T);
         }
 
-        public void GetEntities<T>(string collectionName)
+        public IEnumerable<T> GetEntities<T>(string collectionName)
         {
+            var res = new List<T>();
+            var data = _db.GetCollection<T>(collectionName);
+            res.AddRange(data.AsQueryable());
+            return res;
         }
 
-        public void InsertEntity<T>(T entity)
+        public void InsertEntity<T>(string collectionName, T entity)
         {
+            var collection = _db.GetCollection<T>(collectionName);
+            collection.InsertOne(entity);
         }
 
-        public void InsertEntities<T>(IEnumerable<T> entities)
+        public void InsertEntities<T>(string collectionName, IEnumerable<T> entities)
         {
+            var collection = _db.GetCollection<T>(collectionName);
+            collection.InsertMany(entities);
         }
 
         public void UpdateEntity<T>(T entity)

@@ -1,6 +1,8 @@
 ﻿using System;
-using BetEventScanner.Common;
+using System.Collections.Generic;
+using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services;
+using BetEventScanner.Common.Services.FootbalDataCoUk;
 
 namespace BetEventScanner.ConsoleApp
 {
@@ -14,12 +16,19 @@ namespace BetEventScanner.ConsoleApp
 
             Console.WriteLine("service started");
 
-            var globalsettings = GlobalSettingsReader.GetGlobalSettings();
-            var footbaldatacountrymap = new FootballDataCountryMap();
-            var footballdataapi = new FootballDataApiClient(globalsettings, footbaldatacountrymap);
+            var oddsService = new OddsService(new List<Division> { Division.EnglandApl });
 
-            var footballdataservice = new RequestService();
-            footballdataservice.Start();
+            //var footbaldatacountrymap = new FootballDataCountryMap();
+            //var footballdataapi = new FootballDataApiClient(globalsettings, footbaldatacountrymap);
+
+            var services = new List<IFootballService>
+            {
+                new FootballDataCoUkService(),
+                new ApiFootballDataOrgService()
+            };
+
+            var bot = new Bot(services);
+            bot.Start();
 
             Console.WriteLine("press enter to continue...");
             Console.ReadLine();

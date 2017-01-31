@@ -5,8 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using BetEventScanner.Common.Contracts;
+using BetEventScanner.Common.Contracts.Services;
 using BetEventScanner.Common.DataModel;
-using BetEventScanner.DesktopUI.Annotations;
 using CsvHelper;
 
 namespace BetEventScanner.Common.ResultsService
@@ -76,55 +76,34 @@ namespace BetEventScanner.Common.ResultsService
         }
     }
 
-    public class FootballDataService
+    class FootballDataCsvParserImpl : FootballDataCsvParser
     {
-        public readonly string Url = "http://www.football-data.co.uk/";
-        FootballDataCsvParser _parser = new FootballDataCsvParser();
-        private IFileDataSource _dataSource = new DataSourceFootballData();
-        private IFileService _fileService;
-        private IEnumerable<string> _supportedLeagues = new List<string> {"E0", "E1", "E2", "E3", "E1", "EC" };
-
-        public void ProcessData()
-        {
-            var startYear = "93";
-            var endYear = "94";
-
-            var downloadedFileName = $"mmz4281/9293/EC.csv";
-            var targetUrl = $"{Url}{downloadedFileName}";
-            _dataSource.DownloadFile(targetUrl, "temp123.csv");
-
-        }
     }
 
-    public class DataSourceFootballData : IFileDataSource
+    public class DataSourceFootballData : IDataSource
     {
-        private string fileName = "mmz4281/1617/E0.csv";
-
         public bool DownloadFile(string url, string pathToStore)
         {
             try
             {
                 using (var client = new WebClient())
                 {
-                    client.DownloadFile(url + fileName, "test123.csv");
+                    client.DownloadFile(url, pathToStore);
                 }
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
         }
     }
 
-    public interface IFileDataSource
+    public interface IDataSource
     {
         bool DownloadFile(string url, string pathToStore);
     }
 
-    public interface IFileService
-    {
-        void MoveFile(string from, string to);
-    }
+
 }
