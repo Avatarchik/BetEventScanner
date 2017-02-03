@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using BetEventScanner.Common.DataModel;
+using BetEventScanner.Common.Services;
 
 namespace BetEventScanner.Web.Client
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
-
-        private static readonly OddsService OddsService;
+        private static OddsService _oddsService;
 
         protected void Application_Start()
         {
@@ -22,7 +21,7 @@ namespace BetEventScanner.Web.Client
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            OddsService = new OddsService(new List<Division> { Division.EnglandApl });
+            _oddsService = new OddsService(new List<Division> { Division.EnglandApl });
         }
     }
 }
