@@ -11,8 +11,9 @@ namespace BetEventScanner.DataAccess.Providers
 
         public MongoDbProvider()
         {
-            var client = new MongoClient();
-            _db = client.GetDatabase("footballdb");
+            var url ="mongodb://qweqwe:qweqwe123123@ds137749.mlab.com:37749/ajsdb";
+            var client = new MongoClient(url);
+            _db = client.GetDatabase("ajsdb");
         }
 
         public void CreateCollection(string collectionName)

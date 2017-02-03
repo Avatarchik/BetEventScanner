@@ -2,6 +2,7 @@
 {
     public enum Division
     {
-        EnglandApl = 1
+        EnglandApl = 1,
+        EnglandChampionship = 2
     }
 }

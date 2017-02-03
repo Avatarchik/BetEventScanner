@@ -16,7 +16,7 @@ namespace BetEventScanner.Common.Services
 
         public IEnumerable<T> GetEntities()
         {
-            throw new NotImplementedException();
+            return _dbProvider.GetEntities<T>(_collectionName);
         }
 
         public void InsertEntity(T entity)
