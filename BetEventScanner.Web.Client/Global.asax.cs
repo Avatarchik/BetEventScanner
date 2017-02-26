@@ -1,29 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using BetEventScanner.Common.DataModel;
-using BetEventScanner.Common.Services;
 
 namespace BetEventScanner.Web.Client
 {
-    public class WebApiApplication : HttpApplication
+    public class WebApiApplication : System.Web.HttpApplication
     {
-        private static OddsService _oddsService;
+
+        //private static readonly OddsService OddsService;
 
         protected void Application_Start()
         {
-            log4net.Config.XmlConfigurator.Configure();
-
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            _oddsService = new OddsService(new List<Division> { Division.EnglandApl });
+            //OddsService = new OddsService(new List<Division> { Division.EnglandApl });
         }
     }
 }
