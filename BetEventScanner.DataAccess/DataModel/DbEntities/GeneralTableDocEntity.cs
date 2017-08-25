@@ -1,11 +1,10 @@
 ﻿using BetEventScanner.DataAccess.Contracts;
+using MongoDB.Bson;
 
 namespace BetEventScanner.DataAccess.DataModel.DbEntities
 {
-    public class GeneralTableEntity : IEntity
+    public class GeneralTableDocEntity : IDocEntity
     {
-        public int Id { get; set; } = 1;
-
         public int Teams { get; set; } = 2;
 
         public int Competitions { get; set; } = 3;
@@ -13,5 +12,6 @@ namespace BetEventScanner.DataAccess.DataModel.DbEntities
         public int Fixtures { get; set; } = 4;
 
         public int Statistics { get; set; } = 5;
+        public ObjectId Id { get; set; }
     }
 }

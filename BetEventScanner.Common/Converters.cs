@@ -1,5 +1,6 @@
 ﻿using System;
 using BetEventScanner.Common.ApiContracts;
+using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataAccess.DataModel.DbEntities;
 
 namespace BetEventScanner.Common
@@ -7,16 +8,16 @@ namespace BetEventScanner.Common
     public static class Converters
     {
 
-        public static Team ToEntity(this TeamContract team)
-        {
-            return new Team
-            {
-                Id = team.Id,
-                Code = team.Code,
-                ShortName = team.ShortName,
-                Name = team.Name
-            };
-        }
+        //public static Team ToEntity(this TeamContract team)
+        //{
+        //    return new Team
+        //    {
+        //        MatchId = team.MatchId,
+        //        Code = team.Code,
+        //        ShortName = team.ShortName,
+        //        Name = team.Name
+        //    };
+        //}
 
         public static CompetitionEntity ToEntity(this CompetitionContract competition)
         {
@@ -34,29 +35,29 @@ namespace BetEventScanner.Common
             };
         }
 
-        public static CompetitionFixturesEntity ToEntity(this FixturesContract fixturesContract)
-        {
-            var result = new CompetitionFixturesEntity();
-            foreach (var fixtureContract in fixturesContract.Fixtures)
-            {
-                result.Fixtures.Add(fixtureContract.ToEntity());
-            }
-            return result;
-        }
+        //public static CompetitionFixturesEntity ToEntity(this FixturesContract fixturesContract)
+        //{
+        //    var result = new CompetitionFixturesEntity();
+        //    foreach (var fixtureContract in fixturesContract.Fixtures)
+        //    {
+        //        result.Fixtures.Add(fixtureContract.ToEntity());
+        //    }
+        //    return result;
+        //}
 
-        public static FixtureEntity ToEntity(this FixtureContract contract)
-        {
-            return new FixtureEntity
-            {
-                Date = DateTime.Parse(contract.Date),
-                HomeTeamName = contract.HomeTeamName,
-                AwayTeamName = contract.AwayTeamName,
-                Matchday = contract.Matchday,
-                Status = contract.Status,
-                MatchResult = contract.MatchResult.ToEntity(),
-                Odds = contract.Odds.ToEntity()
-            };
-        }
+        //public static FixtureEntity ToEntity(this FixtureContract contract)
+        //{
+        //    return new FixtureEntity
+        //    {
+        //        Date = DateTime.Parse(contract.Date),
+        //        HomeTeamName = contract.HomeTeamName,
+        //        AwayTeamName = contract.AwayTeamName,
+        //        Matchday = contract.Matchday,
+        //        Status = contract.Status,
+        //        MatchResult = contract.MatchResult.ToEntity(),
+        //        Odds = contract.Odds.ToEntity()
+        //    };
+        //}
 
         public static MatchResultEntity ToEntity(this MatchResultContract contract)
         {

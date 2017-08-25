@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using BetEventScanner.Common.Contracts;
 using BetEventScanner.DataAccess.Providers;
 
 namespace BetEventScanner.Common.Services
 {
     public class OddsRepository<T> : IRepository<T>
     {
-        private readonly IDbProvider _dbProvider = new MongoDbProvider();
+        private readonly IDbProvider _dbProvider = new MongoDbProvider("footballdb");
         private readonly string _collectionName = "Odds";
 
         public T GetEntityById(int id)
@@ -38,20 +39,5 @@ namespace BetEventScanner.Common.Services
         {
             throw new NotImplementedException();
         }
-    }
-
-    public interface IRepository<T>
-    {
-        T GetEntityById(int id);
-
-        IEnumerable<T> GetEntities();
-
-        void InsertEntity(T entity);
-
-        void InsertEntities(IEnumerable<T> entities);
-
-        void Update(T entity);
-
-        void Delete(int id);
     }
 }

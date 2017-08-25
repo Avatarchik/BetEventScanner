@@ -17,7 +17,7 @@ namespace BetEventScanner.Common.Services
 
         public ApiFootballDataOrgService()
         {
-            _globalSettings = GlobalSettingsReader.GetGlobalSettings();
+            //_globalSettings = GlobalSettingsReader.GetGlobalSettings();
             //_apiClient = apiClient;
             //_dbProvider = dbProvider;
         }
@@ -31,12 +31,10 @@ namespace BetEventScanner.Common.Services
         private void UpdateCompetitions()
         {
             FootballDataCoUkService fds = new FootballDataCoUkService();
-            fds.Init();
-
             return;
             
-            IResultsService resService = new FootballDataCsvParser();
-            var res = resService.GetResults("C:\\MongoDB\\parseData\\I1.csv");
+            //var resService = new FootballDataCsvParser();
+            //var res = resService.GetResults("C:\\MongoDB\\parseData\\I1.csv");
 
         }
 

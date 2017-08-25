@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Common", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.ConsoleApp", "BetEventScanner.ConsoleApp\BetEventScanner.ConsoleApp.csproj", "{0674882F-3FE1-4011-AE85-43EA0D73C163}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Web.Client", "BetEventScanner.Web.Client\BetEventScanner.Web.Client.csproj", "{7698AFC3-9E26-446B-BAE3-78D5B96D19ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DataModel", "BetEventScanner.DataModel\BetEventScanner.DataModel.csproj", "{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -33,10 +33,10 @@ Global
 		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7698AFC3-9E26-446B-BAE3-78D5B96D19ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7698AFC3-9E26-446B-BAE3-78D5B96D19ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7698AFC3-9E26-446B-BAE3-78D5B96D19ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7698AFC3-9E26-446B-BAE3-78D5B96D19ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

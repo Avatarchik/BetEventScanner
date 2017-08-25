@@ -1,32 +1,33 @@
 ﻿using System.Collections.Generic;
+using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataAccess.DataModel.DbEntities;
 
 namespace BetEventScanner.Common
 {
     public class EntitiesToStore
     {
-        public List<Country> Countries { get; } = new List<Country>();
+        public List<CountryEnum> Countries { get; } = new List<CountryEnum>();
 
-        public IDictionary<Country, CountryTeamsEntity> CountryTeamsStorage { get; } = new Dictionary<Country, CountryTeamsEntity>();
+        public IDictionary<CountryEnum, CountryTeamsDocEntity> CountryTeamsStorage { get; } = new Dictionary<CountryEnum, CountryTeamsDocEntity>();
 
-        public IDictionary<Country, CountryCompetitionsEntity> Competitions { get; } = new Dictionary<Country, CountryCompetitionsEntity>();
+        public IDictionary<CountryEnum, CountryCompetitionsDocEntity> Competitions { get; } = new Dictionary<CountryEnum, CountryCompetitionsDocEntity>();
 
-        public IDictionary<Country, CountryCompetitionFixturesEntity> Fixtures { get; } = new Dictionary<Country, CountryCompetitionFixturesEntity>();
+        public IDictionary<CountryEnum, CountryCompetitionFixturesDocEntity> Fixtures { get; } = new Dictionary<CountryEnum, CountryCompetitionFixturesDocEntity>();
 
-        public IDictionary<Country, CountryCompetitionsStatisticsEntity> Statistics { get; } = new Dictionary<Country, CountryCompetitionsStatisticsEntity>();
+        public IDictionary<CountryEnum, CountryCompetitionsStatisticsDocEntity> Statistics { get; } = new Dictionary<CountryEnum, CountryCompetitionsStatisticsDocEntity>();
 
-        public void AddCountries(IEnumerable<Country> countries)
+        public void AddCountries(IEnumerable<CountryEnum> countries)
         {
             Countries.AddRange(countries);
         }
 
-        public void AddCountryTeam(Country country, IEnumerable<Team> teams)
+        public void AddCountryTeam(CountryEnum countryEnum, IEnumerable<Team> teams)
         {
-            var key = country;
+            var key = countryEnum;
 
             if (!CountryTeamsStorage.ContainsKey(key))
             {
-                var countryTeams = new CountryTeamsEntity();
+                var countryTeams = new CountryTeamsDocEntity();
                 countryTeams.Teams.AddRange(teams);
                 CountryTeamsStorage[key] = countryTeams;
             }
@@ -36,15 +37,15 @@ namespace BetEventScanner.Common
             }
         }
 
-        public void AddCompetition(Country country, CompetitionEntity competitionEntity)
+        public void AddCompetition(CountryEnum countryEnum, CompetitionEntity competitionEntity)
         {
-            var key = country;
+            var key = countryEnum;
 
             if (!Competitions.ContainsKey(key))
             {
-                var countryCompetitons = new CountryCompetitionsEntity();
+                var countryCompetitons = new CountryCompetitionsDocEntity();
                 countryCompetitons.Competitions.Add(competitionEntity);
-                Competitions.Add(country, countryCompetitons);
+                Competitions.Add(countryEnum, countryCompetitons);
             }
             else
             {
@@ -52,13 +53,13 @@ namespace BetEventScanner.Common
             }
         }
 
-        public void AddFixtures(Country country, CompetitionFixturesEntity fixtures)
+        public void AddFixtures(CountryEnum countryEnum, CompetitionFixturesEntity fixtures)
         {
-            var key = country;
+            var key = countryEnum;
 
             if (!Fixtures.ContainsKey(key))
             {
-                var countryCompetitionFixtures = new CountryCompetitionFixturesEntity();
+                var countryCompetitionFixtures = new CountryCompetitionFixturesDocEntity();
                 countryCompetitionFixtures.CompetitionFixtures.Add(fixtures);
                 Fixtures.Add(key, countryCompetitionFixtures);
             }
@@ -68,15 +69,15 @@ namespace BetEventScanner.Common
             }
         }
 
-        public void AddStatistics(Country country, CompetitionStatisticsEntity statistics)
+        public void AddStatistics(CountryEnum countryEnum, CompetitionStatisticsEntity statistics)
         {
-            var key = country;
+            var key = countryEnum;
 
             if (!Statistics.ContainsKey(key))
             {
-                var countryStatistics = new CountryCompetitionsStatisticsEntity();
+                var countryStatistics = new CountryCompetitionsStatisticsDocEntity();
                 countryStatistics.Statistics.Add(statistics);
-                Statistics.Add(country, countryStatistics);
+                Statistics.Add(countryEnum, countryStatistics);
             }
             else
             {

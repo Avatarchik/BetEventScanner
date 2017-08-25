@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BetEventScanner.DataAccess.Contracts;
 
 namespace BetEventScanner.DataAccess.Providers
 {
@@ -12,7 +13,7 @@ namespace BetEventScanner.DataAccess.Providers
 
         void InsertEntities<T>(string collectionName, IEnumerable<T>  entities);
 
-        void UpdateEntity<T>(T entity);
+        void UpdateEntity<T>(string collectionName, T entity) where T : IDocEntity;
 
         void DeleteEntity(int id);
     }

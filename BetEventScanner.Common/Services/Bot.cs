@@ -13,7 +13,6 @@ namespace BetEventScanner.Common.Services
         private IFixtureService _fixtureService;
         private readonly IStatusService _statusService;
         private Status _status;
-        private IMappingService _mappingService;
 
         public Bot(IEnumerable<IFootballService> footballServices)
         {
@@ -55,22 +54,10 @@ namespace BetEventScanner.Common.Services
 
             if (_status.ServicesInitialized) return;
 
-            Init();
             _status.ServicesInitialized = true;
             _statusService.StoreStatus(_status);
         }
 
-        private void Init()
-        {
-            foreach (var footballService in _footballServices)
-            {
-                footballService.Init();
-            }
-        }
-    }
-
-    public interface IMappingService
-    {
     }
 
     public interface IStatusService

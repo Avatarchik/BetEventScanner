@@ -31,6 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Json, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c6752e45808247c2, processorArchitecture=MSIL">
       <HintPath>..\packages\JSON.1.0.1\lib\net40\Json.dll</HintPath>
       <Private>True</Private>
@@ -52,6 +60,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Runtime.Serialization" />
@@ -63,16 +72,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModel\CountryDivisionSeason.cs" />
+    <Compile Include="DataModel\FootballMatchOdds.cs" />
+    <Compile Include="DataModel\FootballMatchResult.cs" />
+    <Compile Include="DataModel\DbEntities\BettingEntity.cs" />
     <Compile Include="DataModel\DbEntities\CompetitionEntity.cs" />
     <Compile Include="DataModel\DbEntities\CompetitionFixturesEntity.cs" />
     <Compile Include="DataModel\DbEntities\CompetitionStatisticsEntity.cs" />
-    <Compile Include="DataModel\DbEntities\CountryCompetitionFixturesEntity.cs" />
-    <Compile Include="DataModel\DbEntities\CountryCompetitionsDocEntity.cs" />
+    <Compile Include="DataModel\DbEntities\CountryCompetitionFixturesDocEntity.cs" />
+    <Compile Include="DataModel\DbEntities\CountryCompetitionsDocDocEntity.cs" />
     <Compile Include="DataModel\DbEntities\CountryCompetitionsEntity.cs" />
-    <Compile Include="DataModel\DbEntities\CountryTeamsEntity.cs" />
-    <Compile Include="DataModel\DbEntities\FixtureEntity.cs" />
-    <Compile Include="DataModel\DbEntities\GeneralTableEntity.cs" />
+    <Compile Include="DataModel\DbEntities\CountryTeamsDocEntity.cs" />
+    <Compile Include="DataModel\DbEntities\FixtureDocEntity.cs" />
+    <Compile Include="DataModel\DbEntities\GeneralTableDocEntity.cs" />
     <Compile Include="DataModel\DbEntities\MatchResultEntity.cs" />
+    <Compile Include="DataModel\DbEntities\MoneyEntity.cs" />
     <Compile Include="DataModel\DbEntities\OddsEntity.cs" />
     <Compile Include="DataModel\DbEntities\Old\Commentaries.cs" />
     <Compile Include="DataModel\DbEntities\Old\MatchCommentaries.cs" />
@@ -81,16 +95,23 @@
     <Compile Include="DataModel\DbEntities\Old\Player.cs" />
     <Compile Include="DataModel\DbEntities\Old\SchedulerAndResults.cs" />
     <Compile Include="DataModel\DbEntities\Old\StandinfTeam.cs" />
-    <Compile Include="DataModel\DbEntities\CountryCompetitionsStatisticsEntity.cs" />
-    <Compile Include="DataModel\DbEntities\Team.cs" />
+    <Compile Include="DataModel\DbEntities\CountryCompetitionsStatisticsDocEntity.cs" />
+    <Compile Include="DataModel\DbEntities\Tbet.cs" />
+    <Compile Include="DataModel\DbEntities\Tmatch.cs" />
+    <Compile Include="DataModel\DbEntities\ToppositBet.cs" />
+    <Compile Include="DataModel\Team.cs" />
+    <Compile Include="DataModel\Tresult.cs" />
+    <Compile Include="EF\BetEventScannerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\IDbProvider.cs" />
-    <Compile Include="Contracts\IEntity.cs" />
+    <Compile Include="Contracts\IDocEntity.cs" />
     <Compile Include="Providers\MongoDbProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

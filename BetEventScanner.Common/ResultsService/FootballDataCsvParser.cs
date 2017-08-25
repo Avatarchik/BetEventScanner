@@ -1,109 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text;
-using BetEventScanner.Common.Contracts;
-using BetEventScanner.Common.Contracts.Services;
-using BetEventScanner.Common.DataModel;
+using BetEventScanner.Common.Services.FootbalDataCoUk;
 using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace BetEventScanner.Common.ResultsService
 {
-    public class FootballDataCsvParser : IResultsService
+    public static class FootballDataCsvParser
     {
-        private static readonly Dictionary<string, string> Replacements = new Dictionary<string, string>()
+        public static ICollection<FootballDataCoUkMatch> GetResults(string filePath)
         {
-            {"BbMx>2.5", "BbMx_more_25"},
-            {"BbAv>2.5", "BbAv_more_25"},
-            {"BbMx<2.5", "BbMx_less_25"},
-            {"BbAv<2.5", "BbAv_less_25"}
-        };
-
-        public IEnumerable<IMatchResult> GetResults(string filePath)
-        {
-            AdaptHeaderRow(filePath);
-
-            return ParseResultsData(filePath);
+            return Parse<FootballDataCoUkMatch>(filePath);
         }
 
-        private void AdaptHeaderRow(string fileName)
+        public static ICollection<FootballDataCoUkFixture> GetFixture(string filePath)
         {
-            var sourceLines = File.ReadAllLines(fileName);
-
-            var headerLine = sourceLines.First();
-
-            foreach (var replacement in Replacements)
-            {
-                headerLine = headerLine.Replace(replacement.Key, replacement.Value);
-            }
-
-            sourceLines[0] = headerLine;
-
-            File.WriteAllLines(fileName, sourceLines);
+            return Parse<FootballDataCoUkFixture>(filePath, new FootballDataCoUkFixtureMapping());
         }
 
-        private IEnumerable<IMatchResult> ParseResultsData(string fileName)
+        private static ICollection<T> Parse<T>(string filePath, CsvClassMap classMap  = null)
         {
-            var result = new List<IMatchResult>();
-            using (var reader = new StreamReader(fileName, Encoding.UTF8))
+            var result = new List<T>();
+
+            using (var reader = new StreamReader(filePath, Encoding.UTF8))
             {
                 var csvReader = new CsvReader(reader);
                 csvReader.Configuration.HasHeaderRecord = true;
-                //csvReader.Configuration.RegisterClassMap<FootballDataResultMapping>();
+
+                if (classMap != null)
+                {
+                    csvReader.Configuration.RegisterClassMap(classMap);    
+                }
 
                 while (csvReader.Read())
                 {
-                    var matchResult = csvReader.GetRecord<FootaballDataResultDto>();
-                    result.Add(ConvertResult(matchResult));
+                    var matchResult = csvReader.GetRecord<T>();
+                    result.Add(matchResult);
                 }
             }
 
             return result;
         }
-
-        private static IMatchResult ConvertResult(FootaballDataResultDto dto)
-        {
-            return new MathcMatchResult
-            {
-                HomeTeam = new FootballTeam(dto.HomeTeam, "0", dto.HomeTeam),
-                AwayTeam = new FootballTeam(dto.AwayTeam, "0", dto.AwayTeam),
-                HomeTeamScored = int.Parse(dto.FTHG),
-                AwayTeamScored = int.Parse(dto.FTAG),
-                Result = $"{dto.FTHG} - {dto.FTAG}"
-            };
-        }
     }
-
-    class FootballDataCsvParserImpl : FootballDataCsvParser
-    {
-    }
-
-    public class DataSourceFootballData : IDataSource
-    {
-        public bool DownloadFile(string url, string pathToStore)
-        {
-            try
-            {
-                using (var client = new WebClient())
-                {
-                    client.DownloadFile(url, pathToStore);
-                }
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-    }
-
-    public interface IDataSource
-    {
-        bool DownloadFile(string url, string pathToStore);
-    }
-
-
 }

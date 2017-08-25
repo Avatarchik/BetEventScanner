@@ -6,6 +6,6 @@ namespace BetEventScanner.DataAccess.DataModel.DbEntities
     {
         public int Id { get; set; }
 
-        public List<FixtureEntity> Fixtures { get; set; } = new List<FixtureEntity>();
+        public List<FixtureDocEntity> Fixtures { get; set; } = new List<FixtureDocEntity>();
     }
 }

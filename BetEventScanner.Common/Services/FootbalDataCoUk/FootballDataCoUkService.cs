@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.Contracts.Services;
 using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.ResultsService;
 using BetEventScanner.Common.Services.FootbalDataCoUk.Dto;
+using BetEventScanner.DataModel;
 
 namespace BetEventScanner.Common.Services.FootbalDataCoUk
 {
-    public class FootballDataCoUkService : IFootballService
+    public class FootballDataCoUkService : IFootballService, IHistoricalResultsDataSource
     {
         public readonly string Url = "http://www.football-data.co.uk/";
-        FootballDataCsvParser _parser = new FootballDataCsvParser();
-        private IDataSource _dataSource = new DataSourceFootballData();
+        private DataSourceFootballData _dataSource = new DataSourceFootballData();
         private readonly IFileService _fileService = new FileService();
         private IEnumerable<string> _supportedLeagues = new List<string> {"E0"/*, "E1", "E2", "E3", "E1", "EC"*/ };
         private IResultsService _resultsService;
@@ -22,7 +23,12 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
 
         public string Name { get; } = "FootballDataCoUk";
 
-        public void Init()
+        public FootballDataCoUkService()
+        {
+            Init();
+        }
+
+        private void Init()
         {
             var status = _fileService.ReadFile<StatusDto>(Path.Combine(directory, statusFile));
 
@@ -63,7 +69,8 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
                 {
                     var fileName = GetFileName(supportedLeague, startYearStr, endYearStr);
                     var fileNameToStore = $"{supportedLeague}_{startYearStr}{endYearStr}.csv";
-                    if (_dataSource.DownloadFile(Url + fileName, fileNameToStore))
+                    _dataSource.DownloadFile(Url + fileName, fileNameToStore);
+                    if (File.Exists(fileNameToStore))
                     {
                         var destFilePath = Path.Combine(dataDirectory, fileNameToStore);
                         if (!File.Exists(destFilePath))
@@ -110,6 +117,33 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
                 LastCheck = DateTime.Now,
                 CreationDateTime = DateTime.Now
             });
+        }
+
+        public ICollection<FootballResult> GetHistoricalMatches(string filePath)
+        {
+            var results = FootballDataCsvParser.GetResults(filePath);
+
+            return results.Select(x => new FootballResult
+            {
+                DateTime = DateTime.Parse(x.Date),
+                HomeTeam = x.HomeTeam,
+                AwayTeam = x.AwayTeam,
+                HomeScored = int.Parse(string.IsNullOrEmpty(x.FTHG) ? "-1" : x.FTHG),
+                AwayScored = int.Parse(string.IsNullOrEmpty(x.FTAG) ? "-1" : x.FTAG),
+                HomeOdds = double.Parse(string.IsNullOrEmpty(x.B365H) ? "0.0" : x.B365H),
+                DrawOdds = double.Parse(string.IsNullOrEmpty(x.B365D) ? "0.0" : x.B365D),
+                AwayOdds = double.Parse(string.IsNullOrEmpty(x.B365A) ? "0.0" : x.B365A)
+            }).ToList();
+        }
+
+        public ICollection<FootballDataCoUkMatch> GetOriginResults(string filePath)
+        {
+            return FootballDataCsvParser.GetResults(filePath);
+        }
+
+        public ICollection<FootballDataCoUkFixture> GetFixtures(string filePath)
+        {
+            return FootballDataCsvParser.GetFixture(filePath);
         }
     }
 }

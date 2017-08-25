@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BetEventScanner.DataAccess.Contracts;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -9,11 +10,12 @@ namespace BetEventScanner.DataAccess.Providers
     {
         private readonly IMongoDatabase _db;
 
-        public MongoDbProvider()
+        public MongoDbProvider(string dbName)
         {
-            var url ="mongodb://qweqwe:qweqwe123123@ds137749.mlab.com:37749/ajsdb";
-            var client = new MongoClient(url);
-            _db = client.GetDatabase("ajsdb");
+            //var url ="mongodb://qweqwe:qweqwe123123@ds137749.mlab.com:37749/ajsdb";
+            //var client = new MongoClient(url);
+            var client = new MongoClient();
+            _db = client.GetDatabase(dbName);
         }
 
         public void CreateCollection(string collectionName)
@@ -44,7 +46,7 @@ namespace BetEventScanner.DataAccess.Providers
         public T GetEntity<T>(string collectionName, int id)
         {
             var collection = _db.GetCollection<T>(collectionName);
-            var filter = new BsonDocument("Id", id);
+            var filter = new BsonDocument("MatchId", id);
             var r = collection.Find(new BsonDocumentFilterDefinition<T>(filter));
             return default(T);
         }
@@ -69,8 +71,11 @@ namespace BetEventScanner.DataAccess.Providers
             collection.InsertMany(entities);
         }
 
-        public void UpdateEntity<T>(T entity)
+        public void UpdateEntity<T>(string collectionName, T entity) where T : IDocEntity
         {
+            var collection = _db.GetCollection<T>(collectionName);
+            var filter = Builders<T>.Filter.Eq(s => s.Id, entity.Id);
+            var result = collection.ReplaceOne(filter, entity);
         }
 
         public void DeleteEntity(int id)

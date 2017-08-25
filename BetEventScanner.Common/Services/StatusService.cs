@@ -8,7 +8,7 @@ namespace BetEventScanner.Common.Services
     public class StatusService : IStatusService
     {
         private string _collectionName = "Status";
-        private readonly IDbProvider _dbProvider = new MongoDbProvider();
+        private readonly IDbProvider _dbProvider = new MongoDbProvider("footballdb");
 
         public Status GetCurrentStatus()
         {

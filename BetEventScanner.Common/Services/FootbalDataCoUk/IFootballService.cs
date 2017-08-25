@@ -9,8 +9,6 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
     {
         string Name { get; }
 
-        void Init();
-
         IEnumerable<IMatchResult> GetAllResults();
 
         IEnumerable<IMatchResult> GetLastResults(CountryDivision countryDivision, DateTime fromDate);

@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 using BetEventScanner.DataAccess.Contracts;
-using BetEventScanner.DataAccess.Providers;
+using MongoDB.Bson;
 
 namespace BetEventScanner.DataAccess.DataModel.DbEntities
 {
-    public class CountryTeamsEntity : IEntity
+    public class CountryTeamsDocEntity : IDocEntity, ISqlEntity
     {
-        public int Id { get; set; } = 2;
-
-        public bool Uploaded { get; set; } = true;
+        public bool Uploaded { get; set; }
 
         public List<Team> Teams { get; set; } = new List<Team>();
+
+        public ObjectId Id { get; set; }
+
+        public int SqlId { get; set; }
     }
 }

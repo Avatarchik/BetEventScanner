@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Http;
+using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services;
 
@@ -14,6 +15,7 @@ namespace BetEventScanner.Web.Client.Controllers
             _oddsRepository = new OddsRepository<LeagueOdds>();
         }
 
+        [HttpGet]
         public void Add()
         {
             _oddsRepository.InsertEntity(new LeagueOdds

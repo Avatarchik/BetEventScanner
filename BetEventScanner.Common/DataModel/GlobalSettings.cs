@@ -33,7 +33,7 @@ namespace BetEventScanner.Common.DataModel
 
         public string Url { get; set; }
 
-        public IEnumerable<Country> SupportedCountries { get; set; }
+        public IEnumerable<CountryEnum> SupportedCountries { get; set; }
 
         public IEnumerable<CountryDivision> SupportedCountryDivisions { get; set; }
 
@@ -43,23 +43,23 @@ namespace BetEventScanner.Common.DataModel
 
             var divisions = supported.Cast<CountryDivision>().ToList();
 
-            SupportedCountries = divisions.Select(GetCountryByDivision).Distinct();
+            //SupportedCountries = divisions.Select(GetCountryByDivision).Distinct();
 
-            SupportedCountryDivisions = divisions;
+            //SupportedCountryDivisions = divisions;
         }
 
-        private static Country GetCountryByDivision(CountryDivision countryDivision)
-        {
-            foreach (var map in CountryDivisionMap.Map)
-            {
-                if (map.Value.Contains(countryDivision))
-                {
-                    return map.Key;
-                }
-            }
+        //private static CountryEntityTemp GetCountryByDivision(CountryDivision countryDivision)
+        //{
+        //    foreach (var map in CountryDivisionMap.Map)
+        //    {
+        //        if (map.Value.Contains(countryDivision))
+        //        {
+        //            return map.Key;
+        //        }
+        //    }
 
-            throw new Exception("CountryClass by division not found");
-        }
+        //    throw new Exception("CountryClass by division not found");
+        //}
     }
 
     public class ApiSettings

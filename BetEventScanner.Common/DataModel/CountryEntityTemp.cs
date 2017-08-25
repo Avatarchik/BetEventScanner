@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
-using BetEventScanner.DataAccess.DataModel.DbEntities;
+using BetEventScanner.DataAccess.Contracts;
+using BetEventScanner.DataAccess.DataModel;
 using MongoDB.Bson;
 
 namespace BetEventScanner.Common.DataModel
 {
-    public class CountryClass
+    public class CountryEntityTemp : IDocEntity
     {
-        public CountryClass(Common common, IEnumerable<Team> teams)
+        public CountryEntityTemp(Common common, IEnumerable<Team> teams)
         {
             Common = common;
             Teams = new List<Team>(teams);

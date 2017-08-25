@@ -15,13 +15,13 @@ namespace BetEventScanner.Common.Services
             _mongo = mongo;
         }
 
-        public void UpdateTeamTotalCoeffAmaunt()
-        {
-            var countries = _settings.SupportedCountries;
-            foreach (var country in countries)
-            {
-                _mongo.GetEntity<CountryCompetitionsStatisticsEntity>(country.ToString(), 5);
-            }
-        }
+        //public void UpdateTeamTotalCoeffAmaunt()
+        //{
+        //    var countries = _settings.SupportedCountries;
+        //    foreach (var country in countries)
+        //    {
+        //        _mongo.GetEntity<CountryCompetitionsStatisticsEntity>(country.ToString(), 5);
+        //    }
+        //}
     }
 }

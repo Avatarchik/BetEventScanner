@@ -1,12 +1,11 @@
 ﻿using System;
 using BetEventScanner.DataAccess.Contracts;
+using MongoDB.Bson;
 
 namespace BetEventScanner.Common.DataModel
 {
-    public class Status : IEntity
+    public class Status : IDocEntity
     {
-        public int Id { get; set; }
-
         public DateTime Created { get; set; } = DateTime.Now;
 
         public bool OddsLoaded { get; set; }
@@ -14,6 +13,7 @@ namespace BetEventScanner.Common.DataModel
         public bool FixtureLoaded { get; set; }
 
         public bool ServicesInitialized { get; set; }
-        
+
+        public ObjectId Id { get; set; }
     }
 }

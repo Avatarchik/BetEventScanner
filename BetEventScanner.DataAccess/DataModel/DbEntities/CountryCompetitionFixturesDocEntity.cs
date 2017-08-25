@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using BetEventScanner.DataAccess.Contracts;
 using BetEventScanner.DataAccess.Providers;
+using MongoDB.Bson;
 
 namespace BetEventScanner.DataAccess.DataModel.DbEntities
 {
-    public class CountryCompetitionFixturesEntity : IEntity
+    public class CountryCompetitionFixturesDocEntity : IDocEntity
     {
-        public int Id { get; set; } = 4;
-
         public IList<CompetitionFixturesEntity> CompetitionFixtures { get; set; } = new List<CompetitionFixturesEntity>();
+
+        public ObjectId Id { get; set; }
     }
 }
