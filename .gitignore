@@ -27,6 +27,9 @@ obj/
 TestResults/
 node_modules/
 lib/
+libs/
+typings/
+
 
 ###################
 # Web publish log #
