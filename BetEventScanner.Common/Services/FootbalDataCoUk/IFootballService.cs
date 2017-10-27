@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.DataModel;
+using BetEventScanner.DataAccess.DataModel;
 
 namespace BetEventScanner.Common.Services.FootbalDataCoUk
 {
@@ -9,8 +9,8 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
     {
         string Name { get; }
 
-        IEnumerable<IMatchResult> GetAllResults();
+        IEnumerable<FootballMatchResult> GetAllResults();
 
-        IEnumerable<IMatchResult> GetLastResults(CountryDivision countryDivision, DateTime fromDate);
+        IEnumerable<FootballMatchResult> GetDivisionResults(CountryDivision countryDivision, DateTime fromDate);
     }
 }

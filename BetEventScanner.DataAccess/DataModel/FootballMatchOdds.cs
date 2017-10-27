@@ -15,5 +15,9 @@
         public double NoDraw { get; set; }
 
         public double AwayWinOrDraw { get; set; }
+
+        public double Over25 { get; set; }
+
+        public double Under25 { get; set; }
     }
 }

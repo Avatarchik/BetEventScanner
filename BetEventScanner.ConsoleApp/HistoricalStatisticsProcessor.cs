@@ -1,7 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
+using BetEventScanner.Common.Services.FootbalDataCoUk;
 using BetEventScanner.DataModel;
+using FootballHistoricalStatistics = BetEventScanner.DataModel.FootballHistoricalStatistics;
 
 namespace BetEventScanner.ConsoleApp
 {

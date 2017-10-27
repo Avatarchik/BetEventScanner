@@ -18,7 +18,7 @@ namespace BetEventScanner.Common.DataModel
                 Path = Version
             };
             Url = uriBuilder.ToString();
-            GetSupportedLeagues(supportedLeagues);
+            //GetSupportedLeagues(supportedLeagues);
         }
 
         public CommonSettings CommonSettings { get; set; }

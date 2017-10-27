@@ -74,10 +74,11 @@
     <Compile Include="BettongService.cs" />
     <Compile Include="EqualizerService.cs" />
     <Compile Include="EqualizerState.cs" />
-    <Compile Include="FootballHistoricalStatistics.cs" />
+    <Compile Include="FixturesService.cs" />
     <Compile Include="HistoricalStatisticsProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SeasonService.cs" />
     <Compile Include="SimulationResult.cs" />
     <Compile Include="Simulator.cs" />
     <Compile Include="TeamOddsMock.cs" />

@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="DataModel\CountryDivisionSeason.cs" />
     <Compile Include="DataModel\FootballMatchOdds.cs" />
     <Compile Include="DataModel\FootballMatchResult.cs" />
@@ -102,10 +103,13 @@
     <Compile Include="DataModel\Team.cs" />
     <Compile Include="DataModel\Tresult.cs" />
     <Compile Include="EF\BetEventScannerContext.cs" />
+    <Compile Include="EF\IncomingMatch.cs" />
+    <Compile Include="Mongo\MongoDbRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\IDbProvider.cs" />
     <Compile Include="Contracts\IDocEntity.cs" />
     <Compile Include="Providers\MongoDbProvider.cs" />
+    <Compile Include="Repository\OddsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

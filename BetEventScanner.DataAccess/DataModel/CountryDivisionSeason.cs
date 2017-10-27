@@ -2,7 +2,7 @@
 
 namespace BetEventScanner.DataAccess.DataModel
 {
-    public class CountryDivisionSeason
+    public class FootballSeason
     {
         public int Id { get; set; }
 
@@ -18,6 +18,8 @@ namespace BetEventScanner.DataAccess.DataModel
 
         public int EndYear { get; set; }
 
-        public ICollection<FootballMatchResult> Results { get; set; }
+        public bool IsCurrent { get; set; }
+
+        public List<FootballMatchResult> Results { get; set; }
     }
 }

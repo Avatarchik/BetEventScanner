@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
-using BetEventScanner.Common.ResultsService;
+using BetEventScanner.Common.Services.FootbalDataCoUk.Model;
 using BetEventScanner.DataModel;
+using FootballHistoricalStatistics = BetEventScanner.DataModel.FootballHistoricalStatistics;
 
 namespace BetEventScanner.ConsoleApp
 {
     public class Simulator
     {
-        public SimulationResult Simulate(IEnumerable<FootballDataCoUkMatch> matchResults)
+        public SimulationResult Simulate(IEnumerable<HistoricalMatch> matchResults)
         {
             var simulationResult = new SimulationResult();
             var count = 0;

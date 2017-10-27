@@ -1,5 +1,6 @@
 ﻿using System;
 using BetEventScanner.Common.ApiContracts;
+using BetEventScanner.Common.Services.FootballDataOrg.Model;
 using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataAccess.DataModel.DbEntities;
 

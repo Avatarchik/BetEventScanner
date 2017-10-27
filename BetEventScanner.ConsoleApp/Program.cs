@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using BetEventScanner.Common;
 using BetEventScanner.Common.Services.FootbalDataCoUk;
+using BetEventScanner.Common.Services.FootballDataOrg;
 using BetEventScanner.DataAccess.DataModel;
-using BetEventScanner.DataAccess.DataModel.DbEntities;
 using BetEventScanner.DataAccess.EF;
 using BetEventScanner.DataModel;
 
@@ -12,13 +11,15 @@ namespace BetEventScanner.ConsoleApp
 {
     class Program
     {
-        private static BettongService _bettongService = new BettongService();
+        //private static BettongService _bettongService = new BettongService();
 
         static void Main(string[] args)
         {
             Console.WriteLine("Service started");
 
+            // ToDo Investigate
             //_bettongService.Load();
+
             while (true)
             {
                 Console.Clear();
@@ -41,7 +42,8 @@ namespace BetEventScanner.ConsoleApp
                     Console.ReadLine();
                 }
             }
-            _bettongService.Save();
+            // ToDo Investigate
+            //_bettongService.Save();
 
             Console.WriteLine("press enter to continue...");
             Console.ReadLine();
@@ -50,12 +52,11 @@ namespace BetEventScanner.ConsoleApp
         private static void ShowMenu()
         {
             Console.WriteLine("Menu");
-            Console.WriteLine("AddMatch - 1");
-            Console.WriteLine("AddBet - 2");
-            Console.WriteLine("AddResult - 3");
-            Console.WriteLine("ShowMatches - 4");
-            Console.WriteLine("CreateOppositBet - 5");
-            Console.WriteLine("Fixtures");
+            Console.WriteLine("FootbalDataOrg Test - 1");
+            Console.WriteLine("TestChampionship - 6");
+            Console.WriteLine("Migrate to sql - 7");
+            Console.WriteLine("Fixtures - 10");
+            Console.WriteLine("IncomingMatches - 11");
         }
 
         private static void ProcessMenu(string choose)
@@ -69,22 +70,16 @@ namespace BetEventScanner.ConsoleApp
             switch (chooseInt)
             {
                 case 1:
-                    var match = CreateMatch();
-                    _bettongService.AddMatch(match);
+                    TestFootballDataOrg();
                     break;
 
                 case 2:
-                    var bet = CreateBet();
-                    _bettongService.AddBet(bet);
                     break;
 
                 case 3:
-                    var result = CreateResult();
-                    _bettongService.AddResult(result);
                     break;
 
                 case 4:
-                    ShowMatches();
                     break;
 
                 case 5:
@@ -102,15 +97,23 @@ namespace BetEventScanner.ConsoleApp
                     ParseFixtures();
                     break;
 
+                case 11:
+                    GetIncomingMatches();
+                    break;
+
                 default:
                     throw new NotSupportedException("Selection is not supported");
             }
         }
 
+        private static void GetIncomingMatches()
+        {
+            var fs = new FixturesService();
+            fs.UpdateIncomingMatches();
+        }
+
         private static void ParseFixtures()
         {
-
-
             var coukservice = new FootballDataCoUkService();
             var fixtures = coukservice.GetFixtures(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\fixtures.csv");
 
@@ -125,7 +128,7 @@ namespace BetEventScanner.ConsoleApp
             {
                 var coukservice = new FootballDataCoUkService();
 
-                var results = coukservice.GetHistoricalMatches(file).Select(x=> new FootballMatchResult
+                var results = coukservice.GetHistoricalMatches(file).Select(x => new FootballMatchResult
                 {
                     DateTime = x.DateTime,
                     HomeTeam = x.HomeTeam,
@@ -136,7 +139,9 @@ namespace BetEventScanner.ConsoleApp
                     {
                         HomeWin = x.HomeOdds,
                         Draw = x.DrawOdds,
-                        AwayWin = x.AwayOdds
+                        AwayWin = x.AwayOdds,
+                        Over25 = x.Over25Odds,
+                        Under25 = x.Under25Odds
                     }
                 }).ToList();
 
@@ -145,23 +150,21 @@ namespace BetEventScanner.ConsoleApp
                 var divisionCode = items[1];
                 var startYear = int.Parse("20" + new string(items[2].Split('.')[0].Take(2).ToArray()));
                 var endYear = int.Parse("20" + new string(items[2].Split('.')[0].Skip(2).Take(2).ToArray()));
-                var countryDivisionSeason = new CountryDivisionSeason
+                var season = new FootballSeason
                 {
                     Country = country,
                     DivisionCode = divisionCode,
                     StartYear = startYear,
-                    EndYear = endYear, 
+                    EndYear = endYear,
                     Results = results
                 };
 
                 using (var context = new BetEventScannerContext())
                 {
-                    context.CountryDivisionSeasons.Add(countryDivisionSeason);
+                    context.Seasons.Add(season);
                     context.SaveChanges();
                 }
             }
-
-            
         }
 
         private static void TestChampionship()
@@ -176,88 +179,10 @@ namespace BetEventScanner.ConsoleApp
             //simulator.Simulate(results);
         }
 
-        private static Tresult CreateResult()
+        private static void TestFootballDataOrg()
         {
-            Console.WriteLine("Enter TeamId");
-            var teamIdStr = Console.ReadLine();
-            int matchId;
-            if (int.TryParse(teamIdStr, out matchId))
-            {
-                throw new Exception("MatchId is not parsed");
-            }
-
-            Console.WriteLine("Enter HomeScored");
-            var homeScoredStr = Console.ReadLine();
-            int homeScored;
-            if (int.TryParse(homeScoredStr, out homeScored))
-            {
-                throw new Exception("homeScored is not parsed");
-            }
-
-            Console.WriteLine("Enter AwayScored");
-            var awayScoredStr = Console.ReadLine();
-            int awayScored;
-            if (int.TryParse(awayScoredStr, out awayScored))
-            {
-                throw new Exception("awayScored is not parsed");
-            }
-
-            return new Tresult(matchId, homeScored, awayScored);
-        }
-
-        private static Tmatch CreateMatch()
-        {
-            var newId = _bettongService.GetId();
-            Console.WriteLine("Enter Team1");
-            var team1 = Console.ReadLine();
-
-            Console.WriteLine("Enter Team2");
-            var team2 = Console.ReadLine();
-
-            return new Tmatch(newId, team1, team2);
-        }
-
-        private static Tbet CreateBet()
-        {
-            Console.WriteLine("Enter MatchId");
-            var matchIdstr = Console.ReadLine();
-            int matchId;
-            if (!int.TryParse(matchIdstr, out matchId))
-            {
-                throw new Exception("MatchId is not parsed");
-            }
-
-            Console.WriteLine("Enter Bet");
-            var bet = Console.ReadLine();
-
-            Console.WriteLine("Enter Value");
-            var valueStr = Console.ReadLine();
-            decimal value;
-            if (!decimal.TryParse(valueStr, out value))
-            {
-                throw new Exception("Value is not parsed");
-            }
-
-            Console.WriteLine("Enter Odds");
-            var oddsStr = Console.ReadLine();
-            decimal odds;
-            if (!decimal.TryParse(oddsStr, out odds))
-            {
-                throw new Exception("Odds is not parsed");
-            }
-
-            return new Tbet(matchId, bet, value, odds);
-        }
-
-        private static void ShowMatches()
-        {
-            foreach (var match in _bettongService.GetMatches())
-            {
-                Console.WriteLine($"{match.MatchId} {match.Team1} {match.Team2}");
-            }
-
-            Console.WriteLine("Press enter to continue");
-            Console.ReadLine();
+            var service = new FootballDataOrgService();
+            service.Test();
         }
     }
 }

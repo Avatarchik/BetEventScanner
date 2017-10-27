@@ -5,16 +5,18 @@ using System.Linq;
 using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.Contracts.Services;
 using BetEventScanner.Common.DataModel;
-using BetEventScanner.Common.ResultsService;
-using BetEventScanner.Common.Services.FootbalDataCoUk.Dto;
+using BetEventScanner.Common.Services.Common;
+using BetEventScanner.Common.Services.FootbalDataCoUk.Model;
+using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataModel;
+using Status = BetEventScanner.Common.Services.FootbalDataCoUk.Model.Status;
 
 namespace BetEventScanner.Common.Services.FootbalDataCoUk
 {
     public class FootballDataCoUkService : IFootballService, IHistoricalResultsDataSource
     {
         public readonly string Url = "http://www.football-data.co.uk/";
-        private DataSourceFootballData _dataSource = new DataSourceFootballData();
+        private DataSourceFootballDataCoUk _dataSource = new DataSourceFootballDataCoUk();
         private readonly IFileService _fileService = new FileService();
         private IEnumerable<string> _supportedLeagues = new List<string> {"E0"/*, "E1", "E2", "E3", "E1", "EC"*/ };
         private IResultsService _resultsService;
@@ -30,7 +32,7 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
 
         private void Init()
         {
-            var status = _fileService.ReadFile<StatusDto>(Path.Combine(directory, statusFile));
+            var status = _fileService.ReadFile<Status>(Path.Combine(directory, statusFile));
 
             if (status != null && status.Initialized) return;
 
@@ -38,14 +40,14 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
             DownloadFiles();
         }
 
-        public IEnumerable<IMatchResult> GetAllResults()
+        public IEnumerable<FootballMatchResult> GetAllResults()
         {
-           return new List<IMatchResult>();
+           return new List<FootballMatchResult>();
         }
 
-        public IEnumerable<IMatchResult> GetLastResults(CountryDivision countryDivision, DateTime fromDate)
+        public IEnumerable<FootballMatchResult> GetDivisionResults(CountryDivision countryDivision, DateTime fromDate)
         {
-            return new List<IMatchResult>();
+            return new List<FootballMatchResult>();
         }
 
         private void DownloadFiles()
@@ -111,7 +113,7 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
                 if (directory != null) Directory.CreateDirectory(directory);
             }
                 
-            _fileService.SaveFile(statusFilePath, new StatusDto
+            _fileService.SaveFile(statusFilePath, new Status
             {
                 IsUpdated = false,
                 LastCheck = DateTime.Now,
@@ -121,29 +123,153 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
 
         public ICollection<FootballResult> GetHistoricalMatches(string filePath)
         {
-            var results = FootballDataCsvParser.GetResults(filePath);
-
-            return results.Select(x => new FootballResult
+            var results = FootballDataCoUkParser.GetHistoricalResults(filePath);
+            var parsingErrors = false;
+            return results.Select(x =>
             {
-                DateTime = DateTime.Parse(x.Date),
-                HomeTeam = x.HomeTeam,
-                AwayTeam = x.AwayTeam,
-                HomeScored = int.Parse(string.IsNullOrEmpty(x.FTHG) ? "-1" : x.FTHG),
-                AwayScored = int.Parse(string.IsNullOrEmpty(x.FTAG) ? "-1" : x.FTAG),
-                HomeOdds = double.Parse(string.IsNullOrEmpty(x.B365H) ? "0.0" : x.B365H),
-                DrawOdds = double.Parse(string.IsNullOrEmpty(x.B365D) ? "0.0" : x.B365D),
-                AwayOdds = double.Parse(string.IsNullOrEmpty(x.B365A) ? "0.0" : x.B365A)
+                int homeScored;
+                if (!int.TryParse(x.FTHG, out homeScored))
+                {
+                    homeScored = 0;
+                    parsingErrors = true;
+                }
+
+                int awayScored;
+                if (!int.TryParse(x.FTAG, out awayScored))
+                {
+                    awayScored = 0;
+                    parsingErrors = true;
+                }
+
+                double homeOdds;
+                if (!double.TryParse(x.B365H, out homeOdds))
+                {
+                    homeOdds = 0.0;
+                    parsingErrors = true;
+                }
+
+                double drawOdds;
+                if (!double.TryParse(x.B365D, out drawOdds))
+                {
+                    drawOdds = 0.0;
+                    parsingErrors = true;
+                }
+
+                double awayOdds;
+                if (!double.TryParse(x.B365A, out awayOdds))
+                {
+                    awayOdds = 0.0;
+                    parsingErrors= true;
+                }
+
+                double over25Odds;
+                if (!double.TryParse(x.BbAvOver25, out over25Odds))
+                {
+                    over25Odds = 0.0;
+                    parsingErrors= true;
+                }
+
+                double under25Odds;
+                if (!double.TryParse(x.BbAvUnder25, out under25Odds))
+                {
+                    under25Odds = 0.0;
+                    parsingErrors= true;
+                }
+
+                return new FootballResult
+                {
+                    Div = x.Div,
+                    DateTime = DateTime.Parse(x.Date),
+                    HomeTeam = x.HomeTeam,
+                    AwayTeam = x.AwayTeam,
+                    HomeScored = homeScored,
+                    AwayScored = awayScored,
+                    HomeOdds = homeOdds,
+                    DrawOdds = drawOdds,
+                    AwayOdds = awayOdds,
+                    Over25Odds = over25Odds,
+                    Under25Odds = under25Odds,
+                    ParsingErrors = parsingErrors
+                };
+
             }).ToList();
         }
 
-        public ICollection<FootballDataCoUkMatch> GetOriginResults(string filePath)
+        public ICollection<FootballResult> GetFixtures(string filePath)
         {
-            return FootballDataCsvParser.GetResults(filePath);
+            var fixtures = FootballDataCoUkParser.GetFixture(filePath);
+            return fixtures.Select(ConvertToMatchResult).ToList();
         }
 
-        public ICollection<FootballDataCoUkFixture> GetFixtures(string filePath)
+        private static FootballResult ConvertToMatchResult(FixtureMatch fixtureMatch)
         {
-            return FootballDataCsvParser.GetFixture(filePath);
+            var parsingErrors = false;
+
+            int homeScored;
+            if (!int.TryParse(fixtureMatch.FTHG, out homeScored))
+            {
+                homeScored = 0;
+                parsingErrors = true;
+            }
+
+            int awayScored;
+            if (!int.TryParse(fixtureMatch.FTAG, out awayScored))
+            {
+                awayScored = 0;
+                parsingErrors = true;
+            }
+
+            double homeOdds;
+            if (!double.TryParse(fixtureMatch.B365H, out homeOdds))
+            {
+                homeOdds = 0.0;
+                parsingErrors = true;
+            }
+
+            double drawOdds;
+            if (!double.TryParse(fixtureMatch.B365D, out drawOdds))
+            {
+                drawOdds = 0.0;
+                parsingErrors = true;
+            }
+
+            double awayOdds;
+            if (!double.TryParse(fixtureMatch.B365A, out awayOdds))
+            {
+                awayOdds = 0.0;
+                parsingErrors = true;
+            }
+
+            double over25Odds;
+            if (!double.TryParse(fixtureMatch.BbAvOver25, out over25Odds))
+            {
+                over25Odds = 0.0;
+                parsingErrors = true;
+            }
+
+            double under25Odds;
+            if (!double.TryParse(fixtureMatch.BbAvUnder25, out under25Odds))
+            {
+                under25Odds = 0.0;
+                parsingErrors = true;
+            }
+
+            return new FootballResult
+            {
+                Div = fixtureMatch.Div,
+                DateTime = DateTime.Parse(fixtureMatch.Date),
+                HomeTeam = fixtureMatch.HomeTeam,
+                AwayTeam = fixtureMatch.AwayTeam,
+                HomeScored = homeScored,
+                AwayScored = awayScored,
+                HomeOdds = homeOdds,
+                DrawOdds = drawOdds,
+                AwayOdds = awayOdds,
+                Over25Odds = over25Odds,
+                Under25Odds = under25Odds,
+                OverallTotal = homeScored + awayScored,
+                ParsingErrors = parsingErrors
+            };
         }
     }
 }

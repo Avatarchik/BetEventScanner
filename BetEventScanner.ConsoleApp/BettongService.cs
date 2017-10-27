@@ -2,14 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.Services;
+using BetEventScanner.DataAccess.Contracts;
 using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataAccess.DataModel.DbEntities;
+using BetEventScanner.DataAccess.Mongo;
 
 namespace BetEventScanner.ConsoleApp
 {
     public class BettongService
     {
-        private IRepository<BettingEntity> _repository = new Repository<BettingEntity>("Bets");
+        private IRepository<BettingEntity> _repository = new MongoRepository<BettingEntity>("Bets");
 
         public BettingEntity BettingEntity { get; private set; }
 

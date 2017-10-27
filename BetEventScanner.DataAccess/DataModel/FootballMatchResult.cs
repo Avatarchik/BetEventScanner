@@ -8,7 +8,7 @@ namespace BetEventScanner.DataAccess.DataModel
 
         public int SeasonId { get; set; }
 
-        public CountryDivisionSeason Season { get; set; }
+        public FootballSeason Season { get; set; }
 
         public DateTime DateTime { get; set; }
 
