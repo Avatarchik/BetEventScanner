@@ -73,7 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IRepository.cs" />
+    <Compile Include="Contracts\ISqlEntity.cs" />
     <Compile Include="DataModel\CountryDivisionSeason.cs" />
+    <Compile Include="DataModel\FlatBet.cs" />
     <Compile Include="DataModel\FootballMatchOdds.cs" />
     <Compile Include="DataModel\FootballMatchResult.cs" />
     <Compile Include="DataModel\DbEntities\BettingEntity.cs" />
@@ -104,6 +106,19 @@
     <Compile Include="DataModel\Tresult.cs" />
     <Compile Include="EF\BetEventScannerContext.cs" />
     <Compile Include="EF\IncomingMatch.cs" />
+    <Compile Include="Migrations\201711132211196_Initial.cs" />
+    <Compile Include="Migrations\201711132211196_Initial.Designer.cs">
+      <DependentUpon>201711132211196_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711132230502_AddFlatBetResult.cs" />
+    <Compile Include="Migrations\201711132230502_AddFlatBetResult.Designer.cs">
+      <DependentUpon>201711132230502_AddFlatBetResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711132248522_AddSetsToFlatBetResult.cs" />
+    <Compile Include="Migrations\201711132248522_AddSetsToFlatBetResult.Designer.cs">
+      <DependentUpon>201711132248522_AddSetsToFlatBetResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mongo\MongoDbRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\IDbProvider.cs" />
@@ -115,7 +130,17 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711132211196_Initial.resx">
+      <DependentUpon>201711132211196_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711132230502_AddFlatBetResult.resx">
+      <DependentUpon>201711132230502_AddFlatBetResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711132248522_AddSetsToFlatBetResult.resx">
+      <DependentUpon>201711132248522_AddSetsToFlatBetResult.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

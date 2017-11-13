@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.Contracts.Services;
 using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services.Common;
 using BetEventScanner.Common.Services.FootbalDataCoUk.Model;
 using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataModel;
+using FootballMatchResult = BetEventScanner.DataModel.FootballMatchResult;
 using Status = BetEventScanner.Common.Services.FootbalDataCoUk.Model.Status;
 
 namespace BetEventScanner.Common.Services.FootbalDataCoUk
@@ -40,14 +40,14 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
             DownloadFiles();
         }
 
-        public IEnumerable<FootballMatchResult> GetAllResults()
+        public IEnumerable<DataAccess.DataModel.FootballMatchResult> GetAllResults()
         {
-           return new List<FootballMatchResult>();
+           return new List<DataAccess.DataModel.FootballMatchResult>();
         }
 
-        public IEnumerable<FootballMatchResult> GetDivisionResults(CountryDivision countryDivision, DateTime fromDate)
+        public IEnumerable<DataAccess.DataModel.FootballMatchResult> GetDivisionResults(CountryDivision countryDivision, DateTime fromDate)
         {
-            return new List<FootballMatchResult>();
+            return new List<DataAccess.DataModel.FootballMatchResult>();
         }
 
         private void DownloadFiles()
@@ -121,7 +121,7 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
             });
         }
 
-        public ICollection<FootballResult> GetHistoricalMatches(string filePath)
+        public ICollection<FootballMatchResult> GetHistoricalMatches(string filePath)
         {
             var results = FootballDataCoUkParser.GetHistoricalResults(filePath);
             var parsingErrors = false;
@@ -176,7 +176,7 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
                     parsingErrors= true;
                 }
 
-                return new FootballResult
+                return new FootballMatchResult
                 {
                     Div = x.Div,
                     DateTime = DateTime.Parse(x.Date),
@@ -195,13 +195,13 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
             }).ToList();
         }
 
-        public ICollection<FootballResult> GetFixtures(string filePath)
+        public ICollection<FootballMatchResult> GetFixtures(string filePath)
         {
             var fixtures = FootballDataCoUkParser.GetFixture(filePath);
             return fixtures.Select(ConvertToMatchResult).ToList();
         }
 
-        private static FootballResult ConvertToMatchResult(FixtureMatch fixtureMatch)
+        private static FootballMatchResult ConvertToMatchResult(FixtureMatch fixtureMatch)
         {
             var parsingErrors = false;
 
@@ -254,7 +254,7 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
                 parsingErrors = true;
             }
 
-            return new FootballResult
+            return new FootballMatchResult
             {
                 Div = fixtureMatch.Div,
                 DateTime = DateTime.Parse(fixtureMatch.Date),

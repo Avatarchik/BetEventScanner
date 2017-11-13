@@ -16,5 +16,7 @@ namespace BetEventScanner.DataAccess.EF
         public DbSet<FootballMatchOdds> Odds { get; set; }
 
         public DbSet<IncomingMatch> IncomingMatches { get; set; }
+
+        public DbSet<FlatBet> FlatTennisBets { get; set; }
     }
 }

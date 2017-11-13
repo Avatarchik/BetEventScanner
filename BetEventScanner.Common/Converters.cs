@@ -8,7 +8,6 @@ namespace BetEventScanner.Common
 {
     public static class Converters
     {
-
         //public static Team ToEntity(this TeamContract team)
         //{
         //    return new Team

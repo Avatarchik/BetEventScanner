@@ -6,9 +6,4 @@ namespace BetEventScanner.DataAccess.Contracts
     {
         ObjectId Id { get; set; }
     }
-
-    public interface ISqlEntity
-    {
-        int SqlId { get; set; }
-    }
 }

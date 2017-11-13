@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using BetEventScanner.Common;
 using BetEventScanner.Common.Services.FootbalDataCoUk;
 using BetEventScanner.DataModel;
 using FootballHistoricalStatistics = BetEventScanner.DataModel.FootballHistoricalStatistics;
@@ -9,7 +10,7 @@ namespace BetEventScanner.ConsoleApp
 {
     public static class HistoricalStatisticsProcessor
     {
-        public static void ProcessCsvFiles(IHistoricalResultsDataSource dataSource, Func<FootballResult, bool> filter)
+        public static void ProcessCsvFiles(IHistoricalResultsDataSource dataSource, Func<FootballMatchResult, bool> filter)
         {
             var files = Directory.GetFiles(@"C:\BetEventScanner\Services\FootballDataCoUk\Data");
 

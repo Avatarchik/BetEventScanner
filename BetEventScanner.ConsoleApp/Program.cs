@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using BetEventScanner.Common.Services;
 using BetEventScanner.Common.Services.FootbalDataCoUk;
 using BetEventScanner.Common.Services.FootballDataOrg;
+using BetEventScanner.ConsoleApp.TheoryStrateges.BubbelLadderFromThree;
 using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataAccess.EF;
 using BetEventScanner.DataModel;
+using FootballMatchResult = BetEventScanner.DataModel.FootballMatchResult;
 
 namespace BetEventScanner.ConsoleApp
 {
@@ -53,6 +56,7 @@ namespace BetEventScanner.ConsoleApp
         {
             Console.WriteLine("Menu");
             Console.WriteLine("FootbalDataOrg Test - 1");
+            Console.WriteLine("Bubbel Ladder Three - 2");
             Console.WriteLine("TestChampionship - 6");
             Console.WriteLine("Migrate to sql - 7");
             Console.WriteLine("Fixtures - 10");
@@ -70,13 +74,29 @@ namespace BetEventScanner.ConsoleApp
             switch (chooseInt)
             {
                 case 1:
-                    TestFootballDataOrg();
+                    new FootballDataOrgService().Test();
                     break;
 
                 case 2:
+                    Console.WriteLine(new Calculator().ClaculateBetValue(13.0m, 1.70m));
+                    Console.ReadLine();
                     break;
 
                 case 3:
+                    var bubbelLadderFromThree = new BubbelLadderFromThree();
+                    bubbelLadderFromThree.AddFlatBet(new FlatBet
+                    {
+                        Tournament = "Tennis. ITF. Men",
+                        Player1Name = "Lozan Cristian",
+                        Player2Name = "Neuchrist Maximilian",
+                        SK1 = 1.25m,
+                        SK1Descr = "2-0",
+                        SK2 = 4.15m,
+                        SK2Descr = "1-2",
+                        SK3 = 6.50m,
+                        SK3Descr = "0-2"
+                    });
+
                     break;
 
                 case 4:
@@ -94,30 +114,16 @@ namespace BetEventScanner.ConsoleApp
                     break;
 
                 case 10:
-                    ParseFixtures();
+                    var fixtures = new FootballDataCoUkService().GetFixtures(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\fixtures.csv");
                     break;
 
                 case 11:
-                    GetIncomingMatches();
+                    new FixturesService().UpdateIncomingMatches();
                     break;
 
                 default:
                     throw new NotSupportedException("Selection is not supported");
             }
-        }
-
-        private static void GetIncomingMatches()
-        {
-            var fs = new FixturesService();
-            fs.UpdateIncomingMatches();
-        }
-
-        private static void ParseFixtures()
-        {
-            var coukservice = new FootballDataCoUkService();
-            var fixtures = coukservice.GetFixtures(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\fixtures.csv");
-
-
         }
 
         private static void SqlMigration()
@@ -128,7 +134,7 @@ namespace BetEventScanner.ConsoleApp
             {
                 var coukservice = new FootballDataCoUkService();
 
-                var results = coukservice.GetHistoricalMatches(file).Select(x => new FootballMatchResult
+                var results = coukservice.GetHistoricalMatches(file).Select(x => new DataAccess.DataModel.FootballMatchResult
                 {
                     DateTime = x.DateTime,
                     HomeTeam = x.HomeTeam,
@@ -169,7 +175,7 @@ namespace BetEventScanner.ConsoleApp
 
         private static void TestChampionship()
         {
-            Func<FootballResult, bool> filter = x => x.HomeOdds > 2 && x.AwayOdds > 2;
+            Func<FootballMatchResult, bool> filter = x => x.HomeOdds > 2 && x.AwayOdds > 2;
 
             HistoricalStatisticsProcessor.ProcessCsvFiles(new FootballDataCoUkService(), filter);
 
@@ -179,11 +185,6 @@ namespace BetEventScanner.ConsoleApp
             //simulator.Simulate(results);
         }
 
-        private static void TestFootballDataOrg()
-        {
-            var service = new FootballDataOrgService();
-            service.Test();
-        }
     }
 }
 
