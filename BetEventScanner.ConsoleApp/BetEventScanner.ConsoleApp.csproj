@@ -77,7 +77,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TheoryStrateges\Bettong\BettongService.cs" />
     <Compile Include="TheoryStrateges\BubbelLadderFromThree\Service.cs" />
     <Compile Include="TheoryStrateges\Equalizer\EqualizerService.cs" />
     <Compile Include="TheoryStrateges\Equalizer\EqualizerState.cs" />
