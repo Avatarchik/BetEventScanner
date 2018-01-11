@@ -74,36 +74,38 @@
   <ItemGroup>
     <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="Contracts\ISqlEntity.cs" />
-    <Compile Include="DataModel\CountryDivisionSeason.cs" />
-    <Compile Include="DataModel\FlatBet.cs" />
-    <Compile Include="DataModel\FootballMatchOdds.cs" />
-    <Compile Include="DataModel\FootballMatchResult.cs" />
-    <Compile Include="DataModel\DbEntities\BettingEntity.cs" />
-    <Compile Include="DataModel\DbEntities\CompetitionEntity.cs" />
-    <Compile Include="DataModel\DbEntities\CompetitionFixturesEntity.cs" />
-    <Compile Include="DataModel\DbEntities\CompetitionStatisticsEntity.cs" />
-    <Compile Include="DataModel\DbEntities\CountryCompetitionFixturesDocEntity.cs" />
-    <Compile Include="DataModel\DbEntities\CountryCompetitionsDocDocEntity.cs" />
-    <Compile Include="DataModel\DbEntities\CountryCompetitionsEntity.cs" />
-    <Compile Include="DataModel\DbEntities\CountryTeamsDocEntity.cs" />
-    <Compile Include="DataModel\DbEntities\FixtureDocEntity.cs" />
-    <Compile Include="DataModel\DbEntities\GeneralTableDocEntity.cs" />
-    <Compile Include="DataModel\DbEntities\MatchResultEntity.cs" />
-    <Compile Include="DataModel\DbEntities\MoneyEntity.cs" />
-    <Compile Include="DataModel\DbEntities\OddsEntity.cs" />
-    <Compile Include="DataModel\DbEntities\Old\Commentaries.cs" />
-    <Compile Include="DataModel\DbEntities\Old\MatchCommentaries.cs" />
-    <Compile Include="DataModel\DbEntities\Old\Match.cs" />
-    <Compile Include="DataModel\DbEntities\Old\MatchEvent.cs" />
-    <Compile Include="DataModel\DbEntities\Old\Player.cs" />
-    <Compile Include="DataModel\DbEntities\Old\SchedulerAndResults.cs" />
-    <Compile Include="DataModel\DbEntities\Old\StandinfTeam.cs" />
-    <Compile Include="DataModel\DbEntities\CountryCompetitionsStatisticsDocEntity.cs" />
-    <Compile Include="DataModel\DbEntities\Tbet.cs" />
-    <Compile Include="DataModel\DbEntities\Tmatch.cs" />
-    <Compile Include="DataModel\DbEntities\ToppositBet.cs" />
-    <Compile Include="DataModel\Team.cs" />
-    <Compile Include="DataModel\Tresult.cs" />
+    <Compile Include="Entities\CountryDivisionSeason.cs" />
+    <Compile Include="Entities\FlatBet.cs" />
+    <Compile Include="Entities\FootballMatchOdds.cs" />
+    <Compile Include="Entities\FootballMatchResult.cs" />
+    <Compile Include="Entities\DbEntities\BettingEntity.cs" />
+    <Compile Include="Entities\DbEntities\CompetitionEntity.cs" />
+    <Compile Include="Entities\DbEntities\CompetitionFixturesEntity.cs" />
+    <Compile Include="Entities\DbEntities\CompetitionStatisticsEntity.cs" />
+    <Compile Include="Entities\DbEntities\CountryCompetitionFixturesDocEntity.cs" />
+    <Compile Include="Entities\DbEntities\CountryCompetitionsDocDocEntity.cs" />
+    <Compile Include="Entities\DbEntities\CountryCompetitionsEntity.cs" />
+    <Compile Include="Entities\DbEntities\CountryTeamsDocEntity.cs" />
+    <Compile Include="Entities\DbEntities\FixtureDocEntity.cs" />
+    <Compile Include="Entities\DbEntities\GeneralTableDocEntity.cs" />
+    <Compile Include="Entities\DbEntities\MatchResultEntity.cs" />
+    <Compile Include="Entities\DbEntities\MoneyEntity.cs" />
+    <Compile Include="Entities\DbEntities\OddsEntity.cs" />
+    <Compile Include="Entities\DbEntities\Old\Commentaries.cs" />
+    <Compile Include="Entities\DbEntities\Old\MatchCommentaries.cs" />
+    <Compile Include="Entities\DbEntities\Old\Match.cs" />
+    <Compile Include="Entities\DbEntities\Old\MatchEvent.cs" />
+    <Compile Include="Entities\DbEntities\Old\Player.cs" />
+    <Compile Include="Entities\DbEntities\Old\SchedulerAndResults.cs" />
+    <Compile Include="Entities\DbEntities\Old\StandinfTeam.cs" />
+    <Compile Include="Entities\DbEntities\CountryCompetitionsStatisticsDocEntity.cs" />
+    <Compile Include="Entities\DbEntities\Tbet.cs" />
+    <Compile Include="Entities\DbEntities\Tmatch.cs" />
+    <Compile Include="Entities\DbEntities\ToppositBet.cs" />
+    <Compile Include="Entities\Sex.cs" />
+    <Compile Include="Entities\Team.cs" />
+    <Compile Include="Entities\TennisPlayer.cs" />
+    <Compile Include="Entities\Tresult.cs" />
     <Compile Include="EF\BetEventScannerContext.cs" />
     <Compile Include="EF\IncomingMatch.cs" />
     <Compile Include="Migrations\201711132211196_Initial.cs" />
@@ -117,6 +119,14 @@
     <Compile Include="Migrations\201711132248522_AddSetsToFlatBetResult.cs" />
     <Compile Include="Migrations\201711132248522_AddSetsToFlatBetResult.Designer.cs">
       <DependentUpon>201711132248522_AddSetsToFlatBetResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711142200590_AddTennisPlayerTable.cs" />
+    <Compile Include="Migrations\201711142200590_AddTennisPlayerTable.Designer.cs">
+      <DependentUpon>201711142200590_AddTennisPlayerTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711142233395_SetNullableTennisPlayerDateOfBirth.cs" />
+    <Compile Include="Migrations\201711142233395_SetNullableTennisPlayerDateOfBirth.Designer.cs">
+      <DependentUpon>201711142233395_SetNullableTennisPlayerDateOfBirth.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mongo\MongoDbRepository.cs" />
@@ -139,6 +149,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711132248522_AddSetsToFlatBetResult.resx">
       <DependentUpon>201711132248522_AddSetsToFlatBetResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711142200590_AddTennisPlayerTable.resx">
+      <DependentUpon>201711142200590_AddTennisPlayerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711142233395_SetNullableTennisPlayerDateOfBirth.resx">
+      <DependentUpon>201711142233395_SetNullableTennisPlayerDateOfBirth.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -40,14 +40,14 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
             DownloadFiles();
         }
 
-        public IEnumerable<DataAccess.DataModel.FootballMatchResult> GetAllResults()
+        public IEnumerable<DataAccess.Entities.FootballMatchResult> GetAllResults()
         {
-           return new List<DataAccess.DataModel.FootballMatchResult>();
+           return new List<DataAccess.Entities.FootballMatchResult>();
         }
 
-        public IEnumerable<DataAccess.DataModel.FootballMatchResult> GetDivisionResults(CountryDivision countryDivision, DateTime fromDate)
+        public IEnumerable<DataAccess.Entities.FootballMatchResult> GetDivisionResults(CountryDivision countryDivision, DateTime fromDate)
         {
-            return new List<DataAccess.DataModel.FootballMatchResult>();
+            return new List<DataAccess.Entities.FootballMatchResult>();
         }
 
         private void DownloadFiles()
@@ -123,7 +123,7 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
 
         public ICollection<FootballMatchResult> GetHistoricalMatches(string filePath)
         {
-            var results = FootballDataCoUkParser.GetHistoricalResults(filePath);
+            var results = new FootballDataCoUkParser().GetHistoricalResults(filePath);
             var parsingErrors = false;
             return results.Select(x =>
             {
@@ -178,18 +178,18 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
 
                 return new FootballMatchResult
                 {
-                    Div = x.Div,
-                    DateTime = DateTime.Parse(x.Date),
-                    HomeTeam = x.HomeTeam,
-                    AwayTeam = x.AwayTeam,
-                    HomeScored = homeScored,
-                    AwayScored = awayScored,
-                    HomeOdds = homeOdds,
-                    DrawOdds = drawOdds,
-                    AwayOdds = awayOdds,
-                    Over25Odds = over25Odds,
-                    Under25Odds = under25Odds,
-                    ParsingErrors = parsingErrors
+                    //Div = x.Div,
+                    //DateTime = DateTime.Parse(x.Date),
+                    //HomeTeam = x.HomeTeam,
+                    //AwayTeam = x.AwayTeam,
+                    //HomeScored = homeScored,
+                    //AwayScored = awayScored,
+                    //HomeOdds = homeOdds,
+                    //DrawOdds = drawOdds,
+                    //AwayOdds = awayOdds,
+                    //Over25Odds = over25Odds,
+                    //Under25Odds = under25Odds,
+                    //ParsingErrors = parsingErrors
                 };
 
             }).ToList();
@@ -197,7 +197,7 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
 
         public ICollection<FootballMatchResult> GetFixtures(string filePath)
         {
-            var fixtures = FootballDataCoUkParser.GetFixture(filePath);
+            var fixtures = new FootballDataCoUkParser().GetFixture(filePath);
             return fixtures.Select(ConvertToMatchResult).ToList();
         }
 
@@ -256,19 +256,19 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
 
             return new FootballMatchResult
             {
-                Div = fixtureMatch.Div,
-                DateTime = DateTime.Parse(fixtureMatch.Date),
-                HomeTeam = fixtureMatch.HomeTeam,
-                AwayTeam = fixtureMatch.AwayTeam,
-                HomeScored = homeScored,
-                AwayScored = awayScored,
-                HomeOdds = homeOdds,
-                DrawOdds = drawOdds,
-                AwayOdds = awayOdds,
-                Over25Odds = over25Odds,
-                Under25Odds = under25Odds,
-                OverallTotal = homeScored + awayScored,
-                ParsingErrors = parsingErrors
+                //Div = fixtureMatch.Div,
+                //DateTime = DateTime.Parse(fixtureMatch.Date),
+                //HomeTeam = fixtureMatch.HomeTeam,
+                //AwayTeam = fixtureMatch.AwayTeam,
+                //HomeScored = homeScored,
+                //AwayScored = awayScored,
+                //HomeOdds = homeOdds,
+                //DrawOdds = drawOdds,
+                //AwayOdds = awayOdds,
+                //Over25Odds = over25Odds,
+                //Under25Odds = under25Odds,
+                //OverallTotal = homeScored + awayScored,
+                //ParsingErrors = parsingErrors
             };
         }
     }

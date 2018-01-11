@@ -4,10 +4,11 @@ using System.Linq;
 using BetEventScanner.Common.Services;
 using BetEventScanner.Common.Services.FootbalDataCoUk;
 using BetEventScanner.Common.Services.FootballDataOrg;
+using BetEventScanner.Common.Services.TennisAbstract;
 using BetEventScanner.ConsoleApp.TheoryStrateges.BubbelLadderFromThree;
 using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataAccess.EF;
-using BetEventScanner.DataModel;
+using BetEventScanner.Providers.SoccerStandCom;
 using FootballMatchResult = BetEventScanner.DataModel.FootballMatchResult;
 
 namespace BetEventScanner.ConsoleApp
@@ -57,6 +58,7 @@ namespace BetEventScanner.ConsoleApp
             Console.WriteLine("Menu");
             Console.WriteLine("FootbalDataOrg Test - 1");
             Console.WriteLine("Bubbel Ladder Three - 2");
+            Console.WriteLine("SoccerStand parser - 4");
             Console.WriteLine("TestChampionship - 6");
             Console.WriteLine("Migrate to sql - 7");
             Console.WriteLine("Fixtures - 10");
@@ -83,23 +85,12 @@ namespace BetEventScanner.ConsoleApp
                     break;
 
                 case 3:
-                    var bubbelLadderFromThree = new BubbelLadderFromThree();
-                    bubbelLadderFromThree.AddFlatBet(new FlatBet
-                    {
-                        Tournament = "Tennis. ITF. Men",
-                        Player1Name = "Lozan Cristian",
-                        Player2Name = "Neuchrist Maximilian",
-                        SK1 = 1.25m,
-                        SK1Descr = "2-0",
-                        SK2 = 4.15m,
-                        SK2Descr = "1-2",
-                        SK3 = 6.50m,
-                        SK3Descr = "0-2"
-                    });
-
+                    new TennisAbstractService().StoreAtpPlayers();
                     break;
 
                 case 4:
+                    var parser = new SoccerStandParser(new SoccerStandParserStorage(), null);
+                    parser.ParseCurrentSeasons();
                     break;
 
                 case 5:
@@ -134,20 +125,20 @@ namespace BetEventScanner.ConsoleApp
             {
                 var coukservice = new FootballDataCoUkService();
 
-                var results = coukservice.GetHistoricalMatches(file).Select(x => new DataAccess.DataModel.FootballMatchResult
+                var results = coukservice.GetHistoricalMatches(file).Select(x => new DataAccess.Entities.FootballMatchResult
                 {
-                    DateTime = x.DateTime,
-                    HomeTeam = x.HomeTeam,
-                    AwayTeam = x.AwayTeam,
-                    HomeScored = x.HomeScored,
-                    AwayScored = x.AwayScored,
+                  //  DateTime = x.DateTime,
+                    //HomeTeam = x.HomeTeam,
+                    //AwayTeam = x.AwayTeam,
+                    //HomeScored = x.HomeScored,
+                    //AwayScored = x.AwayScored,
                     Odds = new FootballMatchOdds
                     {
-                        HomeWin = x.HomeOdds,
-                        Draw = x.DrawOdds,
-                        AwayWin = x.AwayOdds,
-                        Over25 = x.Over25Odds,
-                        Under25 = x.Under25Odds
+                      //  HomeWin = x.HomeOdds,
+                       // Draw = x.DrawOdds,
+                       // AwayWin = x.AwayOdds,
+                       // Over25 = x.Over25Odds,
+                      //  Under25 = x.Under25Odds
                     }
                 }).ToList();
 
@@ -175,9 +166,9 @@ namespace BetEventScanner.ConsoleApp
 
         private static void TestChampionship()
         {
-            Func<FootballMatchResult, bool> filter = x => x.HomeOdds > 2 && x.AwayOdds > 2;
+            //Func<FootballMatchResult, bool> filter = x => x.HomeOdds > 2 && x.AwayOdds > 2;
 
-            HistoricalStatisticsProcessor.ProcessCsvFiles(new FootballDataCoUkService(), filter);
+            //HistoricalStatisticsProcessor.ProcessCsvFiles(new FootballDataCoUkService(), filter);
 
             Console.ReadLine();
 

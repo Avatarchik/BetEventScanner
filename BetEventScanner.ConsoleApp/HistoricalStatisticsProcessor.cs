@@ -2,9 +2,8 @@ using System;
 using System.IO;
 using System.Linq;
 using BetEventScanner.Common;
-using BetEventScanner.Common.Services.FootbalDataCoUk;
 using BetEventScanner.DataModel;
-using FootballHistoricalStatistics = BetEventScanner.DataModel.FootballHistoricalStatistics;
+
 
 namespace BetEventScanner.ConsoleApp
 {
@@ -30,14 +29,14 @@ namespace BetEventScanner.ConsoleApp
 
                 //Console.ReadLine();
 
-                var statistics = new FootballHistoricalStatistics();
-                statistics.ProcessMatches(filteredResults);
+                //var statistics = new FootballHistoricalStatistics();
+                //statistics.ProcessMatches(filteredResults);
 
                 Console.WriteLine("-----------------------------------------------------------------");
                 Console.WriteLine(file);
                 Console.WriteLine($"Total:{sourceResults.Count}; Filtered:{sourceResults.Count - filteredResults.Count}");
                 Console.WriteLine("-----------------------------------------------------------------");
-                Console.WriteLine(statistics.GetSummary());
+                //Console.WriteLine(statistics.GetSummary());
                 Console.WriteLine("-----------------------------------------------------------------");
             }
         }
