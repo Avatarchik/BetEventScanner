@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BetEventScanner.DataAccess.Contracts;
+using MongoDB.Bson;
 
 namespace BetEventScanner.Providers.SoccerStandCom.Model
 {
-    public class SoccerstandData
+    public class SoccerstandData : IDocEntity
     {
+        public ObjectId Id { get; set; }
+
         public string Url { get; set; }
 
         public string Country { get; set; }

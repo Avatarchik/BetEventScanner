@@ -4,7 +4,7 @@ using System.Text;
 using CsvHelper;
 using CsvHelper.Configuration;
 
-namespace BetEventScanner.Common.Services
+namespace BetEventScanner.Common.Services.Csv
 {
     public abstract class CsvParserBase
     {

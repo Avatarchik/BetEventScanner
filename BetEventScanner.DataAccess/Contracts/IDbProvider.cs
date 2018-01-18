@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using BetEventScanner.DataAccess.Contracts;
 
-namespace BetEventScanner.DataAccess.Providers
+namespace BetEventScanner.DataAccess.Contracts
 {
     public interface IDbProvider
     {

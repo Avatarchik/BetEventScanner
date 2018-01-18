@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using BetEventScanner.Common.Services.FootbalDataCoUk.Model;
 using BetEventScanner.ConsoleApp.TheoryStrateges.Equalizer;
-using BetEventScanner.DataModel;
+using BetEventScanner.DataModel.Model;
 
 namespace BetEventScanner.ConsoleApp.TheoryTesters
 {
@@ -83,9 +83,8 @@ namespace BetEventScanner.ConsoleApp.TheoryTesters
 
                 var footballMatchResult = new FootballMatchResult
                 {
-                    //HomeScored = homeScored,
-                    //AwayScored = awayScored,
-                    //OverallTotal = homeScored + awayScored
+                    FinalHomeScored = homeScored,
+                    FinalAwayScored = awayScored
                 };
 
                 equalizer.Play(footballMatchResult);

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BetEventScanner.DataModel
+namespace BetEventScanner.DataModel.Contracts
 {
     public interface IProvider
     {

@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using BetEventScanner.Common.DataModel;
-using BetEventScanner.DataAccess.DataModel;
-using BetEventScanner.DataAccess.Entities;
 
-namespace BetEventScanner.Common.Services.FootbalDataCoUk
+namespace BetEventScanner.Providers.FootballDataCoUk
 {
     public interface IFootballService
     {

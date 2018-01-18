@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BetEventScanner.Common.ApiContracts;
 using BetEventScanner.Common.ApiDataModel;
 using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services.Common;
-using BetEventScanner.Common.Services.FootbalDataCoUk;
+using BetEventScanner.Common.Services.FootballDataOrg;
 using BetEventScanner.Common.Services.FootballDataOrg.Model;
-using BetEventScanner.DataAccess.DataModel;
-using BetEventScanner.DataAccess.Entities;
+using BetEventScanner.Providers.FootballDataCoUk;
+using BetEventScanner.Providers.FootballDataOrg.Model;
 
-namespace BetEventScanner.Common.Services.FootballDataOrg
+namespace BetEventScanner.Providers.FootballDataOrg
 {
     public class FootballDataOrgService : IFootballService
     {

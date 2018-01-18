@@ -2,7 +2,9 @@ using System;
 using System.IO;
 using System.Linq;
 using BetEventScanner.Common;
+using BetEventScanner.Common.Contracts;
 using BetEventScanner.DataModel;
+using BetEventScanner.DataModel.Model;
 
 
 namespace BetEventScanner.ConsoleApp

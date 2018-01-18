@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using BetEventScanner.Common.Services.Csv;
+using BetEventScanner.Common.Services.TennisAbstract.DataSource;
 using BetEventScanner.Common.Services.TennisAbstract.Model;
 
-namespace BetEventScanner.Common.Services.TennisAbstract.DataSource
+namespace BetEventScanner.Providers.TennisAbstract.DataSource
 {
     internal class TennisAbstractParser : CsvParserBase
     {

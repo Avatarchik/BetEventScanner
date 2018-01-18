@@ -1,15 +1,126 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
+using BetEventScanner.DataAccess.Providers;
+using BetEventScanner.DataModel.Model;
 using BetEventScanner.Providers.Contracts;
 using BetEventScanner.Providers.SoccerStandCom.Model;
+using HtmlAgilityPack;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 
 namespace BetEventScanner.Providers.SoccerStandCom
 {
+    public enum ConverterParth
+    {
+        MatchSummary,
+        Statistics,
+        Odds
+    }
+
+    public interface IConverter<out T>
+    {
+        ConverterParth Prth { get; }
+
+        T Convert(string html);
+    }
+
+    public class MatchSummaryConverter : IConverter<MatchSummary>
+    {
+        public ConverterParth Prth { get; } = ConverterParth.MatchSummary;
+
+        public MatchSummary Convert(string html)
+        {
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
+
+            var matchSummary = new MatchSummary();
+            matchSummary.FinalScore = htmlDocument.GetElementbyId("event_detail_current_result").InnerText.Replace("-", ":");
+
+            var root = htmlDocument.GetElementbyId("summary-content");
+            var partsTableElements = root.ChildNodes[0].ChildNodes.Nodes().ToList();
+            
+            for (var i = 0; i < partsTableElements.Count; i++)
+            {
+                var attrs = partsTableElements[i].Attributes.ToList();
+                if (attrs.Any(x=>x.Name == "class" && x.Value == "stage-header stage-12"))
+                {
+                    matchSummary.FirstHalfScore = partsTableElements[i + 1].ChildNodes[1].InnerText.Replace("-", ":");
+                    continue;
+                }
+
+                if (!attrs.Any(x => x.Name == "class" && x.Value == "stage-header stage-13")) continue;
+
+                matchSummary.SecondHalfScore = partsTableElements[i + 1].ChildNodes[1].InnerText.Replace("-", ":");
+                break;
+            }
+
+            return matchSummary;
+        }
+    }
+
+    public class StatisticsConverter : IConverter<MatchStatistics>
+    {
+        public ConverterParth Prth { get; } = ConverterParth.Statistics;
+
+        public MatchStatistics Convert(string html)
+        {
+            return new MatchStatistics();
+        }
+    }
+
+    public class MatchStatistics
+    {
+        public IDictionary<FootballMatchStage, MatchStageStatistics> StageStatistics { get; set; }
+    }
+
+    public class MatchStageStatistics
+    {
+        public string BallPossession { get; set; }
+
+        public string GoalAttempts { get; set; }
+
+        public string ShotsOnGoal { get; set; }
+
+        public string ShotsOffGoal { get; set; }
+
+        public string BlockedShots { get; set; }
+
+        public string FreeKicks { get; set; }
+
+        public string CornerKicks { get; set; }
+
+        public string Offsides { get; set; }
+
+        public string GoalkeeperSaves { get; set; }
+
+        public string Fouls { get; set; }
+
+        public string YellowCards { get; set; }
+
+        public string TotalPasses { get; set; }
+
+        public string Tackles { get; set; }
+    }
+
+    public class MatchSummary
+    {
+        public string FinalScore { get; set; }
+
+        public string FirstHalfScore { get; set; }
+
+        public string SecondHalfScore { get; set; }
+
+        public string Referee { get; set; }
+
+        public string Venue { get; set; }
+
+        public string Attendance { get; set; }
+    }
+
     public class SoccerStandParser
     {
         private readonly IParserStorage<SoccerstandData> _storage;
@@ -49,17 +160,23 @@ namespace BetEventScanner.Providers.SoccerStandCom
 
             foreach (var url in urls)
             {
-                if (url.ToUpper().Contains("CUP"))
+                try
                 {
-                    continue;
-                }
+                    if (url.ToUpper().Contains("CUP"))
+                    {
+                        continue;
+                    }
 
-                var data = ParseCurrentSeason(url);
-                data.SetupAdditionalInfo();
-                Console.WriteLine(data.Caption);
-                foreach (var match in data.Matches)
+                    var data = ParseCurrentSeason(url);
+                    data.SetupAdditionalInfo();
+
+                    var storage = new SoccerstandMongoStorage();
+                    storage.StoreDataToCollection(data.Country, new List<SoccerstandData> { data });
+                }
+                catch (Exception e)
                 {
-                    Console.WriteLine(match);
+
+                    Console.WriteLine(e);
                 }
             }
         }
@@ -126,7 +243,8 @@ namespace BetEventScanner.Providers.SoccerStandCom
                     Round = round,
                     HomeTeam = homeTeam,
                     AwayTeam = awayTeam,
-                    Type = SoccerstandMatchType.Fixture
+                    Type = SoccerstandMatchType.Fixture,
+                    SourceProvider = SourceProvider.Soccerstand
                 };
 
                 result.Add(match);
@@ -149,7 +267,7 @@ namespace BetEventScanner.Providers.SoccerStandCom
             var matchResults = driver.FindElements(By.CssSelector(leagueTables)).ToList();
 
             var navigationSegments = driver.FindElement(By.CssSelector(yearsSelector)).Text;
-            var years = navigationSegments.Split('»').Last().Split('/').Select(int.Parse).OrderBy(x=>x).ToList();
+            var years = navigationSegments.Split('»').Last().Split('/').Select(int.Parse).OrderBy(x => x).ToList();
 
             var roundOrigin = string.Empty;
             var round = 0;
@@ -191,7 +309,8 @@ namespace BetEventScanner.Providers.SoccerStandCom
                     ResultOrigin = resultOrigin,
                     HomeScored = homeScored,
                     AwayScored = awayScored,
-                    Type = SoccerstandMatchType.Result
+                    Type = SoccerstandMatchType.Result,
+                    SourceProvider = SourceProvider.Soccerstand
                 };
 
                 result.Add(match);
@@ -226,7 +345,7 @@ namespace BetEventScanner.Providers.SoccerStandCom
                     match.DateTime = DateTime.Parse($"{dateTemp[0]}{years.Max()} {dateTemp[1]}");
                 }
             }
-            
+
             return result;
         }
 
@@ -278,6 +397,57 @@ namespace BetEventScanner.Providers.SoccerStandCom
                 else
                 {
                     break;
+                }
+            }
+        }
+
+        public void UpdateMatchDetails()
+        {
+            var colName = "england";
+            var provider = new MongoDbProvider("footballdb");
+            var collections = provider.GetEntities<SoccerstandData>(colName);
+
+            var mapping = new Dictionary<string, ConverterParth>
+            {
+                { "#match-summary", ConverterParth.MatchSummary },
+                { "#match-statistics;0", ConverterParth.Statistics },
+                { "#odds-comparison", ConverterParth.Odds }
+            };
+
+            foreach (var collection in collections)
+            {
+                foreach (var soccerstandMatch in collection.Matches)
+                {
+                    if (soccerstandMatch.Type == SoccerstandMatchType.Fixture)
+                    {
+                        continue;
+                    }
+
+                    var driver = new ChromeDriver();
+
+                    foreach (var mapItem in mapping)
+                    {
+                        var url = $"https://www.soccerstand.com/match/{soccerstandMatch.OriginId}/{mapItem.Key}";
+                        driver.Navigate().GoToUrl(url);
+                        var source = driver.PageSource;
+
+                        switch (mapItem.Value)
+                        {
+                            case ConverterParth.MatchSummary:
+                                var matchSummary = new MatchSummaryConverter().Convert(source);
+                                soccerstandMatch.Referee = matchSummary.Referee;
+                                soccerstandMatch.Venue = matchSummary.Venue;
+                                soccerstandMatch.Attendance = matchSummary.Attendance;
+                                break;
+
+                            case ConverterParth.Statistics:
+                                break;
+                            case ConverterParth.Odds:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    }
                 }
             }
         }

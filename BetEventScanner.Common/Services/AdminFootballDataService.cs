@@ -7,7 +7,7 @@ namespace BetEventScanner.Common.Services
     {
         private readonly GlobalSettings _settings;
         private readonly ICountryMap _footbalDataCountryMap;
-        private readonly EntitiesToStore _entitiesToStore;
+        //private readonly EntitiesToStore _entitiesToStore;
 
         //public AdminFootballDataService()
         //{

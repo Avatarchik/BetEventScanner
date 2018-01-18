@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using BetEventScanner.DataModel;
+using BetEventScanner.DataModel.Model;
 
-namespace BetEventScanner.Common
+namespace BetEventScanner.Common.Contracts
 {
     public interface IHistoricalResultsDataSource
     {

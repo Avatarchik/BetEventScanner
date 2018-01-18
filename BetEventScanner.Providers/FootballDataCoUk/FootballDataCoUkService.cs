@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BetEventScanner.Common.Contracts.Services;
-using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services.Common;
+using BetEventScanner.Common.Services.FootbalDataCoUk;
 using BetEventScanner.Common.Services.FootbalDataCoUk.Model;
-using BetEventScanner.DataAccess.DataModel;
-using BetEventScanner.DataModel;
-using FootballMatchResult = BetEventScanner.DataModel.FootballMatchResult;
 using Status = BetEventScanner.Common.Services.FootbalDataCoUk.Model.Status;
 
-namespace BetEventScanner.Common.Services.FootbalDataCoUk
+namespace BetEventScanner.Providers.FootballDataCoUk
 {
-    public class FootballDataCoUkService : IFootballService, IHistoricalResultsDataSource
+    public class FootballDataCoUkService
     {
         public readonly string Url = "http://www.football-data.co.uk/";
         private DataSourceFootballDataCoUk _dataSource = new DataSourceFootballDataCoUk();
@@ -38,16 +35,6 @@ namespace BetEventScanner.Common.Services.FootbalDataCoUk
 
             CheckStatusFile();
             DownloadFiles();
-        }
-
-        public IEnumerable<DataAccess.Entities.FootballMatchResult> GetAllResults()
-        {
-           return new List<DataAccess.Entities.FootballMatchResult>();
-        }
-
-        public IEnumerable<DataAccess.Entities.FootballMatchResult> GetDivisionResults(CountryDivision countryDivision, DateTime fromDate)
-        {
-            return new List<DataAccess.Entities.FootballMatchResult>();
         }
 
         private void DownloadFiles()

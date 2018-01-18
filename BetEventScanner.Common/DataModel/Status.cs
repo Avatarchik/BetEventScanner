@@ -6,7 +6,7 @@ namespace BetEventScanner.Common.DataModel
 {
     public class Status : IDocEntity
     {
-        public DateTime Created { get; set; } = DateTime.Now;
+        public ObjectId Id { get; set; }
 
         public bool OddsLoaded { get; set; }
 
@@ -14,6 +14,6 @@ namespace BetEventScanner.Common.DataModel
 
         public bool ServicesInitialized { get; set; }
 
-        public ObjectId Id { get; set; }
+        public DateTime Created { get; set; } = DateTime.Now;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using BetEventScanner.DataModel.Contracts;
+using BetEventScanner.DataModel.Model;
 
 namespace BetEventScanner.DataModel
 {

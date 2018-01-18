@@ -28,6 +28,14 @@ namespace BetEventScanner.Providers.SoccerStandCom.Model
 
         public SoccerstandMatchType Type { get; set; }
 
+        public SourceProvider SourceProvider { get; set; }
+
+        public string Referee { get; set; }
+
+        public string Venue { get; set; }
+
+        public string Attendance { get; set; }
+
         public override string ToString()
         {
             var result = "-";

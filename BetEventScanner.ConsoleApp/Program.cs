@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using BetEventScanner.Common.Services;
-using BetEventScanner.Common.Services.FootbalDataCoUk;
-using BetEventScanner.Common.Services.FootballDataOrg;
-using BetEventScanner.Common.Services.TennisAbstract;
+using System.Net;
 using BetEventScanner.ConsoleApp.TheoryStrateges.BubbelLadderFromThree;
+using BetEventScanner.ConsoleApp.TheoryTesters;
 using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataAccess.EF;
+using BetEventScanner.DataAccess.Providers;
+using BetEventScanner.Providers.FootballDataCoUk;
+using BetEventScanner.Providers.FootballDataOrg;
 using BetEventScanner.Providers.SoccerStandCom;
-using FootballMatchResult = BetEventScanner.DataModel.FootballMatchResult;
 
 namespace BetEventScanner.ConsoleApp
 {
@@ -85,11 +85,12 @@ namespace BetEventScanner.ConsoleApp
                     break;
 
                 case 3:
-                    new TennisAbstractService().StoreAtpPlayers();
+                    var parser1 = new SoccerStandParser(null, null);
+                    parser1.UpdateMatchDetails();
                     break;
 
                 case 4:
-                    var parser = new SoccerStandParser(new SoccerStandParserStorage(), null);
+                    var parser = new SoccerStandParser(null, null);
                     parser.ParseCurrentSeasons();
                     break;
 
@@ -172,10 +173,9 @@ namespace BetEventScanner.ConsoleApp
 
             Console.ReadLine();
 
-            //var simulator = new Simulator();
+            var simulator = new Simulator();
             //simulator.Simulate(results);
         }
-
     }
 }
 

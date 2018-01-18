@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using BetEventScanner.Common.Services.Csv;
 using BetEventScanner.Common.Services.FootbalDataCoUk.Mappings;
 using BetEventScanner.Common.Services.FootbalDataCoUk.Model;
+using BetEventScanner.Providers.FootballDataCoUk.Mappings;
 
-namespace BetEventScanner.Common.Services.FootbalDataCoUk
+namespace BetEventScanner.Providers.FootballDataCoUk
 {
     public class FootballDataCoUkParser : CsvParserBase
     {

@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
-using BetEventScanner.DataAccess.DataModel.DbEntities.Old;
 
-namespace BetEventScanner.Common.ApiContracts
+namespace BetEventScanner.Providers.FootballDataOrg.Model
 {
     // ToDo Remove it
     [DataContract]
@@ -16,7 +15,7 @@ namespace BetEventScanner.Common.ApiContracts
         [DataMember(Name = "DeveloperAuthentication")]
         public string DeveloperAuthentication { get; set; }
 
-        [DataMember(Name = "teams")]
-        public StandinfTeam[] Teams { get; set; }
+        //[DataMember(Name = "teams")]
+        //public StandinfTeam[] Teams { get; set; }
     }
 }
