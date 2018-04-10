@@ -23,14 +23,14 @@ namespace BetEventScanner.Providers.SoccerStandCom
 
     public interface IConverter<out T>
     {
-        ConverterParth Prth { get; }
+        ConverterParth Parth { get; }
 
         T Convert(string html);
     }
 
     public class MatchSummaryConverter : IConverter<MatchSummary>
     {
-        public ConverterParth Prth { get; } = ConverterParth.MatchSummary;
+        public ConverterParth Parth { get; } = ConverterParth.MatchSummary;
 
         public MatchSummary Convert(string html)
         {
@@ -38,7 +38,7 @@ namespace BetEventScanner.Providers.SoccerStandCom
             htmlDocument.LoadHtml(html);
 
             var matchSummary = new MatchSummary();
-            matchSummary.FinalScore = htmlDocument.GetElementbyId("event_detail_current_result").InnerText.Replace("-", ":");
+            matchSummary.FinalScore = htmlDocument.GetElementbyId("event_detail_current_result").InnerText.Replace("-", " : ");
 
             var root = htmlDocument.GetElementbyId("summary-content");
             var partsTableElements = root.ChildNodes[0].ChildNodes.Nodes().ToList();
@@ -64,12 +64,32 @@ namespace BetEventScanner.Providers.SoccerStandCom
 
     public class StatisticsConverter : IConverter<MatchStatistics>
     {
-        public ConverterParth Prth { get; } = ConverterParth.Statistics;
+        public ConverterParth Parth { get; } = ConverterParth.Statistics;
 
         public MatchStatistics Convert(string html)
         {
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
+
+
+
             return new MatchStatistics();
         }
+    }
+
+    public class OddsConverter : IConverter<MatchOdds>
+    {
+        public ConverterParth Parth { get; } = ConverterParth.Odds;
+
+        public MatchOdds Convert(string html)
+        {
+            return new MatchOdds();
+        }
+    }
+
+    public class MatchOdds
+    {
+         
     }
 
     public class MatchStatistics
@@ -418,7 +438,7 @@ namespace BetEventScanner.Providers.SoccerStandCom
             {
                 foreach (var soccerstandMatch in collection.Matches)
                 {
-                    if (soccerstandMatch.Type == SoccerstandMatchType.Fixture)
+                    if (soccerstandMatch.Type == SoccerstandMatchType.Fixture && soccerstandMatch.DateTime.Date >= DateTime.Now.Date)
                     {
                         continue;
                     }
@@ -441,9 +461,13 @@ namespace BetEventScanner.Providers.SoccerStandCom
                                 break;
 
                             case ConverterParth.Statistics:
+                                var matchStatistics = new StatisticsConverter().Convert(source);
                                 break;
+
                             case ConverterParth.Odds:
+                                var matchOdds = new OddsConverter().Convert(source);
                                 break;
+
                             default:
                                 throw new ArgumentOutOfRangeException();
                         }

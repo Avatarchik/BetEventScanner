@@ -4,6 +4,7 @@
     {
         Soccerstand,
         FootballDataOrg,
-        FootballDataCoUk
+        FootballDataCoUk,
+        Parimatch
     }
 }

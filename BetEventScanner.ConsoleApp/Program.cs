@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,6 +11,7 @@ using BetEventScanner.DataAccess.Providers;
 using BetEventScanner.Providers.FootballDataCoUk;
 using BetEventScanner.Providers.FootballDataOrg;
 using BetEventScanner.Providers.SoccerStandCom;
+using BetEventScanner.Providers.SoccerStandCom.Model;
 
 namespace BetEventScanner.ConsoleApp
 {
