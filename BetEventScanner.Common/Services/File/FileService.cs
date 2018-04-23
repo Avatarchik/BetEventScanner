@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 using BetEventScanner.Common.Contracts.Services;
+using Newtonsoft.Json;
 
 namespace BetEventScanner.Common.Services.Common
 {
@@ -27,6 +28,26 @@ namespace BetEventScanner.Common.Services.Common
                 var serializer = new XmlSerializer(typeof(T));
                 return (T)serializer.Deserialize(reader);
             }
+        }
+
+        public T ReadXml<T>(string filePath)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public T ReadJson<T>(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                return JsonConvert.DeserializeObject<T>(File.ReadAllText(filePath));
+            }
+
+            return default(T);
+        }
+
+        public void WriteJson<T>(string filePath, T data)
+        {
+            File.WriteAllText(filePath, JsonConvert.SerializeObject(data));
         }
     }
 }

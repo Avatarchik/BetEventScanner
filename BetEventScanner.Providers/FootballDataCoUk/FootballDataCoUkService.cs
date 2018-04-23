@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BetEventScanner.Common.Contracts.Services;
+using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services.Common;
 using BetEventScanner.Common.Services.FootbalDataCoUk;
 using BetEventScanner.Common.Services.FootbalDataCoUk.Model;
@@ -10,15 +11,15 @@ using Status = BetEventScanner.Common.Services.FootbalDataCoUk.Model.Status;
 
 namespace BetEventScanner.Providers.FootballDataCoUk
 {
-    public class FootballDataCoUkService
+    public class FootballDataCoUkService : IFootballService
     {
         public readonly string Url = "http://www.football-data.co.uk/";
         private DataSourceFootballDataCoUk _dataSource = new DataSourceFootballDataCoUk();
         private readonly IFileService _fileService = new FileService();
-        private IEnumerable<string> _supportedLeagues = new List<string> {"E0"/*, "E1", "E2", "E3", "E1", "EC"*/ };
+        private IEnumerable<string> _supportedLeagues = new List<string> { "E0"/*, "E1", "E2", "E3", "E1", "EC"*/ };
         private IResultsService _resultsService;
         private string directory = "c:\\BetEventScanner\\Services\\FootballDataCoUk";
-        private string statusFile = "status.xml";
+        private string statusFile = "status.json";
 
         public string Name { get; } = "FootballDataCoUk";
 
@@ -29,9 +30,12 @@ namespace BetEventScanner.Providers.FootballDataCoUk
 
         private void Init()
         {
-            var status = _fileService.ReadFile<Status>(Path.Combine(directory, statusFile));
+            var statusFilePath = Path.Combine(directory, statusFile);
 
+            var status = _fileService.ReadJson<Status>(statusFilePath);
             if (status != null && status.Initialized) return;
+
+            _fileService.WriteJson(statusFilePath, new Status());
 
             CheckStatusFile();
             DownloadFiles();
@@ -44,9 +48,9 @@ namespace BetEventScanner.Providers.FootballDataCoUk
             var startYearStr = "93";
             var endYearStr = "94";
 
-            var curYear = DateTime.Now.Year.ToString().Remove(0,2);
+            var curYear = DateTime.Now.Year.ToString().Remove(0, 2);
 
-            var dataDirectory = directory + "\\Data";
+            var dataDirectory = directory + "\\Data\\Origin";
             if (!Directory.Exists(dataDirectory))
             {
                 Directory.CreateDirectory(dataDirectory);
@@ -72,8 +76,8 @@ namespace BetEventScanner.Providers.FootballDataCoUk
                 startYearStr = ++startYear >= 100 ? startYear.ToString().Remove(0, 1) : startYear.ToString();
 
                 endYearStr = ++endYear >= 100 ? endYear.ToString().Remove(0, 1) : endYear.ToString();
-                
-                if (startYearStr == curYear )
+
+                if (startYearStr == curYear)
                 {
                     break;
                 }
@@ -84,7 +88,7 @@ namespace BetEventScanner.Providers.FootballDataCoUk
             //_dataSource.DownloadFile(targetUrl, "temp123.csv");
         }
 
-        private string GetFileName(string  league, string startYear, string endYear)
+        private string GetFileName(string league, string startYear, string endYear)
         {
             return $"mmz4281/{startYear}{endYear}/{league}.csv";
         }
@@ -99,7 +103,7 @@ namespace BetEventScanner.Providers.FootballDataCoUk
             {
                 if (directory != null) Directory.CreateDirectory(directory);
             }
-                
+
             _fileService.SaveFile(statusFilePath, new Status
             {
                 IsUpdated = false,
@@ -146,21 +150,21 @@ namespace BetEventScanner.Providers.FootballDataCoUk
                 if (!double.TryParse(x.B365A, out awayOdds))
                 {
                     awayOdds = 0.0;
-                    parsingErrors= true;
+                    parsingErrors = true;
                 }
 
                 double over25Odds;
                 if (!double.TryParse(x.BbAvOver25, out over25Odds))
                 {
                     over25Odds = 0.0;
-                    parsingErrors= true;
+                    parsingErrors = true;
                 }
 
                 double under25Odds;
                 if (!double.TryParse(x.BbAvUnder25, out under25Odds))
                 {
                     under25Odds = 0.0;
-                    parsingErrors= true;
+                    parsingErrors = true;
                 }
 
                 return new FootballMatchResult
@@ -257,6 +261,32 @@ namespace BetEventScanner.Providers.FootballDataCoUk
                 //OverallTotal = homeScored + awayScored,
                 //ParsingErrors = parsingErrors
             };
+        }
+
+        public IEnumerable<FootballMatchResult> GetAllResults()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<FootballMatchResult> GetDivisionResults(CountryDivision countryDivision, DateTime fromDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SmartParser(IDictionary<string, string> headerMapping)
+        {
+            var file = @"C:\BetEventScanner\Services\FootballDataCoUk\Data\E0_1617.csv";
+
+            using (var reader = new StreamReader(file))
+            {
+                var csv = new CsvHelper.CsvReader(reader);
+                if (csv.ReadHeader())
+                {
+                    var headers = csv.FieldHeaders;
+                }
+                
+            }
+
         }
     }
 }

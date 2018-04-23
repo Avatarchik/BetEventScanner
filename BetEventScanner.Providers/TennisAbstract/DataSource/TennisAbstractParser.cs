@@ -9,7 +9,8 @@ namespace BetEventScanner.Providers.TennisAbstract.DataSource
     {
         public ICollection<AtpPlayer> GetAtpPlayers(string filePath)
         {
-            return Parse<AtpPlayer>(filePath, new TennisAbstractPlayerMapping());
+            //return Parse<AtpPlayer>(filePath, new TennisAbstractPlayerMapping());
+            return null;
         }
     }
 }

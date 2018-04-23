@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using BetEventScanner.ConsoleApp.TheoryStrateges.BubbelLadderFromThree;
 using BetEventScanner.ConsoleApp.TheoryTesters;
 using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataAccess.EF;
-using BetEventScanner.DataAccess.Providers;
 using BetEventScanner.Providers.FootballDataCoUk;
 using BetEventScanner.Providers.FootballDataOrg;
 using BetEventScanner.Providers.SoccerStandCom;
-using BetEventScanner.Providers.SoccerStandCom.Model;
 
 namespace BetEventScanner.ConsoleApp
 {
@@ -19,6 +16,7 @@ namespace BetEventScanner.ConsoleApp
     {
         //private static BettongService _bettongService = new BettongService();
 
+        [STAThread]
         static void Main(string[] args)
         {
             Console.WriteLine("Service started");
@@ -48,10 +46,11 @@ namespace BetEventScanner.ConsoleApp
                     Console.ReadLine();
                 }
             }
+
             // ToDo Investigate
             //_bettongService.Save();
 
-            Console.WriteLine("press enter to continue...");
+            Console.WriteLine("Press enter to continue...");
             Console.ReadLine();
         }
 
@@ -108,7 +107,10 @@ namespace BetEventScanner.ConsoleApp
                     break;
 
                 case 10:
-                    var fixtures = new FootballDataCoUkService().GetFixtures(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\fixtures.csv");
+                    var fixtures = new FootballDataCoUkService();
+                    //new FootballDataCoUkService().SmartParser();
+                    var headers = new List<string> { "Div", "Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "FTR", "HTHG", "HTAG", "HTR" };
+                    new FootballDataCoUkParser().GetHistoricalResultsJson(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E0_1617.csv", headers);
                     break;
 
                 case 11:
