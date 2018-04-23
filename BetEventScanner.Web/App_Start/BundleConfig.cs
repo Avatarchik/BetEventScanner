@@ -26,6 +26,9 @@ namespace BetEventScanner.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/app-js").Include("~/Scripts/ms/bootstrap-multiselect.js"));
+            bundles.Add(new StyleBundle("~/bundles/app-css").Include("~/Scripts/ms/bootstrap-multiselect.css"));
         }
     }
 }

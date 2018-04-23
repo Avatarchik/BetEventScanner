@@ -110,7 +110,7 @@ namespace BetEventScanner.ConsoleApp
                     var fixtures = new FootballDataCoUkService();
                     //new FootballDataCoUkService().SmartParser();
                     var headers = new List<string> { "Div", "Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "FTR", "HTHG", "HTAG", "HTR" };
-                    new FootballDataCoUkParser().GetHistoricalResultsJson(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E0_1617.csv", headers);
+                    //new FootballDataCoUkParser().GetHistoricalResultsJson(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E0_1617.csv", headers);
                     break;
 
                 case 11:

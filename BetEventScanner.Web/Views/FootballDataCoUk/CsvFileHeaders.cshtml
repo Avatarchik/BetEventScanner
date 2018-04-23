@@ -1,0 +1,54 @@
+﻿@model BetEventScanner.Web.ViewModels.CsvFileHeadersViewModel
+
+@{
+    ViewBag.Title = "ShowCsvFile";
+}
+
+<div class="row">
+    <div class="panel-heading">
+        <div class="col-sm-3">
+            <span id="fileName">@Model.FileName</span>
+        </div>
+        <div class="col-sm-6">
+            <select id="ms" multiple="multiple">
+                @{
+                    foreach (var header in Model.Headers)
+                    {
+                        <option value="@header">@header</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <button id="apply" type="button" class="btn btn-default">Apply</button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div id="detailsDiv"></div>
+    </div>
+    <div class="panel-footer">
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $("#ms").multiselect();
+
+        $("#apply").on("click", function() {
+
+            var selectedHeaders = $('#ms').val();
+            var url = '@Url.Action("CsvFileDetails", "FootballDataCoUk")';
+            debugger;
+            var fileName = $("#fileName").text();
+            var rd = { fileName: fileName, headers: selectedHeaders };
+
+            $.get(url, $.param(rd, true), function(data) {
+                $('#detailsDiv').html(data);
+            });
+
+        });
+
+    });
+</script>

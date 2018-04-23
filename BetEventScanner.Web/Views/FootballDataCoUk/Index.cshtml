@@ -16,7 +16,7 @@
         @foreach (var file in Model.OrderBy(x => x))
         {
             <tr>
-                <th scope="row">@Html.ActionLink(file, "ShowCsvFile", "FootballDataCoUk", new { fileName = file }, null)</th>
+                <th scope="row">@Html.ActionLink(file, "CsvFileHeaders", "FootballDataCoUk", new { fileName = file }, null)</th>
             </tr>
         }
     </tbody>

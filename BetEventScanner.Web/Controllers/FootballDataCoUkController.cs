@@ -24,7 +24,7 @@ namespace BetEventScanner.Web.Controllers
             return View(fileNames);
         }
 
-        public ActionResult ShowCsvFile(string fileName)
+        public ActionResult CsvFileHeaders(string fileName)
         {
             var filePath = dirInfo.GetFiles().FirstOrDefault(x => x.Name == fileName)?.FullName;
 
@@ -34,14 +34,35 @@ namespace BetEventScanner.Web.Controllers
             }
 
             var parser = new FootballDataCoUkParser();
-            var headers = parser.GetFileHeaders(filePath).Take(7).ToList();
+            var headers = parser.GetFileHeaders(filePath).ToList();
+
+
+            return View(new CsvFileHeadersViewModel
+            {
+                FileName = fileName,
+                Headers = headers
+            });
+        }
+
+        public ActionResult CsvFileDetails(string fileName, ICollection<string> headers)
+        {
+            var filePath = dirInfo.GetFiles().FirstOrDefault(x => x.Name == fileName)?.FullName;
+
+            if (filePath == null)
+            {
+                throw new FileNotFoundException(fileName);
+            }
+
+            var parser = new FootballDataCoUkParser();
             var jsonMatches = parser.GetDynamicHistoricalResults(filePath, headers);
 
-            return View(new CsvFileViewModel
+            return PartialView(new CsvFileViewModel
             {
                 Headers = headers,
                 JsonMathes = jsonMatches
             });
         }
     }
+
+   
 }
