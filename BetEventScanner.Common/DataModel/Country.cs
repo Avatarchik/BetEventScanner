@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace BetEventScanner.Common.DataModel
 {
-    public class Country : IDocEntity, ISqlEntity
+    public class Country : IDocEntity, IEntity
     {
         public ObjectId Id { get; set; }
 

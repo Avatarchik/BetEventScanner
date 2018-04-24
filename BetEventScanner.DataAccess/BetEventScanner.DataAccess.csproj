@@ -68,9 +68,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IRepository.cs" />
-    <Compile Include="Contracts\ISqlEntity.cs" />
+    <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Entities\CountryDivisionSeason.cs" />
-    <Compile Include="Entities\FlatBet.cs" />
     <Compile Include="Entities\FootballMatchOdds.cs" />
     <Compile Include="Entities\FootballMatchResult.cs" />
     <Compile Include="Entities\DbEntities\BettingEntity.cs" />
@@ -97,7 +96,7 @@
     <Compile Include="Entities\DbEntities\Tbet.cs" />
     <Compile Include="Entities\DbEntities\Tmatch.cs" />
     <Compile Include="Entities\DbEntities\ToppositBet.cs" />
-    <Compile Include="Entities\Sex.cs" />
+    <Compile Include="Entities\Gender.cs" />
     <Compile Include="Entities\Team.cs" />
     <Compile Include="Entities\TennisPlayer.cs" />
     <Compile Include="Entities\Tresult.cs" />

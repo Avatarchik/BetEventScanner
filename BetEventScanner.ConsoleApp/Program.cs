@@ -6,6 +6,7 @@ using BetEventScanner.ConsoleApp.TheoryStrateges.BubbelLadderFromThree;
 using BetEventScanner.ConsoleApp.TheoryTesters;
 using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.DataAccess.EF;
+using BetEventScanner.DataAccess.Entities;
 using BetEventScanner.Providers.FootballDataCoUk;
 using BetEventScanner.Providers.FootballDataOrg;
 using BetEventScanner.Providers.SoccerStandCom;

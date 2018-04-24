@@ -8,7 +8,7 @@ namespace BetEventScanner.DataAccess.Entities
 
         public string OriginPlayerId { get; set; }
 
-        public Sex Sex { get; set; }
+        public Gender Gender { get; set; }
 
         public string FirstName { get; set; }
 

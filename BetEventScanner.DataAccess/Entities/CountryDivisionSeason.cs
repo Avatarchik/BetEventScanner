@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using BetEventScanner.DataAccess.Entities;
 
-namespace BetEventScanner.DataAccess.DataModel
+namespace BetEventScanner.DataAccess.Entities
 {
     public class FootballSeason
     {

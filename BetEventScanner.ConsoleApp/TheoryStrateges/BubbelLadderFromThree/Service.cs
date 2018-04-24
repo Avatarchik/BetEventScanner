@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using BetEventScanner.DataAccess.DataModel;
-using Newtonsoft.Json;
 
 namespace BetEventScanner.ConsoleApp.TheoryStrateges.BubbelLadderFromThree
 {
@@ -41,33 +38,6 @@ namespace BetEventScanner.ConsoleApp.TheoryStrateges.BubbelLadderFromThree
             }
 
             return betValue;
-        }
-    }
-
-    public class Service
-    {
-        public void PlaceBet(TennisMatch tennisMatch)
-        {
-
-        }
-
-        public void PlaceBet(string htmlText)
-        {
-
-        }
-
-        public void PlaceBet(FlatBet flatBet)
-        {
-            var previousBets = LoadBets();
-        }
-
-        private ICollection<FlatBet> LoadBets()
-        {
-            return null;
-        }
-
-        private void StoreBets()
-        {
         }
     }
 

@@ -1,7 +1,7 @@
 using BetEventScanner.DataAccess.Contracts;
 using MongoDB.Bson;
 
-namespace BetEventScanner.DataAccess.DataModel
+namespace BetEventScanner.DataAccess.Entities
 {
     public class Tresult : IDocEntity
     {

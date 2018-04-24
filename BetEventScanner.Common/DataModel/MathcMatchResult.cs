@@ -1,5 +1,6 @@
 ﻿using BetEventScanner.Common.Contracts;
 using BetEventScanner.DataAccess.DataModel;
+using BetEventScanner.DataAccess.Entities;
 
 namespace BetEventScanner.Common.DataModel
 {
