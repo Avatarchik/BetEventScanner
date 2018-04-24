@@ -1,7 +1,7 @@
 ﻿using BetEventScanner.Common.Services.FootbalDataCoUk.Model;
 using CsvHelper.Configuration;
 
-namespace BetEventScanner.Common.Services.FootbalDataCoUk.Mappings
+namespace BetEventScanner.Providers.FootballDataCoUk.Mappings
 {
     public sealed class FootballDataCoUkHistoricalMapping : CsvClassMap<HistoricalMatch>
     {
