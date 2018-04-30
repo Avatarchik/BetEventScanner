@@ -1,4 +1,4 @@
-﻿namespace BetEventScanner.DataAccess.DataModel
+﻿namespace BetEventScanner.DataAccess.Entities
 {
     public class FootballMatchOdds
     {

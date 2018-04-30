@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BetEventScanner.DataAccess.Contracts;
+using BetEventScanner.DataAccess.Entities;
 using MongoDB.Bson;
 
 namespace BetEventScanner.DataAccess.DataModel.DbEntities

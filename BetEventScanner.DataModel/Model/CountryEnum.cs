@@ -1,4 +1,4 @@
-﻿namespace BetEventScanner.Common
+﻿namespace BetEventScanner.DataModel.Model
 {
     public enum CountryEnum
     {

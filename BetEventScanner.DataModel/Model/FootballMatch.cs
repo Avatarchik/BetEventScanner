@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using BetEventScanner.DataModel.Contracts;
-using BetEventScanner.DataModel.Model;
 
-namespace BetEventScanner.DataModel
+namespace BetEventScanner.DataModel.Model
 {
     public class FootballMatch  : IProvider
     {

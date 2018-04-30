@@ -1,4 +1,4 @@
-﻿namespace BetEventScanner.DataModel
+﻿namespace BetEventScanner.DataModel.Model
 {
     public class FootballMatchStatistics
     {
