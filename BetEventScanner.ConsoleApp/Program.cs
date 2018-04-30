@@ -112,7 +112,7 @@ namespace BetEventScanner.ConsoleApp
 
                     var dates = matches.Select(x => x["Date"].ToString()).ToList();
 
-                    Providers.Parimatch.Provider.LoadHtml(dates);
+                    Providers.Parimatch.Provider.ParseArchiveDates(dates);
                     return;
                     var l = new List<string>();
                     var uow = new UnitOfWork();

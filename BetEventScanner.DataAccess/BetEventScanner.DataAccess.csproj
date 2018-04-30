@@ -67,8 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Contracts\IRepository.cs" />
-    <Compile Include="Contracts\ISqlEntity.cs" />
     <Compile Include="Entities\City.cs" />
     <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\CountryDivisionSeason.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="Entities\DbEntities\Tbet.cs" />
     <Compile Include="Entities\DbEntities\Tmatch.cs" />
     <Compile Include="Entities\FootballTeam.cs" />
-    <Compile Include="Entities\Sex.cs" />
+    <Compile Include="Entities\Gender.cs" />
     <Compile Include="Entities\Stadium.cs" />
     <Compile Include="Entities\TennisPlayer.cs" />
     <Compile Include="Entities\Tresult.cs" />

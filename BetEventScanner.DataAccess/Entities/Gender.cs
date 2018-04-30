@@ -1,9 +1,6 @@
-namespace BetEventScanner.DataAccess.Entities
+﻿namespace BetEventScanner.DataAccess.Entities
 {
-    public enum Gender
+    public class Gender
     {
-        Undefined,
-        Male,
-        Female
     }
 }
