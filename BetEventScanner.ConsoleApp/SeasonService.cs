@@ -27,21 +27,23 @@ namespace BetEventScanner.ConsoleApp
                 result.EndYear = result.StartYear++;
             }
 
-            using (var context = new BetEventScannerContext())
-            {
-                context.Seasons.Add(result);
-                context.SaveChanges();
-            }
+            //using (var context = new BetEventScannerContext())
+            //{
+            //    context.Seasons.Add(result);
+            //    context.SaveChanges();
+            //}
 
             return result;
         }
 
         private FootballSeason GetCurrentSeasonByDivisionCode(string divisionCode)
         {
-            using (var context = new BetEventScannerContext())
-            {
-                return context.Seasons.FirstOrDefault(x => x.IsCurrent && x.DivisionCode == divisionCode);
-            }
+            //using (var context = new BetEventScannerContext())
+            //{
+            //    return context.Seasons.FirstOrDefault(x => x.IsCurrent && x.DivisionCode == divisionCode);
+            //}
+
+            return null;
         }
     }
 }

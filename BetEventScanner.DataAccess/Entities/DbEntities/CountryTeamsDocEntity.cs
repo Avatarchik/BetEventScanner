@@ -4,14 +4,12 @@ using MongoDB.Bson;
 
 namespace BetEventScanner.DataAccess.DataModel.DbEntities
 {
-    public class CountryTeamsDocEntity : IDocEntity, ISqlEntity
+    public class CountryTeamsDocEntity : IDocEntity
     {
         public bool Uploaded { get; set; }
 
-        public List<Team> Teams { get; set; } = new List<Team>();
+        public List<FootballTeam> Teams { get; set; } = new List<FootballTeam>();
 
         public ObjectId Id { get; set; }
-
-        public int SqlId { get; set; }
     }
 }

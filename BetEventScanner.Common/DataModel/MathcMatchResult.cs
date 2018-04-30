@@ -5,9 +5,9 @@ namespace BetEventScanner.Common.DataModel
 {
     public class MathcMatchResult : IMatchResult
     {
-        public Team HomeTeam { get; set; }
+        public FootballTeam HomeTeam { get; set; }
 
-        public Team AwayTeam { get; set; }
+        public FootballTeam AwayTeam { get; set; }
 
         public string Result { get; set; }
 

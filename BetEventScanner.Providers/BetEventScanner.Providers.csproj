@@ -60,7 +60,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BalanceFinanceStrategy.cs" />
     <Compile Include="FootballDataCoUk\Mappings\CustomHeadersMapping.cs" />
+    <Compile Include="IBetEvent.cs" />
     <Compile Include="Parimatch\Provider.cs" />
     <Compile Include="SourceProvider.cs" />
     <Compile Include="Contracts\IStorage.cs" />

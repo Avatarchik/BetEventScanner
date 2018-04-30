@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BetEventScanner.ConsoleApp.TheoryStrateges.BubbelLadderFromThree;
 using BetEventScanner.ConsoleApp.TheoryTesters;
+using BetEventScanner.DataAccess;
 using BetEventScanner.DataAccess.DataModel;
-using BetEventScanner.DataAccess.EF;
 using BetEventScanner.Providers.FootballDataCoUk;
 using BetEventScanner.Providers.FootballDataOrg;
 using BetEventScanner.Providers.SoccerStandCom;
@@ -20,9 +19,6 @@ namespace BetEventScanner.ConsoleApp
         static void Main(string[] args)
         {
             Console.WriteLine("Service started");
-
-            // ToDo Investigate
-            //_bettongService.Load();
 
             while (true)
             {
@@ -47,9 +43,6 @@ namespace BetEventScanner.ConsoleApp
                 }
             }
 
-            // ToDo Investigate
-            //_bettongService.Save();
-
             Console.WriteLine("Press enter to continue...");
             Console.ReadLine();
         }
@@ -64,6 +57,7 @@ namespace BetEventScanner.ConsoleApp
             Console.WriteLine("Migrate to sql - 7");
             Console.WriteLine("Fixtures - 10");
             Console.WriteLine("IncomingMatches - 11");
+            Console.WriteLine("IncomingMatches - 12");
         }
 
         private static void ProcessMenu(string choose)
@@ -81,8 +75,6 @@ namespace BetEventScanner.ConsoleApp
                     break;
 
                 case 2:
-                    Console.WriteLine(new Calculator().ClaculateBetValue(13.0m, 1.70m));
-                    Console.ReadLine();
                     break;
 
                 case 3:
@@ -96,21 +88,69 @@ namespace BetEventScanner.ConsoleApp
                     break;
 
                 case 5:
+
+                    var fds = new FootballDataCoUkService();
+                    //new FootballDataCoUkService().SmartParser();
+                    //var h = new List<string> { "Div", "Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "B365H", "B365D", "B365A" };
+                    var h = new List<string> { "Date" };
+                    var m = new FootballDataCoUkParser().GetDynamicHistoricalResults(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E0_1617.csv", h);
+
+
                     break;
 
                 case 6:
-                    TestChampionship();
                     break;
 
                 case 7:
-                    SqlMigration();
                     break;
 
                 case 10:
                     var fixtures = new FootballDataCoUkService();
                     //new FootballDataCoUkService().SmartParser();
-                    var headers = new List<string> { "Div", "Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "FTR", "HTHG", "HTAG", "HTR" };
-                    //new FootballDataCoUkParser().GetHistoricalResultsJson(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E0_1617.csv", headers);
+                    var headers = new List<string> { "Date" };
+                    var matches = new FootballDataCoUkParser().GetDynamicHistoricalResults(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E1_1617.csv", headers);
+
+                    var dates = matches.Select(x => x["Date"].ToString()).ToList();
+
+                    Providers.Parimatch.Provider.LoadHtml(dates);
+                    return;
+                    var l = new List<string>();
+                    var uow = new UnitOfWork();
+                    foreach (var item in matches)
+                    {
+                        l.Add(item["HomeTeam"].ToString());
+                    }
+
+                    uow.Counties.Create(new Country
+                    {
+                        Name = "England",
+                        Cities = new List<City>
+                    {
+                        new City { Name = "Default" }
+                    }
+                    });
+                    var coid = uow.Commit();
+
+                    foreach (var item in l.Distinct())
+                    {
+                        uow.FootballTeams.Create(new FootballTeam
+                        {
+                            Name = item,
+                            Country = new Country
+                            {
+                                Name = "England"
+                            },
+                            City = new City
+                            {
+                                CountryId = 2,
+                                Name = "Undefined"
+                            }
+
+                        });
+                    }
+
+                    uow.Commit();
+
                     break;
 
                 case 11:
@@ -120,65 +160,6 @@ namespace BetEventScanner.ConsoleApp
                 default:
                     throw new NotSupportedException("Selection is not supported");
             }
-        }
-
-        private static void SqlMigration()
-        {
-            var files = Directory.GetFiles(@"C:\BetEventScanner\Services\FootballDataCoUk\Data");
-
-            foreach (var file in files)
-            {
-                var coukservice = new FootballDataCoUkService();
-
-                var results = coukservice.GetHistoricalMatches(file).Select(x => new DataAccess.Entities.FootballMatchResult
-                {
-                  //  DateTime = x.DateTime,
-                    //HomeTeam = x.HomeTeam,
-                    //AwayTeam = x.AwayTeam,
-                    //HomeScored = x.HomeScored,
-                    //AwayScored = x.AwayScored,
-                    Odds = new FootballMatchOdds
-                    {
-                      //  HomeWin = x.HomeOdds,
-                       // Draw = x.DrawOdds,
-                       // AwayWin = x.AwayOdds,
-                       // Over25 = x.Over25Odds,
-                      //  Under25 = x.Under25Odds
-                    }
-                }).ToList();
-
-                var items = file.Split('_');
-                var country = items[0].Split('\\').Last();
-                var divisionCode = items[1];
-                var startYear = int.Parse("20" + new string(items[2].Split('.')[0].Take(2).ToArray()));
-                var endYear = int.Parse("20" + new string(items[2].Split('.')[0].Skip(2).Take(2).ToArray()));
-                var season = new FootballSeason
-                {
-                    Country = country,
-                    DivisionCode = divisionCode,
-                    StartYear = startYear,
-                    EndYear = endYear,
-                    Results = results
-                };
-
-                using (var context = new BetEventScannerContext())
-                {
-                    context.Seasons.Add(season);
-                    context.SaveChanges();
-                }
-            }
-        }
-
-        private static void TestChampionship()
-        {
-            //Func<FootballMatchResult, bool> filter = x => x.HomeOdds > 2 && x.AwayOdds > 2;
-
-            //HistoricalStatisticsProcessor.ProcessCsvFiles(new FootballDataCoUkService(), filter);
-
-            Console.ReadLine();
-
-            var simulator = new Simulator();
-            //simulator.Simulate(results);
         }
     }
 }

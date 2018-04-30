@@ -4,9 +4,9 @@ namespace BetEventScanner.Common.Contracts
 {
     public interface IMatchResult
     {
-        Team HomeTeam { get; set; }
+        FootballTeam HomeTeam { get; set; }
 
-        Team AwayTeam { get; set; }
+        FootballTeam AwayTeam { get; set; }
 
         string Result { get; set; }
 

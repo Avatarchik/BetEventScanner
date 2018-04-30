@@ -69,8 +69,9 @@
   <ItemGroup>
     <Compile Include="Contracts\IRepository.cs" />
     <Compile Include="Contracts\ISqlEntity.cs" />
+    <Compile Include="Entities\City.cs" />
+    <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\CountryDivisionSeason.cs" />
-    <Compile Include="Entities\FlatBet.cs" />
     <Compile Include="Entities\FootballMatchOdds.cs" />
     <Compile Include="Entities\FootballMatchResult.cs" />
     <Compile Include="Entities\DbEntities\BettingEntity.cs" />
@@ -96,32 +97,16 @@
     <Compile Include="Entities\DbEntities\CountryCompetitionsStatisticsDocEntity.cs" />
     <Compile Include="Entities\DbEntities\Tbet.cs" />
     <Compile Include="Entities\DbEntities\Tmatch.cs" />
-    <Compile Include="Entities\DbEntities\ToppositBet.cs" />
+    <Compile Include="Entities\FootballTeam.cs" />
     <Compile Include="Entities\Sex.cs" />
-    <Compile Include="Entities\Team.cs" />
+    <Compile Include="Entities\Stadium.cs" />
     <Compile Include="Entities\TennisPlayer.cs" />
     <Compile Include="Entities\Tresult.cs" />
     <Compile Include="EF\BetEventScannerContext.cs" />
     <Compile Include="EF\IncomingMatch.cs" />
-    <Compile Include="Migrations\201711132211196_Initial.cs" />
-    <Compile Include="Migrations\201711132211196_Initial.Designer.cs">
-      <DependentUpon>201711132211196_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711132230502_AddFlatBetResult.cs" />
-    <Compile Include="Migrations\201711132230502_AddFlatBetResult.Designer.cs">
-      <DependentUpon>201711132230502_AddFlatBetResult.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711132248522_AddSetsToFlatBetResult.cs" />
-    <Compile Include="Migrations\201711132248522_AddSetsToFlatBetResult.Designer.cs">
-      <DependentUpon>201711132248522_AddSetsToFlatBetResult.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711142200590_AddTennisPlayerTable.cs" />
-    <Compile Include="Migrations\201711142200590_AddTennisPlayerTable.Designer.cs">
-      <DependentUpon>201711142200590_AddTennisPlayerTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711142233395_SetNullableTennisPlayerDateOfBirth.cs" />
-    <Compile Include="Migrations\201711142233395_SetNullableTennisPlayerDateOfBirth.Designer.cs">
-      <DependentUpon>201711142233395_SetNullableTennisPlayerDateOfBirth.cs</DependentUpon>
+    <Compile Include="Migrations\201804272248285_Initial.cs" />
+    <Compile Include="Migrations\201804272248285_Initial.Designer.cs">
+      <DependentUpon>201804272248285_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mongo\MongoDbRepository.cs" />
@@ -129,26 +114,16 @@
     <Compile Include="Contracts\IDbProvider.cs" />
     <Compile Include="Contracts\IDocEntity.cs" />
     <Compile Include="Providers\MongoDbProvider.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711132211196_Initial.resx">
-      <DependentUpon>201711132211196_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711132230502_AddFlatBetResult.resx">
-      <DependentUpon>201711132230502_AddFlatBetResult.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711132248522_AddSetsToFlatBetResult.resx">
-      <DependentUpon>201711132248522_AddSetsToFlatBetResult.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711142200590_AddTennisPlayerTable.resx">
-      <DependentUpon>201711142200590_AddTennisPlayerTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711142233395_SetNullableTennisPlayerDateOfBirth.resx">
-      <DependentUpon>201711142233395_SetNullableTennisPlayerDateOfBirth.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201804272248285_Initial.resx">
+      <DependentUpon>201804272248285_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

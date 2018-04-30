@@ -11,7 +11,7 @@ namespace BetEventScanner.DataAccess.DataModel.DbEntities
             Id = ObjectId.GenerateNewId();
             Matches = new List<Tmatch>();
             Results = new List<Tresult>();
-            OppositBets = new List<ToppositBet>();
+            
             Money = new Money(1000m);
         }
 
@@ -23,7 +23,7 @@ namespace BetEventScanner.DataAccess.DataModel.DbEntities
 
         public ICollection<Tresult> Results { get; set; }
 
-        public ICollection<ToppositBet> OppositBets { get; set; }
+        
 
         public Money Money { get; set; }
     }

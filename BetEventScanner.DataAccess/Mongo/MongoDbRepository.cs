@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using BetEventScanner.DataAccess.Contracts;
 using BetEventScanner.DataAccess.Providers;
 
@@ -42,6 +44,56 @@ namespace BetEventScanner.DataAccess.Mongo
         }
 
         public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<T> AsQueryable()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<T> AsQueryableNotTracking()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<T> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<T>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public T GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddRange(IEnumerable<T> entities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddOrUpdate(IEntity enity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }

@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.ConsoleApp"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DataModel", "BetEventScanner.DataModel\BetEventScanner.DataModel.csproj", "{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dogon", "Dogon\Dogon.csproj", "{33C174D6-F14E-4421-9F45-0A83C56A27CC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Providers", "BetEventScanner.Providers\BetEventScanner.Providers.csproj", "{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Web", "BetEventScanner.Web\BetEventScanner.Web.csproj", "{9370BBB2-D302-48B9-A758-179C933D165E}"
@@ -39,10 +37,6 @@ Global
 		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{33C174D6-F14E-4421-9F45-0A83C56A27CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33C174D6-F14E-4421-9F45-0A83C56A27CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33C174D6-F14E-4421-9F45-0A83C56A27CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33C174D6-F14E-4421-9F45-0A83C56A27CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
