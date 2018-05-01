@@ -24,7 +24,7 @@ namespace BetEventScanner.Providers.Parimatch
             //}
         }
 
-        public static void ParseArchiveDates(ICollection<string> dates)
+        public static void LoadByDates(ICollection<string> dates)
         {
             var distinct = dates.Distinct();
             var total = distinct.ToList().Count;
@@ -44,13 +44,41 @@ namespace BetEventScanner.Providers.Parimatch
 
                 Console.WriteLine("Processing " + dt);
                 HtmlAgilityPack.HtmlWeb web = new HtmlAgilityPack.HtmlWeb();
-                web.BrowserTimeout = new TimeSpan(0,0,0);
+                web.BrowserTimeout = new TimeSpan(0, 0, 0);
                 var html = web.LoadFromBrowser($"{_baseUrl}{dt}");
                 File.WriteAllText($@"C:\BetEventScanner\Services\Parimatch\{dt}", html.ParsedText);
                 var percent = (int)Math.Round(((++processedCount) / total) * 100);
-                Console.WriteLine($"{dt}: done!, {percent}");             
+                Console.WriteLine($"{dt}: done!, {percent}");
             }
         }
+
+        public static void Parse()
+        {
+            var html = new HtmlAgilityPack.HtmlDocument();
+            html.LoadHtml(File.ReadAllText(@"C:\BetEventScanner\Services\Parimatch\archive\20160805"));
+            var nodes = html.DocumentNode.SelectNodes(@"//div[@class=""container gray""]");
+
+            foreach (var node in nodes)
+            {
+                var name = node.SelectSingleNode("h3");
+                if (name.InnerText.ToUpper() != "FOOTBALL. ENGLAND. CHAMPIONSHIP")
+                {
+                    continue;
+                }
+
+                var table = node.QuerySelector("div > table");
+                var rows = table.QuerySelectorAll("tbody:not([class^=spacer])").ToList();
+                var headers = rows[0].FirstChild.SelectNodes("th").Select(x => x.InnerText).ToList();
+                var data = rows[1].QuerySelectorAll("tr[class=bk]");
+
+
+
+            }
+
+
+        }
+
+       
     }
 
 

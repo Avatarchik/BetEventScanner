@@ -105,51 +105,52 @@ namespace BetEventScanner.ConsoleApp
                     break;
 
                 case 10:
-                    var fixtures = new FootballDataCoUkService();
+                   // var fixtures = new FootballDataCoUkService();
                     //new FootballDataCoUkService().SmartParser();
-                    var headers = new List<string> { "Date" };
-                    var matches = new FootballDataCoUkParser().GetDynamicHistoricalResults(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E1_1617.csv", headers);
+                    //var headers = new List<string> { "Date" };
+                    //var matches = new FootballDataCoUkParser().GetDynamicHistoricalResults(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E1_1617.csv", headers);
 
-                    var dates = matches.Select(x => x["Date"].ToString()).ToList();
+                    //var dates = matches.Select(x => x["Date"].ToString()).ToList();
 
-                    Providers.Parimatch.Provider.ParseArchiveDates(dates);
+                    //Providers.Parimatch.Provider.LoadByDates(dates);
+                    Providers.Parimatch.Provider.Parse();
                     return;
-                    var l = new List<string>();
-                    var uow = new UnitOfWork();
-                    foreach (var item in matches)
-                    {
-                        l.Add(item["HomeTeam"].ToString());
-                    }
+                    //var l = new List<string>();
+                    //var uow = new UnitOfWork();
+                    //foreach (var item in matches)
+                    //{
+                    //    l.Add(item["HomeTeam"].ToString());
+                    //}
 
-                    uow.Counties.Create(new Country
-                    {
-                        Name = "England",
-                        Cities = new List<City>
-                    {
-                        new City { Name = "Default" }
-                    }
-                    });
-                    var coid = uow.Commit();
+                    //uow.Counties.Create(new Country
+                    //{
+                    //    Name = "England",
+                    //    Cities = new List<City>
+                    //{
+                    //    new City { Name = "Default" }
+                    //}
+                    //});
+                    //var coid = uow.Commit();
 
-                    foreach (var item in l.Distinct())
-                    {
-                        uow.FootballTeams.Create(new FootballTeam
-                        {
-                            Name = item,
-                            Country = new Country
-                            {
-                                Name = "England"
-                            },
-                            City = new City
-                            {
-                                CountryId = 2,
-                                Name = "Undefined"
-                            }
+                    //foreach (var item in l.Distinct())
+                    //{
+                    //    uow.FootballTeams.Create(new FootballTeam
+                    //    {
+                    //        Name = item,
+                    //        Country = new Country
+                    //        {
+                    //            Name = "England"
+                    //        },
+                    //        City = new City
+                    //        {
+                    //            CountryId = 2,
+                    //            Name = "Undefined"
+                    //        }
 
-                        });
-                    }
+                    //    });
+                    //}
 
-                    uow.Commit();
+                    //uow.Commit();
 
                     break;
 
