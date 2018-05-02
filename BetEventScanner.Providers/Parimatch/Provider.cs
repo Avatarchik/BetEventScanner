@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using HtmlAgilityPack;
 
 namespace BetEventScanner.Providers.Parimatch
 {
@@ -55,7 +57,15 @@ namespace BetEventScanner.Providers.Parimatch
         public static void Parse()
         {
             var html = new HtmlAgilityPack.HtmlDocument();
-            html.LoadHtml(File.ReadAllText(@"C:\BetEventScanner\Services\Parimatch\archive\20160805"));
+
+            var filename = "20160805";
+
+            var generalInfo = new GeneralInfo
+            {
+                Year = filename.Substring(0, 4)
+            };
+
+            html.LoadHtml(File.ReadAllText($@"C:\BetEventScanner\Services\Parimatch\archive\{filename}"));
             var nodes = html.DocumentNode.SelectNodes(@"//div[@class=""container gray""]");
 
             foreach (var node in nodes)
@@ -71,16 +81,103 @@ namespace BetEventScanner.Providers.Parimatch
                 var headers = rows[0].FirstChild.SelectNodes("th").Select(x => x.InnerText).ToList();
                 var data = rows[1].QuerySelectorAll("tr[class=bk]");
 
-
+                Convert(generalInfo, headers, data[1]);
 
             }
 
 
         }
 
-       
+        private static ParimatchFootballBetEvent Convert(GeneralInfo info, IList<string> headers, HtmlNode htmlNode)
+        {
+            var res = new ParimatchFootballBetEvent();
+            var row = htmlNode.QuerySelectorAll("td").ToList();
+            for (var i = 0; i < row.Count; i++)
+            {
+                if (headers[i] == "#")
+                {
+                    continue;
+                }
+
+                switch (headers[i])
+                {
+                    case "Date":
+                        var t = row[i].InnerHtml.Split(new []{ "<br>" }, StringSplitOptions.None);
+                        var dm = t[0].Split('/');
+                        var datetime = $"{info.Year}-{dm[1]}-{dm[0]} {t[1]}";
+                        res.DateTime = DateTime.Parse(datetime);
+                        break;
+
+                    case "Event":
+                        var teams = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
+                        res.HomeTeam = teams[0];
+                        res.AwayTeam = teams[1];
+                        break;
+
+                    case "Hand.":
+                        var handicaps = row[i].QuerySelectorAll("b").Select(x=>x.InnerText).ToList();
+                        res.HomeHandicap = handicaps[0];
+                        res.AwayHandicap = handicaps[1];
+
+                        var handicapOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
+                        res.HomeHandicapOdds = handicapOdds[0];
+                        res.AwayHandicapOdds = handicapOdds[1];
+                        break;
+
+                    case "Total":
+                        res.Total = row[i].InnerText;
+                        res.TotalOver = row[++i].QuerySelector("s").InnerText;
+                        res.TotalUnder = row[++i].QuerySelector("s").InnerText;
+                        break;
+
+                    case "1":
+                        res.HomeWin = row[i].QuerySelector("s").InnerText;
+                        break;
+
+                    case "X":
+                        res.Draw = row[i].QuerySelector("s").InnerText;
+                        break;
+
+                    case "2":
+                        res.AwayWin = row[i].QuerySelector("s").InnerText;
+                        break;
+
+                    case "1X":
+                        res.HomeWinOrDraw = row[i].QuerySelector("s").InnerText;
+                        break;
+
+                    case "12":
+                        res.NoDraw = row[i].QuerySelector("s").InnerText;
+                        break;
+
+                    case "X2":
+                        res.AwayWinOrDraw = row[i].QuerySelector("s").InnerText;
+                        break;
+
+                    case "iTotal":
+                        var indTotals = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
+                        res.IndTotalHome = indTotals[0];
+                        res.IndTotalAway = indTotals[1];
+
+                        var indTotalOverOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
+                        res.IndTotalHomeOver = indTotalOverOdds[0];
+                        res.IndTotalAwayOver = indTotalOverOdds[1];
+
+                        var indTotalUnderOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
+                        res.IndTotalHomeUnder = indTotalUnderOdds[0];
+                        res.IndTotalAwayUnder = indTotalUnderOdds[1];
+                        break;
+                }
+            }
+
+            return res;
+        }
     }
 
+    public class GeneralInfo
+    {
+        public string Year { get; set; }
+    }
 
     public class ParimatchFootballBetEvent
     {
@@ -90,17 +187,19 @@ namespace BetEventScanner.Providers.Parimatch
 
         public string AwayTeam { get; set; }
 
-        public string Handicap { get; set; }
-
         public string HomeHandicap { get; set; }
+
+        public string HomeHandicapOdds { get; set; }
 
         public string AwayHandicap { get; set; }
 
+        public string AwayHandicapOdds { get; set; }
+
         public string Total { get; set; }
 
-        public string Over { get; set; }
+        public string TotalOver { get; set; }
 
-        public string Under { get; set; }
+        public string TotalUnder { get; set; }
 
         public string HomeWin { get; set; }
 
@@ -116,6 +215,14 @@ namespace BetEventScanner.Providers.Parimatch
 
         public string IndTotalHome { get; set; }
 
+        public string IndTotalHomeOver { get; set; }
+
+        public string IndTotalHomeUnder { get; set; }
+
         public string IndTotalAway { get; set; }
+
+        public string IndTotalAwayOver { get; set; }
+
+        public string IndTotalAwayUnder { get; set; }
     }
 }
