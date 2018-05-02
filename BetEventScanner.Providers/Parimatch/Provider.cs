@@ -60,6 +60,7 @@ namespace BetEventScanner.Providers.Parimatch
             foreach (var file in _baseDir.GetFiles())
             {
                 var fileName = file.Name;
+                Console.WriteLine(fileName);
                 var html = new HtmlDocument();
 
                 var generalInfo = new GeneralInfo
@@ -89,6 +90,10 @@ namespace BetEventScanner.Providers.Parimatch
                         var m = source[i];
                         var res = source[++i].QuerySelector("td > .p2r").InnerText;
                         var fbevent = ConvertRow(generalInfo, headers, m, res);
+                        if (fbevent == null)
+                        {
+                            continue;
+                        }
                         objToStore.Add(fbevent);  
                     }
 
@@ -154,27 +159,33 @@ namespace BetEventScanner.Providers.Parimatch
                         break;
 
                     case "1":
-                        res.HomeWin = row[i].QuerySelector("s").InnerText;
+                        res.HomeWin = row[i].QuerySelector("s")?.InnerText;
+                        if (res.HomeWin == null) return null;
                         break;
 
                     case "X":
-                        res.Draw = row[i].QuerySelector("s").InnerText;
+                        res.Draw = row[i].QuerySelector("s")?.InnerText;
+                        if (res.Draw == null) return null;
                         break;
 
                     case "2":
-                        res.AwayWin = row[i].QuerySelector("s").InnerText;
+                        res.AwayWin = row[i].QuerySelector("s")?.InnerText;
+                        if (res.AwayWin == null) return null;
                         break;
 
                     case "1X":
-                        res.HomeWinOrDraw = row[i].QuerySelector("s").InnerText;
+                        res.HomeWinOrDraw = row[i].QuerySelector("s")?.InnerText;
+                        if (res.HomeWinOrDraw == null) return null;
                         break;
 
                     case "12":
-                        res.NoDraw = row[i].QuerySelector("s").InnerText;
+                        res.NoDraw = row[i].QuerySelector("s")?.InnerText;
+                        if (res.NoDraw == null) return null;
                         break;
 
                     case "X2":
-                        res.AwayWinOrDraw = row[i].QuerySelector("s").InnerText;
+                        res.AwayWinOrDraw = row[i].QuerySelector("s")?.InnerText;
+                        if (res.AwayWinOrDraw == null) return null;
                         break;
 
                     case "iTotal":
