@@ -118,10 +118,6 @@
     <Compile Include="TennisAbstract\TennisAbstractService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HtmlAgilityPack.CssSelector-master\HtmlAgilityPack.CssSelector-master\HapCss\HtmlAgilityPack.CssSelectors.csproj">
-      <Project>{f5a65d54-a578-4a58-aad2-4a602c36dda7}</Project>
-      <Name>HtmlAgilityPack.CssSelectors</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BetEventScanner.Common\BetEventScanner.Common.csproj">
       <Project>{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}</Project>
       <Name>BetEventScanner.Common</Name>
@@ -133,6 +129,10 @@
     <ProjectReference Include="..\BetEventScanner.DataModel\BetEventScanner.DataModel.csproj">
       <Project>{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}</Project>
       <Name>BetEventScanner.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HtmlAgilityPack.CssSelector-master\HtmlAgilityPack.CssSelector-master\HapCss\HtmlAgilityPack.CssSelectors.csproj">
+      <Project>{f5a65d54-a578-4a58-aad2-4a602c36dda7}</Project>
+      <Name>HtmlAgilityPack.CssSelectors</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
