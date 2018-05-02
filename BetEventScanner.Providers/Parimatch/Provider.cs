@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using HtmlAgilityPack;
+using Newtonsoft.Json;
 
 namespace BetEventScanner.Providers.Parimatch
 {
@@ -56,39 +57,61 @@ namespace BetEventScanner.Providers.Parimatch
 
         public static void Parse()
         {
-            var html = new HtmlAgilityPack.HtmlDocument();
-
-            var filename = "20160805";
-
-            var generalInfo = new GeneralInfo
+            foreach (var file in _baseDir.GetFiles())
             {
-                Year = filename.Substring(0, 4)
-            };
+                var fileName = file.Name;
+                var html = new HtmlDocument();
 
-            html.LoadHtml(File.ReadAllText($@"C:\BetEventScanner\Services\Parimatch\archive\{filename}"));
-            var nodes = html.DocumentNode.SelectNodes(@"//div[@class=""container gray""]");
-
-            foreach (var node in nodes)
-            {
-                var name = node.SelectSingleNode("h3");
-                if (name.InnerText.ToUpper() != "FOOTBALL. ENGLAND. CHAMPIONSHIP")
+                var generalInfo = new GeneralInfo
                 {
-                    continue;
+                    Year = fileName.Substring(0, 4)
+                };
+
+                html.LoadHtml(File.ReadAllText($@"C:\BetEventScanner\Services\Parimatch\archive\{fileName}"));
+                var nodes = html.DocumentNode.SelectNodes(@"//div[@class=""container gray""]");
+
+                foreach (var node in nodes)
+                {
+                    var name = node.SelectSingleNode("h3");
+                    if (name.InnerText.ToUpper() != "FOOTBALL. ENGLAND. CHAMPIONSHIP")
+                    {
+                        continue;
+                    }
+
+                    var table = node.QuerySelector("table[class=dt]");
+                    var headers = table.QuerySelectorAll("tbody[class=processed] > tr > th").Select(x => x.InnerText).ToList();
+                    var rows = table.QuerySelectorAll("tbody[class^=row]").ToList();
+
+                    var source = rows[0].QuerySelectorAll("tr").Where(x => !string.IsNullOrEmpty(x.InnerText)).ToList();
+                    var objToStore = new List<ParimatchFootballBetEvent>();
+                    for (int i = 0; i < source.Count; i++)
+                    {
+                        var m = source[i];
+                        var res = source[++i].QuerySelector("td > .p2r").InnerText;
+                        var fbevent = ConvertRow(generalInfo, headers, m, res);
+                        objToStore.Add(fbevent);  
+                    }
+
+                    File.WriteAllText($@"C:\BetEventScanner\Services\Parimatch\converted\{fileName}.json", JsonConvert.SerializeObject(objToStore));
+
+                    //foreach (var r in )
+                    //{
+                    //    var data = rows[1].QuerySelectorAll("tr");
+
+                    //    //var data = rows[1].QuerySelectorAll("tr[class=bk]");
+
+                    //    ////var matchResult = null;
+
+                    //    //foreach (var dataItem in data)
+                    //    //{
+                    //    //    Convert(generalInfo, headers, data[1]);
+                    //    //}
+                    //}
                 }
-
-                var table = node.QuerySelector("div > table");
-                var rows = table.QuerySelectorAll("tbody:not([class^=spacer])").ToList();
-                var headers = rows[0].FirstChild.SelectNodes("th").Select(x => x.InnerText).ToList();
-                var data = rows[1].QuerySelectorAll("tr[class=bk]");
-
-                Convert(generalInfo, headers, data[1]);
-
             }
-
-
         }
 
-        private static ParimatchFootballBetEvent Convert(GeneralInfo info, IList<string> headers, HtmlNode htmlNode)
+        private static ParimatchFootballBetEvent ConvertRow(GeneralInfo info, List<string> headers, HtmlNode htmlNode, string result)
         {
             var res = new ParimatchFootballBetEvent();
             var row = htmlNode.QuerySelectorAll("td").ToList();
@@ -102,7 +125,7 @@ namespace BetEventScanner.Providers.Parimatch
                 switch (headers[i])
                 {
                     case "Date":
-                        var t = row[i].InnerHtml.Split(new []{ "<br>" }, StringSplitOptions.None);
+                        var t = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
                         var dm = t[0].Split('/');
                         var datetime = $"{info.Year}-{dm[1]}-{dm[0]} {t[1]}";
                         res.DateTime = DateTime.Parse(datetime);
@@ -115,7 +138,7 @@ namespace BetEventScanner.Providers.Parimatch
                         break;
 
                     case "Hand.":
-                        var handicaps = row[i].QuerySelectorAll("b").Select(x=>x.InnerText).ToList();
+                        var handicaps = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
                         res.HomeHandicap = handicaps[0];
                         res.AwayHandicap = handicaps[1];
 
@@ -169,6 +192,11 @@ namespace BetEventScanner.Providers.Parimatch
                         break;
                 }
             }
+
+            var tempRes = result.Substring(0, result.Length - 1);
+            var parsedResult = tempRes.Split('(');
+            res.FirstHalfScore = parsedResult[1];
+            res.FinalScore = parsedResult[0];
 
             return res;
         }
@@ -224,5 +252,9 @@ namespace BetEventScanner.Providers.Parimatch
         public string IndTotalAwayOver { get; set; }
 
         public string IndTotalAwayUnder { get; set; }
+
+        public string FirstHalfScore { get; set; }
+
+        public string FinalScore { get; set; }
     }
 }
