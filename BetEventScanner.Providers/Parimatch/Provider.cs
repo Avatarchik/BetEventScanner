@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
+using BetEventScanner.Providers.Parimatch.Model;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 
@@ -46,7 +46,7 @@ namespace BetEventScanner.Providers.Parimatch
                 }
 
                 Console.WriteLine("Processing " + dt);
-                HtmlAgilityPack.HtmlWeb web = new HtmlAgilityPack.HtmlWeb();
+                var web = new HtmlWeb();
                 web.BrowserTimeout = new TimeSpan(0, 0, 0);
                 var html = web.LoadFromBrowser($"{_baseUrl}{dt}");
                 File.WriteAllText($@"C:\BetEventScanner\Services\Parimatch\{dt}", html.ParsedText);
@@ -206,66 +206,19 @@ namespace BetEventScanner.Providers.Parimatch
 
             var tempRes = result.Substring(0, result.Length - 1);
             var parsedResult = tempRes.Split('(');
-            res.FirstHalfScore = parsedResult[1];
-            res.FinalScore = parsedResult[0];
+
+            if (parsedResult.Length > 1)
+            {
+                res.FirstHalfScore = parsedResult[1];
+                res.FinalScore = parsedResult[0];
+                res.ResultStatus = "ok";
+            }
+            else
+            {
+                res.ResultStatus = parsedResult[0];
+            }
 
             return res;
         }
-    }
-
-    public class GeneralInfo
-    {
-        public string Year { get; set; }
-    }
-
-    public class ParimatchFootballBetEvent
-    {
-        public DateTime DateTime { get; set; }
-
-        public string HomeTeam { get; set; }
-
-        public string AwayTeam { get; set; }
-
-        public string HomeHandicap { get; set; }
-
-        public string HomeHandicapOdds { get; set; }
-
-        public string AwayHandicap { get; set; }
-
-        public string AwayHandicapOdds { get; set; }
-
-        public string Total { get; set; }
-
-        public string TotalOver { get; set; }
-
-        public string TotalUnder { get; set; }
-
-        public string HomeWin { get; set; }
-
-        public string Draw { get; set; }
-
-        public string AwayWin { get; set; }
-
-        public string HomeWinOrDraw { get; set; }
-
-        public string NoDraw { get; set; }
-
-        public string AwayWinOrDraw { get; set; }
-
-        public string IndTotalHome { get; set; }
-
-        public string IndTotalHomeOver { get; set; }
-
-        public string IndTotalHomeUnder { get; set; }
-
-        public string IndTotalAway { get; set; }
-
-        public string IndTotalAwayOver { get; set; }
-
-        public string IndTotalAwayUnder { get; set; }
-
-        public string FirstHalfScore { get; set; }
-
-        public string FinalScore { get; set; }
     }
 }

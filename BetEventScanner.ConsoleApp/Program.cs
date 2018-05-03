@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using BetEventScanner.ConsoleApp.TheoryTesters;
-using BetEventScanner.DataAccess;
-using BetEventScanner.DataAccess.DataModel;
 using BetEventScanner.Providers.FootballDataCoUk;
 using BetEventScanner.Providers.FootballDataOrg;
 using BetEventScanner.Providers.SoccerStandCom;
@@ -94,8 +89,7 @@ namespace BetEventScanner.ConsoleApp
                     //var h = new List<string> { "Div", "Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "B365H", "B365D", "B365A" };
                     var h = new List<string> { "Date" };
                     var m = new FootballDataCoUkParser().GetDynamicHistoricalResults(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E0_1617.csv", h);
-
-
+                    
                     break;
 
                 case 6:

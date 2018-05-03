@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BetEventScanner.Providers
+namespace BetEventScanner.Providers.Contracts
 {
     public interface IFootballBetEvent
     {
