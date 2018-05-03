@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 
 // for football data
-namespace BetEventScanner.Common.ApiDataModel
+namespace BetEventScanner.Providers.FootballDataOrg.ApiDataModel
 {
     [DataContract]
     public class ApiLink

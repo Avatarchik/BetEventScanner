@@ -6,7 +6,7 @@ namespace BetEventScanner.Providers.FootballDataCoUk
 {
     public interface IFootballService
     {
-        string Name { get; }
+        SourceProvider Provider { get; }
 
         IEnumerable<FootballMatchResult> GetAllResults();
 

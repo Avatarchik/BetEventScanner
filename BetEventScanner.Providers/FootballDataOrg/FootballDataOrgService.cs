@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BetEventScanner.Common.ApiDataModel;
 using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services.Common;
 using BetEventScanner.Common.Services.FootballDataOrg;
 using BetEventScanner.Common.Services.FootballDataOrg.Model;
+using BetEventScanner.Common.Services.RestApiClient;
 using BetEventScanner.Providers.FootballDataCoUk;
+using BetEventScanner.Providers.FootballDataOrg.ApiDataModel;
 using BetEventScanner.Providers.FootballDataOrg.Model;
 
 namespace BetEventScanner.Providers.FootballDataOrg

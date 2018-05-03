@@ -1,7 +1,6 @@
 using System.Runtime.Serialization;
-using BetEventScanner.Common.ApiDataModel;
 
-namespace BetEventScanner.Common.Services.FootballDataOrg.Model
+namespace BetEventScanner.Providers.FootballDataOrg.ApiDataModel
 {
     [DataContract]
     public class CompetitionContract

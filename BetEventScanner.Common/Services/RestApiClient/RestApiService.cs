@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Runtime.Serialization.Json;
+using Newtonsoft.Json;
 
-namespace BetEventScanner.Common.Services.Common
+namespace BetEventScanner.Common.Services.RestApiClient
 {
     public class RestApiService
     {
@@ -17,6 +18,15 @@ namespace BetEventScanner.Common.Services.Common
                 var objResponse = jsonSerializer.ReadObject(response.GetResponseStream());
                 var entity = (T)objResponse;
                 return entity;
+            }
+        }
+
+        public static T GetData<T>(string url, string method = null)
+        {
+            using (var wc = new WebClient())
+            {
+                var response = wc.DownloadString(url);
+                return JsonConvert.DeserializeObject<T>(response);
             }
         }
     }

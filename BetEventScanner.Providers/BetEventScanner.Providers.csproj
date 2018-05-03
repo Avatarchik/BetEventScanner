@@ -94,7 +94,7 @@
     <Compile Include="FootballDataOrg\FootballDataApiClient.cs" />
     <Compile Include="FootballDataOrg\FootballDataOrgCountryMap.cs" />
     <Compile Include="FootballDataOrg\FootballDataOrgService.cs" />
-    <Compile Include="FootballDataOrg\Model\CompetitionContract.cs" />
+    <Compile Include="FootballDataOrg\ApiDataModel\CompetitionContract.cs" />
     <Compile Include="FootballDataOrg\Model\DivisionTeamsContract.cs" />
     <Compile Include="FootballDataOrg\Model\FixtureContract.cs" />
     <Compile Include="FootballDataOrg\Model\FixturesContract.cs" />
