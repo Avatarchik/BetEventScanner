@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using BetEventScanner.Common.Contracts;
 using BetEventScanner.Common.DataModel;
-using BetEventScanner.Common.Services.Common;
-using BetEventScanner.Common.Services.FootballDataOrg;
 using BetEventScanner.Common.Services.FootballDataOrg.Model;
 using BetEventScanner.Common.Services.RestApiClient;
 using BetEventScanner.Providers.FootballDataCoUk;
@@ -21,8 +19,7 @@ namespace BetEventScanner.Providers.FootballDataOrg
         public FootballDataOrgService()
         {
             //_globalSettings = GlobalSettingsReader.GetGlobalSettings();
-            _apiClient = new FootballDataApiClient();
-            //_dbProvider = dbProvider;
+            _apiClient = new FootballDataOrgApiClient();
         }
 
         public void Test()
@@ -41,23 +38,9 @@ namespace BetEventScanner.Providers.FootballDataOrg
             
         }
 
-        private void UpdateStatistics()
-        {
-            //var stat = new StatisticsService();
-        }
-
-        //private SeasonCompetitionsContract GetApiData()
-        //{
-        //   
-        //    var competitions = _apiClient.GetCountryCompetitionData<SeasonCompetitionsContract>();
-
-        //   
-
-        //    return competitions;
-        //}
-
-
         public string Name { get; } = "ApiFootballDataOrgService";
+
+        public SourceProvider Provider => throw new NotImplementedException();
 
         public IEnumerable<FootballMatchResult> GetAllResults()
         {

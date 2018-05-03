@@ -99,7 +99,7 @@ namespace BetEventScanner.ConsoleApp
                     break;
 
                 case 10:
-                   // var fixtures = new FootballDataCoUkService();
+                    // var fixtures = new FootballDataCoUkService();
                     //new FootballDataCoUkService().SmartParser();
                     //var headers = new List<string> { "Date" };
                     //var matches = new FootballDataCoUkParser().GetDynamicHistoricalResults(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E1_1617.csv", headers);
@@ -107,6 +107,7 @@ namespace BetEventScanner.ConsoleApp
                     //var dates = matches.Select(x => x["Date"].ToString()).ToList();
 
                     //Providers.Parimatch.Provider.LoadByDates(dates);
+                    //Providers.Parimatch.Provider.Test1();
                     Providers.Parimatch.Provider.Parse();
                     return;
                     //var l = new List<string>();

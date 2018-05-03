@@ -4,6 +4,8 @@ namespace BetEventScanner.Providers.Parimatch.Model
 {
     public class ParimatchFootballBetEvent
     {
+        public string Id { get; set; }
+
         public DateTime DateTime { get; set; }
 
         public string HomeTeam { get; set; }

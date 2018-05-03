@@ -57,6 +57,8 @@ namespace BetEventScanner.Providers.Parimatch
 
         public static void Parse()
         {
+            var fulleList = new Dictionary<string, ParimatchFootballBetEvent>();
+
             foreach (var file in _baseDir.GetFiles())
             {
                 var fileName = file.Name;
@@ -84,7 +86,6 @@ namespace BetEventScanner.Providers.Parimatch
                     var rows = table.QuerySelectorAll("tbody[class^=row]").ToList();
 
                     var source = rows[0].QuerySelectorAll("tr").Where(x => !string.IsNullOrEmpty(x.InnerText)).ToList();
-                    var objToStore = new List<ParimatchFootballBetEvent>();
                     for (int i = 0; i < source.Count; i++)
                     {
                         var m = source[i];
@@ -94,26 +95,16 @@ namespace BetEventScanner.Providers.Parimatch
                         {
                             continue;
                         }
-                        objToStore.Add(fbevent);  
+
+                        if (!fulleList.ContainsKey(fbevent.Id))
+                        {
+                            fulleList.Add(fbevent.Id, fbevent);
+                        }
                     }
-
-                    File.WriteAllText($@"C:\BetEventScanner\Services\Parimatch\converted\{fileName}.json", JsonConvert.SerializeObject(objToStore));
-
-                    //foreach (var r in )
-                    //{
-                    //    var data = rows[1].QuerySelectorAll("tr");
-
-                    //    //var data = rows[1].QuerySelectorAll("tr[class=bk]");
-
-                    //    ////var matchResult = null;
-
-                    //    //foreach (var dataItem in data)
-                    //    //{
-                    //    //    Convert(generalInfo, headers, data[1]);
-                    //    //}
-                    //}
                 }
             }
+
+            File.WriteAllText($@"C:\BetEventScanner\Services\Parimatch\converted\e1-16-17.json", JsonConvert.SerializeObject(fulleList.Values));
         }
 
         private static ParimatchFootballBetEvent ConvertRow(GeneralInfo info, List<string> headers, HtmlNode htmlNode, string result)
@@ -122,13 +113,12 @@ namespace BetEventScanner.Providers.Parimatch
             var row = htmlNode.QuerySelectorAll("td").ToList();
             for (var i = 0; i < row.Count; i++)
             {
-                if (headers[i] == "#")
-                {
-                    continue;
-                }
-
                 switch (headers[i])
                 {
+                    case "#":
+                        res.Id = row[i].InnerText;
+                        break;
+
                     case "Date":
                         var t = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
                         var dm = t[0].Split('/');
@@ -220,5 +210,13 @@ namespace BetEventScanner.Providers.Parimatch
 
             return res;
         }
+
+        public static void Test1()
+        {
+            var list = new List<ParimatchFootballBetEvent>();
+            list.AddRange(JsonConvert.DeserializeObject<List<ParimatchFootballBetEvent>>(File.ReadAllText(@"C:\BetEventScanner\Services\Parimatch\converted\e1-16-17.json")));
+            list = list.Where(x => x.ResultStatus == "ok").ToList();
+        }
+
     }
 }

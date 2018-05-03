@@ -23,6 +23,8 @@ namespace BetEventScanner.Providers.FootballDataCoUk
 
         public string Name { get; } = "FootballDataCoUk";
 
+        public SourceProvider Provider => throw new NotImplementedException();
+
         public FootballDataCoUkService()
         {
             Init();

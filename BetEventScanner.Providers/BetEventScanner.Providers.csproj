@@ -62,6 +62,10 @@
     <Compile Include="BalanceFinanceStrategy.cs" />
     <Compile Include="FootballDataCoUk\Mappings\CustomHeadersMapping.cs" />
     <Compile Include="Contracts\IBetEvent.cs" />
+    <Compile Include="FootballDataOrg\FootballDataOrgApiClient.cs" />
+    <Compile Include="FootballDataOrg\Maps\CountryDivisionIdMap.cs" />
+    <Compile Include="FootballDataOrg\Maps\CountryDivisionMap.cs" />
+    <Compile Include="FootballDataOrg\Maps\FootballDataOrgCountryMap.cs" />
     <Compile Include="Parimatch\Model\GeneralInfo.cs" />
     <Compile Include="Parimatch\Model\ParimatchFootballBetEvent.cs" />
     <Compile Include="Parimatch\Provider.cs" />
@@ -87,12 +91,8 @@
     <Compile Include="FootballDataOrg\ApiDataModel\ApiResult.cs" />
     <Compile Include="FootballDataOrg\ApiDataModel\ApiTeam.cs" />
     <Compile Include="FootballDataOrg\Converters.cs" />
-    <Compile Include="FootballDataOrg\CountryCode.cs" />
-    <Compile Include="FootballDataOrg\CountryDivisionIdMap.cs" />
-    <Compile Include="FootballDataOrg\CountryDivisionMap.cs" />
+    <Compile Include="FootballDataOrg\Model\CountryCode.cs" />
     <Compile Include="FootballDataOrg\EntitiesToStore.cs" />
-    <Compile Include="FootballDataOrg\FootballDataApiClient.cs" />
-    <Compile Include="FootballDataOrg\FootballDataOrgCountryMap.cs" />
     <Compile Include="FootballDataOrg\FootballDataOrgService.cs" />
     <Compile Include="FootballDataOrg\ApiDataModel\CompetitionContract.cs" />
     <Compile Include="FootballDataOrg\Model\DivisionTeamsContract.cs" />
