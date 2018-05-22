@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BetEventScanner.Providers</RootNamespace>
+    <AssemblyName>BetEventScanner.Providers</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.8.1.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.2.2.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MongoDB.Bson.2.2.2\lib\net45\MongoDB.Bson.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebDriver, Version=3.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.WebDriver.3.6.0\lib\net45\WebDriver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BalanceFinanceStrategy.cs" />
+    <Compile Include="FootballDataCoUk\Mappings\CustomHeadersMapping.cs" />
+    <Compile Include="Contracts\IBetEvent.cs" />
+    <Compile Include="FootballDataOrg\FootballDataOrgApiClient.cs" />
+    <Compile Include="FootballDataOrg\Maps\CountryDivisionIdMap.cs" />
+    <Compile Include="FootballDataOrg\Maps\CountryDivisionMap.cs" />
+    <Compile Include="FootballDataOrg\Maps\FootballDataOrgCountryMap.cs" />
+    <Compile Include="Parimatch\Model\GeneralInfo.cs" />
+    <Compile Include="Parimatch\Model\ParimatchFootballBetEvent.cs" />
+    <Compile Include="Parimatch\Provider.cs" />
+    <Compile Include="SourceProvider.cs" />
+    <Compile Include="Contracts\IStorage.cs" />
+    <Compile Include="Contracts\IDataSource.cs" />
+    <Compile Include="Contracts\IParserStorage.cs" />
+    <Compile Include="FootballDataCoUk\DataSourceFootballData.cs" />
+    <Compile Include="FootballDataCoUk\FootballDataCoUkParser.cs" />
+    <Compile Include="FootballDataCoUk\FootballDataCoUkService.cs" />
+    <Compile Include="FootballDataCoUk\FootballMatchResult.cs" />
+    <Compile Include="FootballDataCoUk\IFootballService.cs" />
+    <Compile Include="FootballDataCoUk\Mappings\FootballDataCoUkFixtureMapping.cs" />
+    <Compile Include="FootballDataCoUk\Mappings\FootballDataCoUkHistoricalMapping.cs" />
+    <Compile Include="FootballDataCoUk\Model\FixtureMatch.cs" />
+    <Compile Include="FootballDataCoUk\Model\HistoricalMatch.cs" />
+    <Compile Include="FootballDataCoUk\Model\Status.cs" />
+    <Compile Include="FootballDataOrg\ApiDataModel\ApiCountryTeams.cs" />
+    <Compile Include="FootballDataOrg\ApiDataModel\ApiLink.cs" />
+    <Compile Include="FootballDataOrg\ApiDataModel\ApiLinks.cs" />
+    <Compile Include="FootballDataOrg\ApiDataModel\ApiMatch.cs" />
+    <Compile Include="FootballDataOrg\ApiDataModel\ApiMatches.cs" />
+    <Compile Include="FootballDataOrg\ApiDataModel\ApiResult.cs" />
+    <Compile Include="FootballDataOrg\ApiDataModel\ApiTeam.cs" />
+    <Compile Include="FootballDataOrg\Converters.cs" />
+    <Compile Include="FootballDataOrg\Model\CountryCode.cs" />
+    <Compile Include="FootballDataOrg\EntitiesToStore.cs" />
+    <Compile Include="FootballDataOrg\FootballDataOrgService.cs" />
+    <Compile Include="FootballDataOrg\ApiDataModel\CompetitionContract.cs" />
+    <Compile Include="FootballDataOrg\Model\DivisionTeamsContract.cs" />
+    <Compile Include="FootballDataOrg\Model\FixtureContract.cs" />
+    <Compile Include="FootballDataOrg\Model\FixturesContract.cs" />
+    <Compile Include="FootballDataOrg\Model\LinkContract.cs" />
+    <Compile Include="FootballDataOrg\Model\LinkValueContract.cs" />
+    <Compile Include="FootballDataOrg\Model\MatchResultContract.cs" />
+    <Compile Include="FootballDataOrg\Model\OddsContract.cs" />
+    <Compile Include="FootballDataOrg\Model\SeasonCompetitionsContract.cs" />
+    <Compile Include="FootballDataOrg\Model\StandingContract.cs" />
+    <Compile Include="FootballDataOrg\Model\TeamContract.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoccerStandCom\Model\SoccerstandData.cs" />
+    <Compile Include="SoccerStandCom\Model\SoccerStandMatch.cs" />
+    <Compile Include="SoccerStandCom\Model\SoccerstandMatchType.cs" />
+    <Compile Include="SoccerStandCom\ParseSettings.cs" />
+    <Compile Include="SoccerStandCom\SoccerStandMatchConverter.cs" />
+    <Compile Include="SoccerStandCom\SoccerStandParser.cs" />
+    <Compile Include="SoccerStandCom\SoccerstandStorage.cs" />
+    <Compile Include="StringHelper.cs" />
+    <Compile Include="TennisAbstract\DataSource\TennisAbstractParser.cs" />
+    <Compile Include="TennisAbstract\DataSource\TennisAbstractPlayerMapping.cs" />
+    <Compile Include="TennisAbstract\Model\AtpPlayer.cs" />
+    <Compile Include="TennisAbstract\TennisAbstractService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BetEventScanner.Common\BetEventScanner.Common.csproj">
+      <Project>{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}</Project>
+      <Name>BetEventScanner.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BetEventScanner.DataAccess\BetEventScanner.DataAccess.csproj">
+      <Project>{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}</Project>
+      <Name>BetEventScanner.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BetEventScanner.DataModel\BetEventScanner.DataModel.csproj">
+      <Project>{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}</Project>
+      <Name>BetEventScanner.DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HtmlAgilityPack.CssSelector-master\HtmlAgilityPack.CssSelector-master\HapCss\HtmlAgilityPack.CssSelectors.csproj">
+      <Project>{f5a65d54-a578-4a58-aad2-4a602c36dda7}</Project>
+      <Name>HtmlAgilityPack.CssSelectors</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

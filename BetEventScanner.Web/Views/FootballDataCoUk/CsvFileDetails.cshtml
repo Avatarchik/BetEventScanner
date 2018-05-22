@@ -1,0 +1,23 @@
+﻿@model BetEventScanner.Web.ViewModels.CsvFileViewModel
+
+<table class="table table-striped table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            @foreach (var header in Model.Headers)
+            {
+                <th>@header</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var match in Model.JsonMathes)
+        {
+            <tr>
+                @foreach (var header in Model.Headers)
+                {
+                    <td>@match[header]</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>

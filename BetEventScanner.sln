@@ -1,0 +1,71 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DataAccess", "BetEventScanner.DataAccess\BetEventScanner.DataAccess.csproj", "{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Common", "BetEventScanner.Common\BetEventScanner.Common.csproj", "{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.ConsoleApp", "BetEventScanner.ConsoleApp\BetEventScanner.ConsoleApp.csproj", "{0674882F-3FE1-4011-AE85-43EA0D73C163}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DataModel", "BetEventScanner.DataModel\BetEventScanner.DataModel.csproj", "{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Providers", "BetEventScanner.Providers\BetEventScanner.Providers.csproj", "{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Web", "BetEventScanner.Web\BetEventScanner.Web.csproj", "{9370BBB2-D302-48B9-A758-179C933D165E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlAgilityPack.CssSelectors", "HtmlAgilityPack.CssSelector-master\HtmlAgilityPack.CssSelector-master\HapCss\HtmlAgilityPack.CssSelectors.csproj", "{F5A65D54-A578-4A58-AAD2-4A602C36DDA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DogonWeb", "BetEventScanner.DogonWeb\BetEventScanner.DogonWeb.csproj", "{8C72608A-8B21-41B4-9D98-F42370CF750C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37D64B7D-9BC4-42A5-80AC-A0808DFFFD6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0674882F-3FE1-4011-AE85-43EA0D73C163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9370BBB2-D302-48B9-A758-179C933D165E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9370BBB2-D302-48B9-A758-179C933D165E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9370BBB2-D302-48B9-A758-179C933D165E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9370BBB2-D302-48B9-A758-179C933D165E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5A65D54-A578-4A58-AAD2-4A602C36DDA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5A65D54-A578-4A58-AAD2-4A602C36DDA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5A65D54-A578-4A58-AAD2-4A602C36DDA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5A65D54-A578-4A58-AAD2-4A602C36DDA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C72608A-8B21-41B4-9D98-F42370CF750C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C72608A-8B21-41B4-9D98-F42370CF750C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C72608A-8B21-41B4-9D98-F42370CF750C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C72608A-8B21-41B4-9D98-F42370CF750C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3006F77-D520-4AE4-8B6B-08213F6FB247}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+EndGlobal

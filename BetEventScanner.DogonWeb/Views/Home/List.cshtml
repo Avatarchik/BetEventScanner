@@ -1,0 +1,50 @@
+﻿@model BetEventScanner.DogonWeb.Models.BetInfoListDto
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+
+
+@(Html.Kendo().Grid<BetEventScanner.DogonWeb.Models.BetInfoListDto>()
+            .Name("grid")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.FirstPlayer);
+                columns.Bound(c => c.SecondPlayer);
+                columns.Bound(c => c.FavoritePlayer);
+                columns.Bound(c => c.FLine);
+                columns.Bound(c => c.SLine);
+                columns.Bound(c => c.TLine);
+                columns.Bound(c => c.WinLine);
+                columns.Command(command => { command.Edit(); }).Width(172);
+            })
+            .Scrollable()
+            .Sortable()
+             .Pageable(pageable => pageable
+                .Refresh(true)
+                .PageSizes(true)
+                .ButtonCount(5))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("ReadBetList", "Home"))
+                .Model(model =>
+                {
+                    model.Id(p => p.Id);
+                    model.Field(p => p.FirstPlayer).Editable(false);
+                    model.Field(p => p.SecondPlayer).Editable(false);
+                    model.Field(p => p.FavoritePlayer).Editable(false);
+                    model.Field(p => p.FLine).Editable(false);
+                    model.Field(p => p.SLine).Editable(false);
+                    model.Field(p => p.TLine).Editable(false);
+
+                    model.Field(p => p.WinLine).Editable(true);
+                })
+                .Update(update => update.Action("EditingInline_Update", "Grid"))
+                .PageSize(20)
+            )
+
+
+)

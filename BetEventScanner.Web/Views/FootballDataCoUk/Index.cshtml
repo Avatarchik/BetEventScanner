@@ -1,0 +1,24 @@
+﻿@model ICollection<string>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>http://football-data.co.uk service</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">File</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var file in Model.OrderBy(x => x))
+        {
+            <tr>
+                <th scope="row">@Html.ActionLink(file, "CsvFileHeaders", "FootballDataCoUk", new { fileName = file }, null)</th>
+            </tr>
+        }
+    </tbody>
+</table>
+
