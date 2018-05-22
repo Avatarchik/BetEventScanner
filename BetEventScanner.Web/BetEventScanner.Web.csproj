@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -26,6 +27,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -200,6 +202,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FootballDataOrgController.cs" />
     <Compile Include="ViewModels\CsvFileViewModel.cs" />
     <Compile Include="Controllers\FootballDataCoUkController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -214,6 +217,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\app.component.html" />
+    <Content Include="app\home\competition-page\competition-page.component.html" />
+    <Content Include="app\home\competitions-panel\competitions-panel.component.html" />
+    <Content Include="app\home\fixture-line\fixture-line.component.html" />
+    <Content Include="app\home\home-page\home-page.component.html" />
+    <Content Include="app\home\league-table\league-table.component.html" />
+    <Content Include="app\home\main-layout\main-layout.component.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -225,6 +235,15 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="package.json" />
+    <Content Include="app\app.component.scss" />
+    <Content Include="app\home\competition-page\competition-page.component.scss" />
+    <Content Include="app\home\competitions-panel\competitions-panel.component.scss" />
+    <Content Include="app\home\fixture-line\fixture-line.component.scss" />
+    <Content Include="app\home\home-page\home-page.component.scss" />
+    <Content Include="app\home\league-table\league-table.component.scss" />
+    <Content Include="app\home\main-layout\main-layout.component.scss" />
+    <Content Include="app\_config.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -238,6 +257,8 @@
     <Content Include="Scripts\ms\bootstrap-multiselect.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="systemjs-angular-loader.js" />
+    <Content Include="systemjs.config.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -275,6 +296,8 @@
     <Content Include="Views\FootballDataCoUk\Index.cshtml" />
     <Content Include="Views\FootballDataCoUk\CsvFileHeaders.cshtml" />
     <Content Include="Views\FootballDataCoUk\CsvFileDetails.cshtml" />
+    <Content Include="Views\FootballDataOrg\Index.cshtml" />
+    <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -302,11 +325,44 @@
       <Name>BetEventScanner.Providers</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app\app.component.spec.ts" />
+    <TypeScriptCompile Include="app\app.component.ts" />
+    <TypeScriptCompile Include="app\app.module.ts" />
+    <TypeScriptCompile Include="app\app.routing.ts" />
+    <TypeScriptCompile Include="app\core\actions\data.actions.ts" />
+    <TypeScriptCompile Include="app\core\actions\data.state.ts" />
+    <TypeScriptCompile Include="app\core\core.module.ts" />
+    <TypeScriptCompile Include="app\core\models\competition.model.ts" />
+    <TypeScriptCompile Include="app\core\models\fixture.model.ts" />
+    <TypeScriptCompile Include="app\core\models\table.model.ts" />
+    <TypeScriptCompile Include="app\core\responsive.service.ts" />
+    <TypeScriptCompile Include="app\core\store.service.ts" />
+    <TypeScriptCompile Include="app\home\competition-page\competition-page.component.ts" />
+    <TypeScriptCompile Include="app\home\competitions-panel\competitions-panel.component.ts" />
+    <TypeScriptCompile Include="app\home\fetch-competitions.resolver.ts" />
+    <TypeScriptCompile Include="app\home\fetch-fixtures.resolver.ts" />
+    <TypeScriptCompile Include="app\home\fetch-table.resolver.ts" />
+    <TypeScriptCompile Include="app\home\fixture-line\fixture-line.component.ts" />
+    <TypeScriptCompile Include="app\home\home-page\home-page.component.ts" />
+    <TypeScriptCompile Include="app\home\home.module.ts" />
+    <TypeScriptCompile Include="app\home\home.routing.ts" />
+    <TypeScriptCompile Include="app\home\league-table\league-table.component.ts" />
+    <TypeScriptCompile Include="app\home\main-layout\main-layout.component.ts" />
+    <TypeScriptCompile Include="app\home\match-date.pipe.ts" />
+    <TypeScriptCompile Include="app\home\match-time.pipe.ts" />
+    <TypeScriptCompile Include="app\index.ts" />
+    <TypeScriptCompile Include="app\main.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

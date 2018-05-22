@@ -2,9 +2,11 @@
 
 namespace BetEventScanner.Providers.Parimatch.Model
 {
-    public class ParimatchFootballBetEvent
+    public class ParimatchFootballBetEvent : BetEventBase, IParimatchEvent
     {
-        public string Id { get; set; }
+        public string ParimatchId { get; set; }
+
+        public string MatchId { get; set; }
 
         public DateTime DateTime { get; set; }
 
@@ -19,12 +21,6 @@ namespace BetEventScanner.Providers.Parimatch.Model
         public string AwayHandicap { get; set; }
 
         public string AwayHandicapOdds { get; set; }
-
-        public string Total { get; set; }
-
-        public string TotalOver { get; set; }
-
-        public string TotalUnder { get; set; }
 
         public string HomeWin { get; set; }
 

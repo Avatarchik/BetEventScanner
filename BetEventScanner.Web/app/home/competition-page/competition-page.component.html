@@ -1,0 +1,31 @@
+<h1 class="caption">{{ (competition$ | async).caption }}</h1>
+<div class="responsive-tabs">
+  <div class="tab" (click)="responsiveTab = '-fixtures'" [class.-active]="responsiveTab == '-fixtures'">Fixtures</div>
+  <div class="tab" (click)="responsiveTab = '-table'" [class.-active]="responsiveTab == '-table'">Table</div>
+</div>
+<div class="page">
+  <div class="fixtures" [class.-active]="responsiveTab == '-fixtures'">
+    <div class="head">
+      <div class="prev" (click)="prevTour()">Prev</div>
+      <div class="title">Tour {{ nextTour$ | async }}</div>
+      <div class="next" (click)="nextTour()">Next</div>
+    </div>
+    <div class="lines" [@change]="linesChange$ | async">
+      <home-fixture-line
+          class="fixture" [class.-highlight]="isFixtureHighlighted(fixture)"
+          *ngFor="let fixture of fixtures$ | async" [fixture]="fixture"
+          (mouseenter)="fixtureHover$.next([fixture.homeTeamName, fixture.awayTeamName])"
+          (mouseleave)="fixtureHover$.next([])"
+      >
+      </home-fixture-line>
+    </div>
+  </div>
+  <div class="table" [class.-active]="responsiveTab == '-table'">
+    <div class="head">Table</div>
+    <home-league-table
+        class="standings" [table]="table$ | async"
+        [highlight]="fixtureHover$ | async"
+        (teamHover)="fixtureHover$.next($event)"
+    ></home-league-table>
+  </div>
+</div>

@@ -2,6 +2,6 @@
 {
     public interface IApiClient
     {
-        T GetCountryCompetition<T>();
+        T GetCountryCompetition<T>(int year);
     }
 }

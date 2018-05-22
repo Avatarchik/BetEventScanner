@@ -24,11 +24,11 @@ namespace BetEventScanner.Providers.FootballDataOrg
 
         public void Test()
         {
-            var seasons = _apiClient.GetCountryCompetition<SeasonCompetitionsContract>();
+            var seasons = _apiClient.GetCountryCompetition<SeasonCompetitionsContractNew>(2018);
 
-            ApiLink fixtureLink = seasons.ToList().First(z => z.Code == "ELC").ApiLinks.Fixtures;
+            //ApiLink fixtureLink = seasons.ToList().First(z => z.Code == "ELC").ApiLinks.Fixtures;
 
-            var fixture = RestApiService.GetData<FixturesContract>(fixtureLink.Href);
+            //var fixture = RestApiService.GetData<FixturesContract>(fixtureLink.Href);
         }
 
         private void UpdateCompetitions()

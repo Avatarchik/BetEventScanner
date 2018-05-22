@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BetEventScanner.Common.Services.FootbalDataCoUk;
-using BetEventScanner.DataAccess.EF;
 using BetEventScanner.Providers.FootballDataCoUk;
 using FootballMatchResult = BetEventScanner.DataModel.Model.FootballMatchResult;
 

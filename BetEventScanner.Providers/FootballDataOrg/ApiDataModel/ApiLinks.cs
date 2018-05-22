@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.Runtime.Serialization;
 
 // for football data
@@ -23,5 +24,20 @@ namespace BetEventScanner.Providers.FootballDataOrg.ApiDataModel
 
         [DataMember(Name = "players")]
         public ApiLink Players { get; set; }
+    }
+
+    public class ApiLinksTest
+    {
+        [JsonProperty("self")]
+        public string Self { get; set; }
+
+        [JsonProperty("soccerseason")]
+        public string Soccerseason { get; set; }
+
+        [DataMember(Name = "teams")]
+        public string Teams { get; set; }
+
+        [DataMember(Name = "fixtures")]
+        public string Fixtures { get; set; }
     }
 }

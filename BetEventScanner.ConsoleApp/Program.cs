@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using BetEventScanner.Providers.FootballDataCoUk;
 using BetEventScanner.Providers.FootballDataOrg;
+using BetEventScanner.Providers.FootballDataOrg.Model;
 using BetEventScanner.Providers.SoccerStandCom;
+using Newtonsoft.Json;
 
 namespace BetEventScanner.ConsoleApp
 {
@@ -69,9 +72,6 @@ namespace BetEventScanner.ConsoleApp
                     new FootballDataOrgService().Test();
                     break;
 
-                case 2:
-                    break;
-
                 case 3:
                     var parser1 = new SoccerStandParser(null, null);
                     parser1.UpdateMatchDetails();
@@ -92,23 +92,26 @@ namespace BetEventScanner.ConsoleApp
                     
                     break;
 
-                case 6:
-                    break;
-
-                case 7:
-                    break;
-
                 case 10:
-                    // var fixtures = new FootballDataCoUkService();
-                    //new FootballDataCoUkService().SmartParser();
+
+                    new Providers.Parimatch.ParimatchProvider(new Providers.Parimatch.ParimatchSettings()).ParseAllTennsis();
+                    return;
+                    //var fixtures = new FootballDataCoUkService();
                     //var headers = new List<string> { "Date" };
                     //var matches = new FootballDataCoUkParser().GetDynamicHistoricalResults(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E1_1617.csv", headers);
-
                     //var dates = matches.Select(x => x["Date"].ToString()).ToList();
+                    var dates = new List<DateTime>();
+                    var st = new DateTime(2016, 1, 1);
+                    dates.Add(st);
+                    for (int i = 0; i < 365; i++)
+                    {
+                        st = st.AddDays(1);
+                        dates.Add(st.AddDays(1));
+                    }
 
-                    //Providers.Parimatch.Provider.LoadByDates(dates);
+                    new Providers.Parimatch.ParimatchProvider(new Providers.Parimatch.ParimatchSettings()).LoadByDates(dates);
                     //Providers.Parimatch.Provider.Test1();
-                    Providers.Parimatch.Provider.Parse();
+                    //new Providers.Parimatch.Provider(new Providers.Parimatch.ParimatchSettings()).Parse(new Providers.Parimatch.ParseSettings { CountryDivision = "FOOTBALL. ENGLAND. CHAMPIONSHIP" });
                     return;
                     //var l = new List<string>();
                     //var uow = new UnitOfWork();
@@ -151,6 +154,11 @@ namespace BetEventScanner.ConsoleApp
 
                 case 11:
                     new FixturesService().UpdateIncomingMatches();
+                    break;
+
+                case 13:
+                    var json = File.ReadAllText(@"C:\BetEventScanner\response_example.json");
+                    var model = JsonConvert.DeserializeObject<CompetitionNew[]>(json);
                     break;
 
                 default:

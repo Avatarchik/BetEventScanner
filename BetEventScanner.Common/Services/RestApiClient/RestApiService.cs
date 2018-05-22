@@ -25,6 +25,7 @@ namespace BetEventScanner.Common.Services.RestApiClient
         {
             using (var wc = new WebClient())
             {
+                wc.Headers.Add("X-Auth-Token", "3dfb6fb9ec0848989f9f2c9b2a6043a5");
                 var response = wc.DownloadString(url);
                 return JsonConvert.DeserializeObject<T>(response);
             }

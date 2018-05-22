@@ -1,0 +1,75 @@
+@import "../../_config.scss";
+
+:host {
+  background: $darkBg;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, .1);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 8px 0;
+}
+
+.competitions {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.competition {
+  color: #ffffff;
+  padding: 8px 16px;
+  &.-active {
+    background: darken($darkBg, 4%);
+  }
+  &:hover {
+    background: $linkHover;
+    color: #ffffff;
+  }
+}
+
+.footer {
+  font-size: 0.8rem;
+  line-height: 1.5rem;
+  padding: 8px 16px;
+  text-align: center;
+  a {
+    color: $linkHover;
+  }
+}
+
+.toggle {
+  display: none;
+}
+
+@media (max-width: $tabletWidth) {
+  :host {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+  }
+  .toggle {
+    background: $darkBg;
+    box-sizing: border-box;
+    display: block;
+    height: $responsiveHeadHeight;
+    padding: 14px;
+    position: absolute;
+    right: -$responsiveHeadHeight;
+    top: 0;
+    width: $responsiveHeadHeight;
+    svg {
+      fill: #ffffff;
+    }
+  }
+}
+
+@media (max-width: $mobileWidth) {
+  .toggle {
+    height: $responsiveHeadXsHeight;
+    padding: 6px;
+    right: -$responsiveHeadXsHeight;
+    width: $responsiveHeadXsHeight;
+  }
+}

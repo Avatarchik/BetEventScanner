@@ -18,11 +18,10 @@ namespace BetEventScanner.Providers.FootballDataOrg
         //    _countryMap = countryMap;
         //}
 
-        public T GetCountryCompetition<T>()
+        public T GetCountryCompetition<T>(int year)
         {
-            var year = DateTime.Now.Year;
             var url = string.Concat("http://api.football-data.org/v1/", $"competitions/?season={year}");
-            var currentCompetitions = RestApiService.GetData<T>(url);
+            var currentCompetitions = RestApiService.GetData<T>(url, "get");
             return currentCompetitions;
         }
     }
