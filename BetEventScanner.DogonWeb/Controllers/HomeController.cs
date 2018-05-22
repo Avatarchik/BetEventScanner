@@ -66,5 +66,15 @@ namespace BetEventScanner.DogonWeb.Controllers
             var betsList = _tennisService.GetBetsList();
             return Json(betsList.ToDataSourceResult(request));
         }
+
+        public ActionResult UpdateBet([DataSourceRequest] DataSourceRequest request, BetInfoListDto betInfoListDto)
+        {
+            if (betInfoListDto != null && ModelState.IsValid)
+            {
+                _tennisService.UpdateBet(betInfoListDto);
+            }
+
+            return Json(new[] { betInfoListDto }.ToDataSourceResult(request, ModelState));
+        }
     }
 }

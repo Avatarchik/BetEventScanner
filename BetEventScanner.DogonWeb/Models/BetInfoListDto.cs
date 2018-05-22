@@ -20,6 +20,6 @@ namespace BetEventScanner.DogonWeb.Models
 
         public string TLine { get; set; }
 
-        public string WinLine { get; set; }
+        public int WinLine { get; set; }
     }
 }

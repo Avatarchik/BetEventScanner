@@ -1,4 +1,5 @@
 ﻿using BetEventScanner.DataAccess;
+using BetEventScanner.DogonWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace BetEventScanner.DogonWeb.Services
         public CalculateService(IDefaultUnitOfWork uow)
         {
             _uow = uow;
+        }
+
+        public CalculatedBets CalculateBets(BetInfoDto betInfo)
+        {
+            return new CalculatedBets();
         }
 
         public decimal CalculateBet(decimal currentCoef, int lineNumber)

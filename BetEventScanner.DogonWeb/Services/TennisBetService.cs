@@ -27,6 +27,7 @@ namespace BetEventScanner.DogonWeb.Services
                 .Select(s => new BetInfoListDto
                 {
                     Id = s.Id,
+                    WinLine = s.WinnerLine,
                     FavoritePlayer = s.FavoritePlayer,
                     FirstPlayer = s.FirstPlayer,
                     SecondPlayer = s.SecondPlayer,
@@ -42,6 +43,9 @@ namespace BetEventScanner.DogonWeb.Services
 
         public bool ProcessBetLine(BetInfoDto betInfoDto)
         {
+
+            //var calculatedBets = 
+
             var lines = new List<Line>();
             if (!betInfoDto.ManualBet)
             {
@@ -62,6 +66,43 @@ namespace BetEventScanner.DogonWeb.Services
             _uow.Commit();
 
             return true;
+        }
+
+        public bool UpdateBet(BetInfoListDto betInfoListDto)
+        {
+            try
+            {
+                var currentBetInfo = _uow.BetInfoes.AsQueryable()
+                    .Include(i => i.Lines)
+                    .FirstOrDefault(x => x.Id == betInfoListDto.Id);
+
+                if (currentBetInfo == null) return false;
+
+                currentBetInfo.WinnerLine = betInfoListDto.WinLine;
+
+                foreach(var line in currentBetInfo.Lines)
+                {
+                    if (line.LineNumber == betInfoListDto.WinLine)
+                    {
+                        line.Score = line.Coefficient * line.Bet;
+                    }
+                }
+
+                //var winLine = currentBetInfo.Lines.First(x => x.LineNumber == betInfoListDto.WinLine);
+                //winLine.Score = winLine.Coefficient * winLine.Bet;
+
+                //currentBetInfo.Lines
+
+                _uow.BetInfoes.Update(currentBetInfo);
+                _uow.Commit();
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            return true;
+               
         }
 
         private Line CalculateDefaultBets(decimal coef, int lineNumber)

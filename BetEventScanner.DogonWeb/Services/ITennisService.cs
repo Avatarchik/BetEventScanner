@@ -12,5 +12,7 @@ namespace BetEventScanner.DogonWeb.Services
         bool ProcessBetLine(BetInfoDto betInfoDto);
 
         IEnumerable<BetInfoListDto> GetBetsList();
+
+        bool UpdateBet(BetInfoListDto betInfoListDto);
     }
 }
