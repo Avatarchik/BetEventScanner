@@ -14,10 +14,12 @@ namespace BetEventScanner.DogonWeb.Services
     {
         private readonly string DefaultBets = ConfigurationManager.AppSettings["DefaultBets"];
         private readonly IDefaultUnitOfWork _uow;
+        private readonly ICalculateService _calculateService;
 
-        public TennisBetService(IDefaultUnitOfWork uow)
+        public TennisBetService(IDefaultUnitOfWork uow, ICalculateService calculateService)
         {
             _uow = uow;
+            _calculateService = calculateService;
         }
 
         public IEnumerable<BetInfoListDto> GetBetsList()
@@ -33,7 +35,10 @@ namespace BetEventScanner.DogonWeb.Services
                     SecondPlayer = s.SecondPlayer,
                     FLine = s.Lines.FirstOrDefault(x => x.LineNumber == 1).Coefficient.ToString() ?? string.Empty,
                     SLine = s.Lines.FirstOrDefault(x => x.LineNumber == 2).Coefficient.ToString() ?? string.Empty,
-                    TLine = s.Lines.FirstOrDefault(x => x.LineNumber == 3).Coefficient.ToString() ?? string.Empty
+                    TLine = s.Lines.FirstOrDefault(x => x.LineNumber == 3).Coefficient.ToString() ?? string.Empty,
+                    FBet = s.Lines.FirstOrDefault(x => x.LineNumber == 1).Bet,
+                    SBet = s.Lines.FirstOrDefault(x => x.LineNumber == 2).Bet,
+                    TBet = s.Lines.FirstOrDefault(x => x.LineNumber == 3).Bet,
                 }).ToList();
 
             return betsList;
@@ -41,10 +46,15 @@ namespace BetEventScanner.DogonWeb.Services
 
         }
 
-        public bool ProcessBetLine(BetInfoDto betInfoDto)
+        public PredictBetDto ProcessBetLine(BetInfoDto betInfoDto)
         {
 
-            //var calculatedBets = 
+            //predict bet id any lines exists
+            var calculatedBets = _calculateService.CalculateBets(betInfoDto);
+            if (calculatedBets != null)
+            {
+                return calculatedBets;
+            }
 
             var lines = new List<Line>();
             if (!betInfoDto.ManualBet)
@@ -65,7 +75,7 @@ namespace BetEventScanner.DogonWeb.Services
             _uow.BetInfoes.Create(betInfo);
             _uow.Commit();
 
-            return true;
+            return null;
         }
 
         public bool UpdateBet(BetInfoListDto betInfoListDto)

@@ -9,7 +9,7 @@ namespace BetEventScanner.DogonWeb.Services
 {
     public interface ITennisService
     {
-        bool ProcessBetLine(BetInfoDto betInfoDto);
+        PredictBetDto ProcessBetLine(BetInfoDto betInfoDto);
 
         IEnumerable<BetInfoListDto> GetBetsList();
 

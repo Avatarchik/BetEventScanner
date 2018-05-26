@@ -12,13 +12,16 @@
             .Name("grid")
             .Columns(columns =>
             {
-                columns.Bound(c => c.FirstPlayer);
-                columns.Bound(c => c.SecondPlayer);
-                columns.Bound(c => c.FavoritePlayer);
-                columns.Bound(c => c.FLine);
-                columns.Bound(c => c.SLine);
-                columns.Bound(c => c.TLine);
-                columns.Bound(c => c.WinLine);
+                columns.Bound(c => c.FirstPlayer).Width(150);
+                columns.Bound(c => c.SecondPlayer).Width(150);
+                columns.Bound(c => c.FavoritePlayer).Width(100);
+                columns.Bound(c => c.FLine).Width(50);
+                columns.Bound(c => c.FBet).Width(50);
+                columns.Bound(c => c.SLine).Width(50);
+                columns.Bound(c => c.SBet).Width(50);
+                columns.Bound(c => c.TLine).Width(50);
+                columns.Bound(c => c.TBet).Width(50);
+                columns.Bound(c => c.WinLine).Width(70);
                 columns.Command(command => { command.Edit(); }).Width(172);
             })
             .Scrollable()
@@ -39,6 +42,9 @@
                     model.Field(p => p.FLine).Editable(false);
                     model.Field(p => p.SLine).Editable(false);
                     model.Field(p => p.TLine).Editable(false);
+                    model.Field(p => p.FBet).Editable(false);
+                    model.Field(p => p.SBet).Editable(false);
+                    model.Field(p => p.TBet).Editable(false);
 
                     model.Field(p => p.WinLine).Editable(true);
                 })

@@ -17,7 +17,7 @@ namespace BetEventScanner.DogonWeb.Controllers
         private ICalculateService _calculateService;
         public HomeController()
         {
-            _tennisService = new TennisBetService(new UnitOfWork());
+            _tennisService = new TennisBetService(new UnitOfWork(), new CalculateService(new UnitOfWork()));
             _calculateService = new CalculateService(new UnitOfWork());
         }
 
@@ -52,7 +52,8 @@ namespace BetEventScanner.DogonWeb.Controllers
         {
 
             var result = _tennisService.ProcessBetLine(betInfo);
-            return Json(new { isr = "ds" });
+
+            return Json(new { data = result });
         }
 
         public ActionResult List()

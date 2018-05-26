@@ -16,9 +16,15 @@ namespace BetEventScanner.DogonWeb.Models
 
         public string FLine { get; set; }
 
+        public decimal FBet { get; set; }
+
         public string SLine { get; set; }
 
+        public decimal SBet { get; set; }
+
         public string TLine { get; set; }
+
+        public decimal TBet { get; set; }
 
         public int WinLine { get; set; }
     }
