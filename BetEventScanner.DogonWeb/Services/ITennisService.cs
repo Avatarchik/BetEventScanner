@@ -14,5 +14,9 @@ namespace BetEventScanner.DogonWeb.Services
         IEnumerable<BetInfoListDto> GetBetsList();
 
         bool UpdateBet(BetInfoListDto betInfoListDto);
+
+        bool CreateCalculatedBet(BetInfoDto betInfoDto);
+
+        bool SaveCalculatedBet(BetInfoDto betInfo);
     }
 }

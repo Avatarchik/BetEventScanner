@@ -4,7 +4,7 @@
     ViewBag.Title = "List";
 }
 
-<h2>List</h2>
+<h2>Bets list</h2>
 
 
 
@@ -26,6 +26,7 @@
             })
             .Scrollable()
             .Sortable()
+            .HtmlAttributes(new { style = "height:450px;" })
              .Pageable(pageable => pageable
                 .Refresh(true)
                 .PageSizes(true)

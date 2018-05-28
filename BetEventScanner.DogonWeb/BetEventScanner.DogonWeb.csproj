@@ -1725,7 +1725,9 @@
     <Content Include="Scripts\kendo\2018.2.516\cultures\kendo.culture.en-ZA.min.js" />
     <Content Include="Scripts\kendo\2018.2.516\cultures\kendo.culture.en-ZM.min.js" />
     <Content Include="Scripts\kendo\2018.2.516\cultures\kendo.culture.en-ZW.min.js" />
-    <Content Include="Scripts\kendo\2018.2.516\cultures\kendo.culture.en.min.js" />
+    <Content Include="Scripts\kendo\2018.2.516\cultures\kendo.culture.en.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\kendo\2018.2.516\cultures\kendo.culture.eo-001.min.js" />
     <Content Include="Scripts\kendo\2018.2.516\cultures\kendo.culture.eo.min.js" />
     <Content Include="Scripts\kendo\2018.2.516\cultures\kendo.culture.es-419.min.js" />
@@ -3538,6 +3540,7 @@
     <Content Include="Scripts\kendo\2018.2.516\cultures\kendo.culture.aa-ER.min.js.map" />
     <Content Include="Scripts\kendo\2018.2.516\cultures\kendo.culture.aa-DJ.min.js.map" />
     <None Include="Views\Home\Tennis.cshtml" />
+    <Content Include="Styles\Main.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

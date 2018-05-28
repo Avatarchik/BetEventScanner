@@ -1,9 +1,5 @@
 ﻿using BetEventScanner.DogonWeb.Models;
 using BetEventScanner.DogonWeb.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
@@ -53,7 +49,26 @@ namespace BetEventScanner.DogonWeb.Controllers
 
             var result = _tennisService.ProcessBetLine(betInfo);
 
-            return Json(new { data = result });
+            return Json(new
+            {
+                isSuccess = true,
+                data = result
+            });
+        }
+
+        [HttpPost]
+        public JsonResult UpdateData(BetInfoDto betInfo)
+        {
+            var result = _tennisService.SaveCalculatedBet(betInfo);
+
+            return Json(new { isSuccess = result });
+        }
+
+        public JsonResult CreateCalculatedBet(BetInfoDto betInfo)
+        {
+            var result = _tennisService.CreateCalculatedBet(betInfo);
+
+            return Json(new { result });
         }
 
         public ActionResult List()

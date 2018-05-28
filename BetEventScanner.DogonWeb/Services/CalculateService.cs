@@ -1,9 +1,6 @@
 ﻿using BetEventScanner.DataAccess;
 using BetEventScanner.DogonWeb.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace BetEventScanner.DogonWeb.Services
 {
@@ -39,23 +36,19 @@ namespace BetEventScanner.DogonWeb.Services
 
             var linesList = _uow.Lines.AsQueryableNotTracking()
                                 .Where(w => w.LineNumber == lineNumber)
-                                //.OrderByDescending(x => x.Id)
-                                .OrderBy(x => x.Id)
+                                .OrderByDescending(x => x.Id)
                                 .ToList();
 
-            //.TakeWhile(t => t.Score != 0)
-            // .Sum(s => s.Bet);
-            var lostSum = linesList.SkipWhile(t => t.Score != 0).Sum(s => s.Bet);
+            var lostSum = linesList.TakeWhile(t => t.Score == null).Sum(s => s.Bet);
             if (lostSum == 0) return 5;  //here should be default bet
 
             bool successBet = false;
             var newBet = lostSum;
+            if (newBet < currentCoef) return lostSum;
 
             while (!successBet)
             {
                 var teorityWinSum = newBet * currentCoef;
-                //23 * 1.2  =27.6  coef = 2.18
-
                 var profit = teorityWinSum - lostSum - newBet;
 
                 if (profit < 0)
@@ -71,11 +64,11 @@ namespace BetEventScanner.DogonWeb.Services
                 }
                 else if (percentProfit < 10)
                 {
-                    newBet += 0.3M;
+                    newBet += 0.2M;
                 }
                 else
                 {
-                    newBet -= 0.3M;
+                    newBet -= 0.2M;
                 }
             }
 

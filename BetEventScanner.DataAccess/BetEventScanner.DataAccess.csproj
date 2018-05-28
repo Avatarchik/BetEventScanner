@@ -115,6 +115,10 @@
     <Compile Include="Migrations\201805222000490_BetInfoTables.Designer.cs">
       <DependentUpon>201805222000490_BetInfoTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805281459118_MaxLengthAndNullableScore.cs" />
+    <Compile Include="Migrations\201805281459118_MaxLengthAndNullableScore.Designer.cs">
+      <DependentUpon>201805281459118_MaxLengthAndNullableScore.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mongo\MongoDbRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -134,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805222000490_BetInfoTables.resx">
       <DependentUpon>201805222000490_BetInfoTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805281459118_MaxLengthAndNullableScore.resx">
+      <DependentUpon>201805281459118_MaxLengthAndNullableScore.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

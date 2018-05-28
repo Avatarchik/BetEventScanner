@@ -48,6 +48,11 @@ namespace BetEventScanner.DogonWeb.Services
 
         public PredictBetDto ProcessBetLine(BetInfoDto betInfoDto)
         {
+            if (betInfoDto.ManualBet)
+            {
+                CreateBet(betInfoDto);
+                return null;
+            }
 
             //predict bet id any lines exists
             var calculatedBets = _calculateService.CalculateBets(betInfoDto);
@@ -55,7 +60,21 @@ namespace BetEventScanner.DogonWeb.Services
             {
                 return calculatedBets;
             }
+            return null;
+        }
 
+        public bool CreateCalculatedBet(BetInfoDto betInfoDto)
+        {
+            return CreateBet(betInfoDto);
+        }
+
+        public bool SaveCalculatedBet(BetInfoDto betInfo)
+        {
+            return CreateBet(betInfo);
+        }
+
+        private bool CreateBet(BetInfoDto betInfoDto)
+        {
             var lines = new List<Line>();
             if (!betInfoDto.ManualBet)
             {
@@ -63,19 +82,25 @@ namespace BetEventScanner.DogonWeb.Services
                 lines.Add(CalculateDefaultBets(betInfoDto.SecondLineCoef, 2));
                 lines.Add(CalculateDefaultBets(betInfoDto.ThirdLineCoef, 3));
             }
+            else
+            {
+                lines.Add(new Line { Coefficient = betInfoDto.FirstLineCoef, LineNumber = 1, Bet = betInfoDto.FirstLineBet });
+                lines.Add(new Line { Coefficient = betInfoDto.SecondLineCoef, LineNumber = 2, Bet = betInfoDto.SecondLineBet });
+                lines.Add(new Line { Coefficient = betInfoDto.ThirdLineCoef, LineNumber = 3, Bet = betInfoDto.ThirdLineBet });
+            }
 
             var betInfo = new BetInfo
             {
                 FavoritePlayer = betInfoDto.FavoritePlayer,
                 FirstPlayer = betInfoDto.FirstPlayer,
                 SecondPlayer = betInfoDto.SecondPlayer,
-                Lines = !betInfoDto.ManualBet ? lines : null
+                Lines = lines
             };
 
             _uow.BetInfoes.Create(betInfo);
             _uow.Commit();
 
-            return null;
+            return true;
         }
 
         public bool UpdateBet(BetInfoListDto betInfoListDto)
@@ -95,13 +120,9 @@ namespace BetEventScanner.DogonWeb.Services
                     if (line.LineNumber == betInfoListDto.WinLine)
                     {
                         line.Score = line.Coefficient * line.Bet;
+                        break;
                     }
                 }
-
-                //var winLine = currentBetInfo.Lines.First(x => x.LineNumber == betInfoListDto.WinLine);
-                //winLine.Score = winLine.Coefficient * winLine.Bet;
-
-                //currentBetInfo.Lines
 
                 _uow.BetInfoes.Update(currentBetInfo);
                 _uow.Commit();
