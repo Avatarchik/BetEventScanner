@@ -16,7 +16,5 @@ namespace BetEventScanner.DogonWeb.Services
         bool UpdateBet(BetInfoListDto betInfoListDto);
 
         bool CreateCalculatedBet(BetInfoDto betInfoDto);
-
-        bool SaveCalculatedBet(BetInfoDto betInfo);
     }
 }

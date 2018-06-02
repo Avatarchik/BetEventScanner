@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <a class="btn btn-default">Save data</a>
+        <a class="btn btn-default">Create bet</a>
     </div>
 </div>
 
@@ -103,7 +103,7 @@
         var data = getBetInfoModel();
 
         $.ajax({
-            url: "/Home/SendData",
+            url: "/Home/CreateBet",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -147,7 +147,7 @@
         data.manualBet = true;
 
         $.ajax({
-            url: "/Home/UpdateData",
+            url: "/Home/CreateCalculatedBet",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             dataType: "json",

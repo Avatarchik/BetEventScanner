@@ -54,7 +54,7 @@ namespace BetEventScanner.DogonWeb.Services
                 return null;
             }
 
-            //predict bet id any lines exists
+            //predict bet if any lines exists
             var calculatedBets = _calculateService.CalculateBets(betInfoDto);
             if (calculatedBets != null)
             {
@@ -66,11 +66,6 @@ namespace BetEventScanner.DogonWeb.Services
         public bool CreateCalculatedBet(BetInfoDto betInfoDto)
         {
             return CreateBet(betInfoDto);
-        }
-
-        public bool SaveCalculatedBet(BetInfoDto betInfo)
-        {
-            return CreateBet(betInfo);
         }
 
         private bool CreateBet(BetInfoDto betInfoDto)
@@ -115,14 +110,8 @@ namespace BetEventScanner.DogonWeb.Services
 
                 currentBetInfo.WinnerLine = betInfoListDto.WinLine;
 
-                foreach(var line in currentBetInfo.Lines)
-                {
-                    if (line.LineNumber == betInfoListDto.WinLine)
-                    {
-                        line.Score = line.Coefficient * line.Bet;
-                        break;
-                    }
-                }
+                var currLine = currentBetInfo.Lines.First(x => x.LineNumber == betInfoListDto.WinLine);
+                currLine.Score = currLine.Coefficient * currLine.Bet;
 
                 _uow.BetInfoes.Update(currentBetInfo);
                 _uow.Commit();
@@ -133,7 +122,6 @@ namespace BetEventScanner.DogonWeb.Services
             }
 
             return true;
-               
         }
 
         private Line CalculateDefaultBets(decimal coef, int lineNumber)

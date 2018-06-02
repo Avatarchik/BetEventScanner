@@ -44,7 +44,7 @@ namespace BetEventScanner.DogonWeb.Controllers
         }
 
         [HttpPost]
-        public JsonResult SendData(BetInfoDto betInfo)
+        public JsonResult CreateBet(BetInfoDto betInfo)
         {
 
             var result = _tennisService.ProcessBetLine(betInfo);
@@ -57,18 +57,11 @@ namespace BetEventScanner.DogonWeb.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateData(BetInfoDto betInfo)
-        {
-            var result = _tennisService.SaveCalculatedBet(betInfo);
-
-            return Json(new { isSuccess = result });
-        }
-
         public JsonResult CreateCalculatedBet(BetInfoDto betInfo)
         {
             var result = _tennisService.CreateCalculatedBet(betInfo);
 
-            return Json(new { result });
+            return Json(new { isSuccess = result });
         }
 
         public ActionResult List()

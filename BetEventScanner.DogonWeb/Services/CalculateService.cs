@@ -58,7 +58,7 @@ namespace BetEventScanner.DogonWeb.Services
                 }
 
                 var percentProfit = profit * 100 / newBet;
-                if (percentProfit < 20 && percentProfit > 10)
+                if (percentProfit <= 20 && percentProfit > 10)
                 {
                     return newBet;
                 }
