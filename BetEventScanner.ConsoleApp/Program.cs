@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using BetEventScanner.Providers.FootballDataCoUk;
 using BetEventScanner.Providers.FootballDataOrg;
 using BetEventScanner.Providers.FootballDataOrg.Model;
+using BetEventScanner.Providers.Parimatch.Model;
 using BetEventScanner.Providers.SoccerStandCom;
 using Newtonsoft.Json;
 
@@ -87,7 +89,7 @@ namespace BetEventScanner.ConsoleApp
                     //var h = new List<string> { "Div", "Date", "HomeTeam", "AwayTeam", "FTHG", "FTAG", "B365H", "B365D", "B365A" };
                     var h = new List<string> { "Date" };
                     var m = new FootballDataCoUkParser().GetDynamicHistoricalResults(@"C:\BetEventScanner\Services\FootballDataCoUk\Data\Origin\E0_1617.csv", h);
-                    
+
                     break;
 
                 case 10:
@@ -152,6 +154,23 @@ namespace BetEventScanner.ConsoleApp
 
                 case 11:
                     new FixturesService().UpdateIncomingMatches();
+                    break;
+
+                case 12:
+                    var dir = new DirectoryInfo(@"C:\BetEventScanner\Services\Parimatch\archive\Results\Tennis");
+                    var files = dir.GetFiles().ToList();
+                    var results = new List<ParimatchTennisBetEvent>();
+                    files.ForEach(x => results.AddRange(JsonConvert.DeserializeObject<List<ParimatchTennisBetEvent>>(File.ReadAllText(x.FullName))));
+
+                    var selected = new List<ParimatchTennisBetEvent>();
+                    foreach (var item in results)
+                    {
+                        if (string.IsNullOrEmpty(item.TwoZero) || string.IsNullOrEmpty(item.TwoOne) || string.IsNullOrEmpty(item.OneTwo) || string.IsNullOrEmpty(item.ZeroTwo))
+                        {
+                            continue;
+                        }
+                    }
+
                     break;
 
                 case 13:
