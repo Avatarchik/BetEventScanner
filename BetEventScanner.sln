@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DataAccess", "BetEventScanner.DataAccess\BetEventScanner.DataAccess.csproj", "{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlAgilityPack.CssSelectors", "HtmlAgilityPack.CssSelector-master\HtmlAgilityPack.CssSelector-master\HapCss\HtmlAgilityPack.CssSelectors.csproj", "{F5A65D54-A578-4A58-AAD2-4A602C36DDA7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParimatchDayOddsParser", "ParimatchDayOddsParser\ParimatchDayOddsParser.csproj", "{551F6F77-8AB3-494A-A8DD-A713985A7597}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DogonWeb", "BetEventScanner.DogonWeb\BetEventScanner.DogonWeb.csproj", "{9AED9CEE-8C63-4719-8CAC-F89F57ED5209}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{551F6F77-8AB3-494A-A8DD-A713985A7597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{551F6F77-8AB3-494A-A8DD-A713985A7597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{551F6F77-8AB3-494A-A8DD-A713985A7597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AED9CEE-8C63-4719-8CAC-F89F57ED5209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AED9CEE-8C63-4719-8CAC-F89F57ED5209}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AED9CEE-8C63-4719-8CAC-F89F57ED5209}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AED9CEE-8C63-4719-8CAC-F89F57ED5209}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

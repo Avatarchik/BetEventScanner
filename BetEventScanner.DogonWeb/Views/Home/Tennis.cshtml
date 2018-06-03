@@ -1,0 +1,207 @@
+﻿
+<h2>@ViewBag.Message.</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <h3>First player:</h3>
+            <input type="text" id="firstPlayer" value="" placeholder="First name" />
+
+            <h3>Second player:</h3>
+            <input type="text" id="secondPlayer" value="" placeholder="Second name" />
+        </div>
+        <div class="col-md-6">
+            <h3>Favorite player:</h3>
+            <input type="radio" id="radioFirst" class="radio" name="player" value="1" />
+            <label for="radioFirst">First Player</label>
+
+            <input type="radio" id="radioSecond" class="radio" name="player" value="2" />
+            <label for="radioSecond">Second Player</label>
+
+        </div>
+
+    </div>
+    <hr />
+
+
+    <div class="col-md-8" style="padding-top: 10px">
+
+        <input type="checkbox" id="manualBet" onclick="manualBetVisibility()" />
+        <label for="manualBet">Set manual bet?</label>
+        <br />
+
+        <div class="firstline">
+            <label>F_Line coefficient: </label>
+            <input type="number" id="fLineCoef" min="0" step="0.01" />
+
+            <div class="manual-bet" style="display:inline">
+                <label>Bet</label>
+                <input type="number" id="fLineBet" min="0" step="0.01" placeholder="Line score" />
+            </div>
+        </div>
+        <div class="secondline">
+            <label>S_Line coefficient: </label>
+            <input type="number" id="sLineCoef" min="0" step="0.01" />
+
+            <div class="manual-bet" style="display:inline">
+                <label>Bet</label>
+                <input type="number" id="sLineBet" min="0" step="0.01" placeholder="Line score" />
+            </div>
+        </div>
+        <div class="thirdline">
+            <label>T_Line coefficient: </label>
+            <input type="number" id="tLineCoef" min="0" step="0.01" />
+
+            <div class="manual-bet" style="display:inline">
+                <label>Bet</label>
+                <input type="number" id="tLineBet" min="0" placeholder="Line score" step="0.01" />
+            </div>
+        </div>
+
+        <a class="btn btn-default">Create bet</a>
+    </div>
+</div>
+
+
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='content'>
+                <span>First line bet:</span>
+                <span class="fBetPredict"></span>
+                <br />
+                <span>Second line bet: </span>
+                <span class="sBetPredict"></span>
+                <br />
+                <span>Third line bet:</span>
+                <span class="tBetPredict"></span>
+            </div>
+            <div class="buttons">
+                <button id="manualBtn">Manual bets</button>
+                <button id="closeBtn">Submit</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(".manual-bet").hide();
+
+    function manualBetVisibility() {
+        if ($("#manualBet").is(':checked')) {
+            $(".manual-bet").show();
+        } else {
+            $(".manual-bet").hide();
+        }
+    }
+
+    $(".btn-default").on("click", function () {
+
+        var data = getBetInfoModel();
+
+        $.ajax({
+            url: "/Home/CreateBet",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.isSuccess) {
+                    if (result.data == null) {
+                        alert("Bet created");
+                        location.reload();
+                    }
+                    $('#content .fBetPredict').text(result.data.FBet);
+                    $('#content .sBetPredict').text(result.data.SBet);
+                    $('#content .tBetPredict').text(result.data.TBet);
+
+                    //insert calculated bets into the fields
+                    $("#fLineBet").val(result.data.FBet);
+
+                    $("#sLineBet").val(result.data.SBet);
+
+                    $("#tLineBet").val(result.data.TBet);
+
+
+
+                    $('#myModal').modal('show');
+                } else {
+                    alert("error");
+                }
+            },
+            error: function (e) {
+                alert("Some error " + e);
+            }
+
+        });
+
+    });
+
+    $("#closeBtn").click(function () {
+        $('#myModal').modal('hide');
+
+        var data = getBetInfoModel();
+        data.manualBet = true;
+
+        $.ajax({
+            url: "/Home/CreateCalculatedBet",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.isSuccess) {
+                    alert("Updating bet was successfully");
+                    location.reload();
+                } else {
+                    alert("error");
+                }
+            },
+            error: function (e) {
+                alert("Some error " + e);
+            }
+
+        });
+    });
+
+    $("#manualBtn").click(function () {
+        $('#myModal').modal('hide');
+    });
+
+    function getBetInfoModel() {
+        var isManualBet = $("#manualBet").is(':checked');
+
+        var firstPlayer = $("#firstPlayer").val();
+        var secondPlayer = $("#secondPlayer").val();
+
+        var favoritePlayer = $(".radioFirst");
+
+        var fLineCoef = $("#fLineCoef").val();
+        var fLineBet = $("#fLineBet").val();
+
+        var sLineCoef = $("#sLineCoef").val();
+        var sLineBet = $("#sLineBet").val();
+
+        var tLineCoef = $("#tLineCoef").val();
+        var tLineBet = $("#tLineBet").val();
+
+        var data = {
+            firstplayer: firstPlayer,
+            secondplayer: secondPlayer,
+            favoriteplayer: 1,
+            firstlinecoef: fLineCoef,
+            firstlinebet: fLineBet,
+            secondlinecoef: sLineCoef,
+            secondlinebet: sLineBet,
+            thirdlinecoef: tLineCoef,
+            thirdlinebet: tLineBet,
+            manualBet: isManualBet
+        };
+
+        return data;
+    }
+
+</script>

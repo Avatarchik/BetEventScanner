@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using BetEventScanner.DataAccess.DataModel;
+using BetEventScanner.DataAccess.Entities;
 
 namespace BetEventScanner.DataAccess.EF
 {
@@ -14,6 +15,10 @@ namespace BetEventScanner.DataAccess.EF
         public DbSet<City> Cities { get; set; }
 
         public DbSet<FootballTeam> Teams { get; set; }
+
+        public DbSet<BetInfo> BetInfoes { get; set; }
+
+        public DbSet<Line> Lines { get; set; }
 
         //public DbSet<FootballSeason> Seasons { get; set; }
 
