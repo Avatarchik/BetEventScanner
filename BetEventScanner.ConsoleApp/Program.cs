@@ -48,7 +48,6 @@ namespace BetEventScanner.ConsoleApp
         private static void ShowMenu()
         {
             Console.WriteLine("Menu");
-            Console.WriteLine("FootbalDataOrg Test - 1");
             Console.WriteLine("Bubbel Ladder Three - 2");
             Console.WriteLine("SoccerStand parser - 4");
             Console.WriteLine("TestChampionship - 6");
@@ -69,7 +68,6 @@ namespace BetEventScanner.ConsoleApp
             switch (chooseInt)
             {
                 case 1:
-                    new FootballDataOrgService().Test();
                     break;
 
                 case 3:

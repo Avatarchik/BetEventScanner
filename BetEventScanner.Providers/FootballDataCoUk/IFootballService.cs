@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using BetEventScanner.Common.DataModel;
 
 namespace BetEventScanner.Providers.FootballDataCoUk
 {
@@ -9,7 +7,5 @@ namespace BetEventScanner.Providers.FootballDataCoUk
         SourceProvider Provider { get; }
 
         IEnumerable<FootballMatchResult> GetAllResults();
-
-        IEnumerable<FootballMatchResult> GetDivisionResults(CountryDivision countryDivision, DateTime fromDate);
     }
 }

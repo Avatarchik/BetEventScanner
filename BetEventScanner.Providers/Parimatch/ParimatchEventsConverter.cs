@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using BetEventScanner.Providers.Parimatch.Model;
 using HtmlAgilityPack;
@@ -71,47 +72,104 @@ namespace BetEventScanner.Providers.Parimatch
                 switch (headers[i])
                 {
                     case "#":
-                        res.ParimatchId = row[i].InnerText;
+
+                        try
+                        {
+                            res.ParimatchId = row[i].InnerText;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                        }
+                        
                         break;
 
                     case "Date":
-                        var t = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
-                        var dateTime = dateResolver.GetDate(t[0], t[1]);
-                        //var datetime = $"{info.Year}-{dm[1]}-{dm[0]} {t[1]}";
-                        //res.DateTime = DateTime.Parse(datetime);
-                        res.DateTime = dateTime;
+                        try
+                        {
+                            var t = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
+                            var dateTime = dateResolver.GetDate(t[0], t[1]);
+                            res.DateTime = dateTime;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                        }
+                        
                         break;
 
                     case "Event":
-                        var teams = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
-                        res.HomeTeam = teams[0];
-                        res.AwayTeam = teams[1];
+                        try
+                        {
+                            var teams = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
+                            res.HomeTeam = teams[0];
+                            res.AwayTeam = teams[1];
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                        }
+                        
                         break;
 
                     case "Hand.":
-                        var handicaps = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
-                        res.HomeHandicap = handicaps[0];
-                        res.AwayHandicap = handicaps[1];
+                        try
+                        {
+                            var handicaps = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
+                            res.HomeHandicap = handicaps[0];
+                            res.AwayHandicap = handicaps[1];
 
-                        var handicapOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
-                        res.HomeHandicapOdds = handicapOdds[0];
-                        res.AwayHandicapOdds = handicapOdds[1];
+                            var handicapOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
+                            res.HomeHandicapOdds = handicapOdds[0];
+                            res.AwayHandicapOdds = handicapOdds[1];
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                        }
                         break;
 
                     case "Total":
-                        res.Total = row[i].InnerText;
-                        res.TotalOver = row[++i].QuerySelector("s").InnerText;
-                        res.TotalUnder = row[++i].QuerySelector("s").InnerText;
+                        try
+                        {
+                            res.Total = row[i].InnerText;
+                            res.TotalOver = row[++i].QuerySelector("s").InnerText;
+                            res.TotalUnder = row[++i].QuerySelector("s").InnerText;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                        }
                         break;
 
                     case "1":
-                        res.HomeWin = row[i].QuerySelector("s")?.InnerText;
-                        if (res.HomeWin == null) return null;
+                        try
+                        {
+                            res.HomeWin = row[i].QuerySelector("s")?.InnerText;
+                            if (res.HomeWin == null) return null;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                        }
                         break;
 
                     case "X":
-                        res.Draw = row[i].QuerySelector("s")?.InnerText;
-                        if (res.Draw == null) return null;
+                        try
+                        {
+                            res.Draw = row[i].QuerySelector("s")?.InnerText;
+                            if (res.Draw == null) return null;
+                        }
+                        catch (Exception)
+                        {
+
+                        }
                         break;
 
                     case "2":
@@ -178,119 +236,227 @@ namespace BetEventScanner.Providers.Parimatch
                 switch (headers[i])
                 {
                     case "#":
-                        res.ParimatchId = row[i].InnerText;
+                        try
+                        {
+                            res.ParimatchId = row[i].InnerText;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "Date":
-                        var t = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
-                        var dateTime = dateResolver.GetDate(t[0], t[1]);
-                        res.DateTime = dateTime;
+                        try
+                        {
+                            var t = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
+                            var dateTime = dateResolver.GetDate(t[0], t[1]);
+                            res.DateTime = dateTime;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "Event":
-                        var players = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
-                        res.Player1 = players[0];
-                        res.Player2 = players[1];
+                        try
+                        {
+                            var players = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
+                            res.Player1 = players[0];
+                            res.Player2 = players[1];
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "Hand.":
-                        var handicaps = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
-                        if (handicaps.Count == 0) return null;
+                        try
+                        {
+                            var handicaps = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
+                            if (handicaps.Count == 0) return null;
 
-                        res.Player1Handicap = handicaps[0];
-                        res.Player2Handicap = handicaps[1];
+                            res.Player1Handicap = handicaps[0];
+                            res.Player2Handicap = handicaps[1];
 
-                        var handicapOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
-                        res.Player1HandicapOdds = handicapOdds[0];
-                        res.Player2HandicapOdds = handicapOdds[1];
+                            var handicapOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
+                            res.Player1HandicapOdds = handicapOdds[0];
+                            res.Player2HandicapOdds = handicapOdds[1];
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "Total":
-                        res.Total = row[i].InnerText;
-                        res.TotalOver = row[++i].QuerySelector("s").InnerText;
-                        res.TotalUnder = row[++i].QuerySelector("s").InnerText;
+                        try
+                        {
+                            res.Total = row[i].InnerText;
+                            res.TotalOver = row[++i].QuerySelector("s").InnerText;
+                            res.TotalUnder = row[++i].QuerySelector("s").InnerText;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "1":
-                        res.Player1Win = row[i].QuerySelector("s")?.InnerText;
+                        try
+                        {
+                            res.Player1Win = row[i].QuerySelector("s")?.InnerText;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "2":
-                        res.Player2Win = row[i].QuerySelector("s")?.InnerText;
+                        try
+                        {
+                            res.Player2Win = row[i].QuerySelector("s")?.InnerText;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "2:0":
-                        res.TwoZero = row[i].QuerySelector("s")?.InnerText;
-                        if (res.TwoZero == null) return null;
+                        try
+                        {
+                            res.TwoZero = row[i].QuerySelector("s")?.InnerText;
+                            if (res.TwoZero == null) return null;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "2:1":
-                        res.TwoOne = row[i].QuerySelector("s")?.InnerText;
-                        if (res.TwoOne == null) return null;
+                        try
+                        {
+                            res.TwoOne = row[i].QuerySelector("s")?.InnerText;
+                            if (res.TwoOne == null) return null;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "1:2":
-                        res.OneTwo = row[i].QuerySelector("s")?.InnerText;
-                        if (res.OneTwo == null) return null;
+                        try
+                        {
+                            res.OneTwo = row[i].QuerySelector("s")?.InnerText;
+                            if (res.OneTwo == null) return null;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "0:2":
-                        res.ZeroTwo = row[i].QuerySelector("s")?.InnerText;
-                        if (res.ZeroTwo == null) return null;
+                        try
+                        {
+                            res.ZeroTwo = row[i].QuerySelector("s")?.InnerText;
+                            if (res.ZeroTwo == null) return null;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            Debugger.Break();
+                            throw;
+                        }
                         break;
 
                     case "iTotal":
-                        var indTotals = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
-                        if (indTotals.Count == 0) return null;
-
-                        res.Player1ITotal = indTotals[0];
-                        res.Player2ITotal = indTotals[1];
-
-                        var indTotalOverOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
-                        if (indTotalOverOdds.Count == 2)
+                        try
                         {
-                            res.Player1ITotalOverOdds = indTotalOverOdds[0];
-                            res.Player2ITotalOverOdds = indTotalOverOdds[1];
+                            var indTotals = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
+                            if (indTotals.Count == 2)
+                            {
+                                res.Player1ITotal = indTotals[0];
+                                res.Player2ITotal = indTotals[1];
+                            }
+
+                            var indTotalOverOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
+                            if (indTotalOverOdds.Count == 2)
+                            {
+                                res.Player1ITotalOverOdds = indTotalOverOdds[0];
+                                res.Player2ITotalOverOdds = indTotalOverOdds[1];
+                            }
+
+                            var indTotalUnderOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
+                            if (indTotalUnderOdds.Count == 2)
+                            {
+                                res.Player1ITotalUnderOdds = indTotalUnderOdds[0];
+                                res.Player2ITotalUnderOdds = indTotalUnderOdds[1];
+                            }
                         }
-
-                        var indTotalUnderOdds = row[++i].QuerySelectorAll("s").Select(x => x.InnerText).ToList();
-                        if (indTotalUnderOdds.Count == 2)
+                        catch (Exception e)
                         {
-                            res.Player1ITotalUnderOdds = indTotalUnderOdds[0];
-                            res.Player2ITotalUnderOdds = indTotalUnderOdds[1];
+                            Console.WriteLine(e);
+                            //Debugger.Break();
+                            //throw;
                         }
 
                         break;
                 }
             }
 
-            if (!result.Contains("cancelled"))
+            try
             {
-                var tempRes = result.Substring(0, result.Length - 1);
-                var splitResult = tempRes.Split('(');
-                var finalResult = splitResult[0];
-                res.FinalScore = finalResult;
-                var setsResult = splitResult[1].Split(',').ToList();
-                res.SetsResult = setsResult;
-                res.Status = "ok";
+                if (!result.Contains("cancelled"))
+                {
+                    var tempRes = result.Substring(0, result.Length - 1);
+                    var splitResult = tempRes.Split('(');
+                    var finalResult = splitResult[0];
+                    res.FinalScore = finalResult;
+                    var setsResult = splitResult[1].Split(',').ToList();
+                    res.SetsResult = setsResult;
+                    res.Status = "ok";
+                }
+                else
+                {
+                    res.Status = result;
+                }
+
+                res.MatchId = res.DateTime.ToString("yyyyMMdd") + res.Player1.Substring(0, 3) + res.Player2.Substring(0, 3);
             }
-            else
+            catch (Exception e)
             {
-                res.Status = "cancelled";
+                Console.WriteLine(e);
+                Debugger.Break();
+                throw;
             }
 
-            //if (parsedResult.Length > 1)
-            //{
-            //    res.FirstHalfScore = parsedResult[1];
-            //    res.FinalScore = parsedResult[0];
-            //    res.ResultStatus = "ok";
-            //}
-            //else
-            //{
-            //    res.ResultStatus = parsedResult[0];
-            //}
-
-            res.MatchId = res.DateTime.ToString("yyyyMMdd") + res.Player1.Substring(0, 3) + res.Player2.Substring(0, 3);
             return res;
         }
     }

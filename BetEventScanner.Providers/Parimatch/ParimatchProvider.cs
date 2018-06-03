@@ -176,12 +176,21 @@ namespace BetEventScanner.Providers.Parimatch
         {
             var dt = DateTime.Now.AddDays(-290);
 
+            var tennisMatchesFolder = new DirectoryInfo(@"C:\BetEventScanner\Services\Parimatch\archive\Results\Tennis");
+
             while (dt.Date <= DateTime.Now.Date)
             {
                 var dateStr = dt.ToString("yyyyMMdd");
 
+                if (File.Exists($"{tennisMatchesFolder.FullName}\\{dateStr}.json"))
+                {
+                    Console.WriteLine($"{dateStr} skip");
+                    dt = dt.AddDays(1);
+                    continue;
+                }
+
                 var data = LoadArchiveDate(dt);
-                var tennis = ParseArchive(data, x => x.Contains("tennis") && !x.Contains("futures") && !x.Contains("doubles") && !x.Contains("table tennis") && !x.Contains("outright"));
+                var tennis = ParseArchive(data, x => x.Contains("tennis") && !x.Contains("futures") && !x.Contains("doubles") && !x.Contains("table tennis") && !x.Contains("outright") && !x.Contains("davis cup") && !x.Contains("winner") && !x.Contains("ADDITIONAL OUTCOMES".ToLower()));
                 var pmEvents = ParimatchEventsConverter.Convert<ParimatchTennisBetEvent>(new MatchDateResolver(dateStr), tennis, "tennis");
                 File.WriteAllText($@"C:\BetEventScanner\Services\Parimatch\archive\Results\Tennis\{dateStr}.json", JsonConvert.SerializeObject(pmEvents));
                 dt = dt.AddDays(1);

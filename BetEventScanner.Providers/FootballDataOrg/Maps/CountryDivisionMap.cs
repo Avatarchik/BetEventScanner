@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using BetEventScanner.Common.DataModel;
-
-namespace BetEventScanner.Providers.FootballDataOrg
+﻿namespace BetEventScanner.Providers.FootballDataOrg
 {
     public static class CountryDivisionMap
     {

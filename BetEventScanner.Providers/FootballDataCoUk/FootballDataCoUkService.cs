@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BetEventScanner.Common.Contracts.Services;
-using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services.Common;
 using BetEventScanner.Common.Services.FootbalDataCoUk;
 using BetEventScanner.Common.Services.FootbalDataCoUk.Model;
@@ -266,11 +265,6 @@ namespace BetEventScanner.Providers.FootballDataCoUk
         }
 
         public IEnumerable<FootballMatchResult> GetAllResults()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<FootballMatchResult> GetDivisionResults(CountryDivision countryDivision, DateTime fromDate)
         {
             throw new NotImplementedException();
         }

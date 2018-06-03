@@ -1,14 +1,11 @@
 ﻿using System;
 using BetEventScanner.Common.Contracts;
-using BetEventScanner.Common.DataModel;
 using BetEventScanner.Common.Services.RestApiClient;
 
 namespace BetEventScanner.Providers.FootballDataOrg
 {
     public class FootballDataOrgApiClient : IApiClient
     {
-        private readonly GlobalSettings _settins;
-        private readonly ICountryMap _countryMap;
         private readonly UriBuilder _uriBuilder;
 
         //public FootballDataApiClient(GlobalSettings settins, ICountryMap countryMap)
