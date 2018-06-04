@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Contracts\IRepository.cs" />
+    <Compile Include="Entities\BetInfo.cs" />
     <Compile Include="Entities\City.cs" />
     <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\CountryDivisionSeason.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Entities\DbEntities\Tmatch.cs" />
     <Compile Include="Entities\FootballTeam.cs" />
     <Compile Include="Entities\Gender.cs" />
+    <Compile Include="Entities\Line.cs" />
     <Compile Include="Entities\Stadium.cs" />
     <Compile Include="Entities\TennisPlayer.cs" />
     <Compile Include="Entities\Tresult.cs" />
@@ -107,6 +109,10 @@
     <Compile Include="Migrations\201804272248285_Initial.cs" />
     <Compile Include="Migrations\201804272248285_Initial.Designer.cs">
       <DependentUpon>201804272248285_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806031953477_BetInfo.cs" />
+    <Compile Include="Migrations\201806031953477_BetInfo.Designer.cs">
+      <DependentUpon>201806031953477_BetInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Mongo\MongoDbRepository.cs" />
@@ -124,6 +130,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201804272248285_Initial.resx">
       <DependentUpon>201804272248285_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806031953477_BetInfo.resx">
+      <DependentUpon>201806031953477_BetInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
