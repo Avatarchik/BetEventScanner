@@ -103,7 +103,7 @@
         var data = getBetInfoModel();
 
         $.ajax({
-            url: "/Home/CreateBet",
+            url: "/Bet/CreateBet",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -147,7 +147,7 @@
         data.manualBet = true;
 
         $.ajax({
-            url: "/Home/CreateCalculatedBet",
+            url: "/Bet/CreateCalculatedBet",
             type: "POST",
             contentType: "application/json; charset=utf-8",
             dataType: "json",

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 
 namespace BetEventScanner.DogonWeb.Services
 {
@@ -22,9 +22,9 @@ namespace BetEventScanner.DogonWeb.Services
             _calculateService = calculateService;
         }
 
-        public IEnumerable<BetInfoListDto> GetBetsList()
+        public async Task<IEnumerable<BetInfoListDto>> GetBetsListAsync()
         {
-            var betsList = _uow.BetInfoes.AsQueryableNotTracking()
+            var betsList = await _uow.BetInfoes.AsQueryableNotTracking()
                 .Include(i => i.Lines)
                 .Select(s => new BetInfoListDto
                 {
@@ -39,38 +39,36 @@ namespace BetEventScanner.DogonWeb.Services
                     FBet = s.Lines.FirstOrDefault(x => x.LineNumber == 1).Bet,
                     SBet = s.Lines.FirstOrDefault(x => x.LineNumber == 2).Bet,
                     TBet = s.Lines.FirstOrDefault(x => x.LineNumber == 3).Bet,
-                }).ToList();
+                }).ToListAsync();
 
             return betsList;
-
-
         }
 
-        public PredictBetDto ProcessBetLine(BetInfoDto betInfoDto)
+        public async Task<PredictBetDto> ProcessBetLineAsync(BetInfoDto betInfoDto)
         {
             if (betInfoDto.ManualBet)
             {
-                CreateBet(betInfoDto);
+                await CreateBetAsync(betInfoDto);
                 return null;
             }
 
             //predict bet if any lines exists
-            var calculatedBets = _calculateService.CalculateBets(betInfoDto);
+            var calculatedBets = await _calculateService.CalculateBetsAsync(betInfoDto);
             if (calculatedBets != null)
             {
                 return calculatedBets;
             }
 
-            CreateBet(betInfoDto);
+            await CreateBetAsync(betInfoDto);
             return null;
         }
 
-        public bool CreateCalculatedBet(BetInfoDto betInfoDto)
+        public async Task<bool> CreateCalculatedBetAsync(BetInfoDto betInfoDto)
         {
-            return CreateBet(betInfoDto);
+            return await CreateBetAsync(betInfoDto);
         }
 
-        private bool CreateBet(BetInfoDto betInfoDto)
+        private async Task<bool> CreateBetAsync(BetInfoDto betInfoDto)
         {
             var lines = new List<Line>();
             if (!betInfoDto.ManualBet)
@@ -95,18 +93,18 @@ namespace BetEventScanner.DogonWeb.Services
             };
 
             _uow.BetInfoes.Create(betInfo);
-            _uow.Commit();
+            await _uow.CommitAsync();
 
             return true;
         }
 
-        public bool UpdateBet(BetInfoListDto betInfoListDto)
+        public async Task<bool> UpdateBetAsync(BetInfoListDto betInfoListDto)
         {
             try
             {
-                var currentBetInfo = _uow.BetInfoes.AsQueryable()
+                var currentBetInfo = await _uow.BetInfoes.AsQueryable()
                     .Include(i => i.Lines)
-                    .FirstOrDefault(x => x.Id == betInfoListDto.Id);
+                    .FirstOrDefaultAsync(x => x.Id == betInfoListDto.Id);
 
                 if (currentBetInfo == null) return false;
 
@@ -116,7 +114,7 @@ namespace BetEventScanner.DogonWeb.Services
                 currLine.Score = currLine.Coefficient * currLine.Bet;
 
                 _uow.BetInfoes.Update(currentBetInfo);
-                _uow.Commit();
+                await _uow.CommitAsync();
             }
             catch (Exception ex)
             {
@@ -155,6 +153,27 @@ namespace BetEventScanner.DogonWeb.Services
             };
 
             return betsResult;
+        }
+
+        public async Task<bool> RemoveBetAsync(int betId)
+        {
+            try
+            {
+                var betInfo = await _uow.BetInfoes.AsQueryable()
+                    .Include(i => i.Lines)
+                    .FirstOrDefaultAsync(x => x.Id == betId);
+                if (betInfo == null) return false;
+
+                await _uow.BetInfoes.DeleteAsync(betId);
+
+                await _uow.CommitAsync();
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
     }
 

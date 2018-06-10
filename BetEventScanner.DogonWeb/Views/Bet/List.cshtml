@@ -14,7 +14,7 @@
                 {
                     columns.Bound(c => c.FirstPlayer).Width(150);
                     columns.Bound(c => c.SecondPlayer).Width(150);
-                    columns.Bound(c => c.FavoritePlayer).Width(100);
+                    columns.Bound(c => c.FavoritePlayer).Width(70).Title("FavPlayer");
                     columns.Bound(c => c.FLine).Width(50);
                     columns.Bound(c => c.FBet).Width(50);
                     columns.Bound(c => c.SLine).Width(50);
@@ -22,7 +22,7 @@
                     columns.Bound(c => c.TLine).Width(50);
                     columns.Bound(c => c.TBet).Width(50);
                     columns.Bound(c => c.WinLine).Width(70);
-                    columns.Command(command => { command.Edit(); }).Width(172);
+                    columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
                 })
                 .Scrollable()
                 .Sortable()
@@ -33,7 +33,7 @@
                     .ButtonCount(5))
                 .DataSource(dataSource => dataSource
                     .Ajax()
-                    .Read(read => read.Action("ReadBetList", "Home"))
+                    .Read(read => read.Action("ReadBetList", "Bet"))
                     .Model(model =>
                     {
                         model.Id(p => p.Id);
@@ -49,7 +49,8 @@
 
                         model.Field(p => p.WinLine).Editable(true);
                     })
-                    .Update(update => update.Action("UpdateBet", "Home"))
+                    .Update(update => update.Action("UpdateBet", "Bet"))
+                    .Destroy("RemoveBet", "Bet")
                     .PageSize(20)
                 )
 

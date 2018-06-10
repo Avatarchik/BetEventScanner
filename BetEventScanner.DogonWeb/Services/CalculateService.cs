@@ -1,6 +1,8 @@
 ﻿using BetEventScanner.DataAccess;
 using BetEventScanner.DogonWeb.Models;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BetEventScanner.DogonWeb.Services
 {
@@ -12,7 +14,7 @@ namespace BetEventScanner.DogonWeb.Services
             _uow = uow;
         }
 
-        public PredictBetDto CalculateBets(BetInfoDto betInfo)
+        public async Task<PredictBetDto> CalculateBetsAsync(BetInfoDto betInfo)
         {
             var existsLines = _uow.Lines.AsQueryableNotTracking().Any();
             if (!existsLines) return null;
@@ -22,22 +24,22 @@ namespace BetEventScanner.DogonWeb.Services
                 FLine = 1,
                 SLine = 2,
                 TLine = 3,
-                FBet = CalculateBet(betInfo.FirstLineCoef, 1),
-                SBet = CalculateBet(betInfo.SecondLineCoef, 2),
-                TBet = CalculateBet(betInfo.ThirdLineCoef, 3)
+                FBet = await CalculateBetAsync(betInfo.FirstLineCoef, 1),
+                SBet = await CalculateBetAsync(betInfo.SecondLineCoef, 2),
+                TBet = await CalculateBetAsync(betInfo.ThirdLineCoef, 3)
             };
 
             return predictBet;
 
         }
 
-        public decimal CalculateBet(decimal currentCoef, int lineNumber)
+        public async Task<decimal> CalculateBetAsync(decimal currentCoef, int lineNumber)
         {
 
-            var linesList = _uow.Lines.AsQueryableNotTracking()
+            var linesList = await _uow.Lines.AsQueryableNotTracking()
                                 .Where(w => w.LineNumber == lineNumber)
                                 .OrderByDescending(x => x.Id)
-                                .ToList();
+                                .ToListAsync();
 
             var lostSum = linesList.TakeWhile(t => t.Score == null).Sum(s => s.Bet);
             if (lostSum == 0) return 5;  //here should be default bet

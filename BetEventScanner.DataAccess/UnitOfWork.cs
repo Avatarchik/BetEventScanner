@@ -34,9 +34,9 @@ namespace BetEventScanner.DataAccess
             return Context.SaveChanges();
         }
 
-        public Task<int> CommitAsync()
+        public async Task<int> CommitAsync()
         {
-            throw new NotImplementedException();
+            return await Context.SaveChangesAsync();
         }
 
         protected virtual void Dispose(bool disposing)

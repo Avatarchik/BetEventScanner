@@ -9,12 +9,14 @@ namespace BetEventScanner.DogonWeb.Services
 {
     public interface ITennisService
     {
-        PredictBetDto ProcessBetLine(BetInfoDto betInfoDto);
+        Task<PredictBetDto> ProcessBetLineAsync(BetInfoDto betInfoDto);
 
-        IEnumerable<BetInfoListDto> GetBetsList();
+        Task<IEnumerable<BetInfoListDto>> GetBetsListAsync();
 
-        bool UpdateBet(BetInfoListDto betInfoListDto);
+        Task<bool> UpdateBetAsync(BetInfoListDto betInfoListDto);
 
-        bool CreateCalculatedBet(BetInfoDto betInfoDto);
+        Task<bool> CreateCalculatedBetAsync(BetInfoDto betInfoDto);
+
+        Task<bool> RemoveBetAsync(int betId);
     }
 }

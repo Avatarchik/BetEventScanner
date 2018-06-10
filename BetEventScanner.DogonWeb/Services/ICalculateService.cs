@@ -9,8 +9,8 @@ namespace BetEventScanner.DogonWeb.Services
 {
     public interface ICalculateService
     {
-        PredictBetDto CalculateBets(BetInfoDto betInfo);
+        Task<PredictBetDto> CalculateBetsAsync(BetInfoDto betInfo);
 
-        decimal CalculateBet(decimal currentCoef, int lineNumber);
+        Task<decimal> CalculateBetAsync(decimal currentCoef, int lineNumber);
     }
 }
