@@ -62,6 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BalanceFinanceStrategy.cs" />
+    <Compile Include="Contracts\ILineOdds.cs" />
+    <Compile Include="Contracts\OddsBetEvent.cs" />
     <Compile Include="FootballDataCoUk\Mappings\CustomHeadersMapping.cs" />
     <Compile Include="Contracts\IBetEvent.cs" />
     <Compile Include="FootballDataOrg\FootballDataOrgApiClient.cs" />
@@ -71,17 +73,18 @@
     <Compile Include="FootballDataOrg\Model\BaseDataModel.cs" />
     <Compile Include="FootballDataOrg\Model\CompetitionNew.cs" />
     <Compile Include="Parimatch\MatchDateResolver.cs" />
-    <Compile Include="Parimatch\Model\BetEventBase.cs" />
-    <Compile Include="Parimatch\Model\GeneralInfo.cs" />
-    <Compile Include="Parimatch\Contracts\IParimatchEvent.cs" />
-    <Compile Include="Parimatch\Model\ParimatchFootballBetEvent.cs" />
-    <Compile Include="Parimatch\Model\ParimatchTennisBetEvent.cs" />
+    <Compile Include="Parimatch\Model\Base\BetEventBase.cs" />
+    <Compile Include="Contracts\IParimatchEvent.cs" />
+    <Compile Include="Parimatch\Model\Football\ParimatchFootballBetEvent.cs" />
+    <Compile Include="Parimatch\Model\Tennis\ParimatchTennisBetEvent.cs" />
     <Compile Include="Parimatch\ParimatchApiClient.cs" />
     <Compile Include="Parimatch\ParimatchEventsConverter.cs" />
+    <Compile Include="Parimatch\ParimatchFootballOddsBetEvent.cs" />
     <Compile Include="Parimatch\ParimatchProvider.cs" />
-    <Compile Include="Parimatch\ParimatchService.cs" />
     <Compile Include="Parimatch\ParimatchSettings.cs" />
+    <Compile Include="Parimatch\ParimatchTennisOddsBetEvent.cs" />
     <Compile Include="Parimatch\ParseSettings.cs" />
+    <Compile Include="Parimatch\SupportedEvents.cs" />
     <Compile Include="SourceProvider.cs" />
     <Compile Include="Contracts\IStorage.cs" />
     <Compile Include="Contracts\IDataSource.cs" />

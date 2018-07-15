@@ -2,26 +2,29 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BetEventScanner.Providers.Contracts;
 using BetEventScanner.Providers.Parimatch.Model;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 
 namespace BetEventScanner.Providers.Parimatch
 {
-    public class ParimatchProvider
+    public class ParimatchProvider : IOddsParser
     {
         //private static DirectoryInfo _baseDir = new DirectoryInfo(@"C:\BetEventScanner\Services\Parimatch\archive");
         //private static string _baseUrl = @"https://www.parimatch.com/en/bet.html?ha=";
         private readonly ParimatchSettings _settings;
-        private readonly Archive _archive;
+        private readonly ParimatchApiClient _client;
+  //      private readonly Archive _archive;
 
         public ParimatchProvider(ParimatchSettings settings)
         {
+            _client = new ParimatchApiClient();
             _settings = settings;
-            _archive = new Archive(settings);
+            //_archive = new Archive(settings);
         }
 
-        public Archive ArchiveState => _archive;
+//        public Archive ArchiveState => _archive;
 
         public void Start()
         {
@@ -55,7 +58,7 @@ namespace BetEventScanner.Providers.Parimatch
                     continue;
                 }
 
-                var html = DownloadHtml($"{_settings.BaseUrl}{dt}");
+                var html = _client.DownloadHtml($"{_settings.BaseUrl}{dt}");
                 File.WriteAllText($@"{_settings.ArchiveDirPath}\{dt}", html);
                 res.Add(html);
             }
@@ -74,23 +77,11 @@ namespace BetEventScanner.Providers.Parimatch
                 return File.ReadAllText(file.FullName);
             }
 
-            var html = DownloadHtml($"{_settings.BaseUrl}{dt}");
+            var html = _client.DownloadHtml($"{_settings.BaseUrl}{dt}");
             File.WriteAllText($@"{_settings.ArchiveDirPath}\{dt}", html);
             return html;
         }
 
-        public string LoadOddsList()
-        {
-            return DownloadHtml("https://www.parimatch.com/en/bet.html?filter=today");
-        }
-
-        private string DownloadHtml(string url)
-        {
-            var web = new HtmlWeb();
-            web.BrowserTimeout = TimeSpan.FromMinutes(30);
-            var html = web.LoadFromBrowser(url);
-            return html.ParsedText;
-        }
 
         public void Parse(ParseSettings parseSettings)
         {
@@ -124,18 +115,18 @@ namespace BetEventScanner.Providers.Parimatch
                     var source = rows[0].QuerySelectorAll("tr").Where(x => !string.IsNullOrEmpty(x.InnerText)).ToList();
                     for (int i = 0; i < source.Count; i++)
                     {
-                        var m = source[i];
-                        var res = source[++i].QuerySelector("td > .p2r").InnerText;
-                        var fbevent = ParimatchEventsConverter.ConvertToFootballEvent(dateTimeResolver, headers, m, res);
-                        if (fbevent == null)
-                        {
-                            continue;
-                        }
+                        //var m = source[i];
+                        //var res = source[++i].QuerySelector("td > .p2r").InnerText;
+                        //var fbevent = ParimatchEventsConverter.ConvertToFootballEvent(dateTimeResolver, headers, m, res);
+                        //if (fbevent == null)
+                        //{
+                        //    continue;
+                        //}
 
-                        if (!fulleList.ContainsKey(fbevent.MatchId))
-                        {
-                            fulleList.Add(fbevent.MatchId, fbevent);
-                        }
+                        //if (!fulleList.ContainsKey(fbevent.MatchId))
+                        //{
+                        //    fulleList.Add(fbevent.MatchId, fbevent);
+                        //}
                     }
                 }
             }
@@ -191,81 +182,41 @@ namespace BetEventScanner.Providers.Parimatch
 
                 var data = LoadArchiveDate(dt);
                 var tennis = ParseArchive(data, x => x.Contains("tennis") && !x.Contains("futures") && !x.Contains("doubles") && !x.Contains("table tennis") && !x.Contains("outright") && !x.Contains("davis cup") && !x.Contains("winner") && !x.Contains("ADDITIONAL OUTCOMES".ToLower()));
-                var pmEvents = ParimatchEventsConverter.Convert<ParimatchTennisBetEvent>(new MatchDateResolver(dateStr), tennis, "tennis");
-                File.WriteAllText($@"C:\BetEventScanner\Services\Parimatch\archive\Results\Tennis\{dateStr}.json", JsonConvert.SerializeObject(pmEvents));
-                dt = dt.AddDays(1);
+                //var pmEvents = ParimatchEventsConverter.Convert<TennisMathOdds>(new MatchDateResolver(dateStr), tennis, "tennis");
+                //File.WriteAllText($@"C:\BetEventScanner\Services\Parimatch\archive\Results\Tennis\{dateStr}.json", JsonConvert.SerializeObject(pmEvents));
+                //dt = dt.AddDays(1);
             }
         }
 
-        public static void Test1()
+        public ICollection<IParimatchEvent> GetFutureOddsBetEvents()
         {
-            var list = new List<ParimatchFootballBetEvent>();
-            list.AddRange(JsonConvert.DeserializeObject<List<ParimatchFootballBetEvent>>(File.ReadAllText(@"C:\BetEventScanner\Services\Parimatch\converted\e1-16-17.json")));
-            list = list.Where(x => x.ResultStatus == "ok").ToList();
+            var sourceHtml = _client.DownloadHtmlSelenium("https://www.parimatch.com/en/bet.html?filter=today");
+            return ProcessParseFutureOddsBetEvents(sourceHtml);
         }
 
-        public void DownloadTodayOdds()
+        public ICollection<IParimatchEvent> GetFutureOddsBetEvents(string sourceHtml)
         {
-            if (_archive.GetLastLoadDate().Date != DateTime.Now.Date)
-            {
-                var dt = DateTime.Now;
-                var str = LoadOddsList();
-                _archive.Store(str, dt);
-            }
+            return ProcessParseFutureOddsBetEvents(sourceHtml);
         }
 
-        public class Archive
+        private ICollection<IParimatchEvent> ProcessParseFutureOddsBetEvents(string sourceHtml)
         {
-            private class ArchiveState
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(sourceHtml);
+
+            var eventContainers = htmlDoc.QuerySelectorAll("div.container.gray").ToList();
+
+            var result = new List<IParimatchEvent>();
+
+            foreach (var node in eventContainers)
             {
-                public ICollection<DateTime> Loads { get; set; } = new List<DateTime>();
+                var odds = ParimatchEventsConverter.ConvertToOddsEvent(node);
+                if (odds == null || odds.Count == 0) continue;
+
+                result.AddRange(odds);
             }
 
-            private readonly ParimatchSettings _settings;
-
-            public Archive(ParimatchSettings settings)
-            {
-                _settings = settings;
-            }
-
-            public DateTime GetLastLoadDate()
-            {
-                return GetState().Loads.OrderBy(x => x).FirstOrDefault();
-            }
-
-            public void Store(string data, DateTime dt)
-            {
-                var path = _settings.ArchiveDirPath.FullName + "/" + dt.ToString("yyyyMMdd");
-                File.WriteAllText(path, data);
-                AddLoad(dt);
-            }
-
-            public void Init()
-            {
-                var newState = new ArchiveState();
-
-                foreach (var item in _settings.ArchiveDirPath.GetFiles().Where(x => x.Name != "index.json").Select(x => x.Name))
-                {
-                    var f = $"{item.Substring(0, 4)}-{item.Substring(4, 2)}-{item.Substring(6, 2)}";
-                    var dt = DateTime.Parse(f);
-                    newState.Loads.Add(dt);
-                }
-
-                var path = _settings.ArchiveDirPath.FullName + "/index.json";
-                File.WriteAllText(path, JsonConvert.SerializeObject(newState));
-            }
-
-            public void AddLoad(DateTime dt)
-            {
-                GetState().Loads.Add(dt);
-            }
-
-            private ArchiveState GetState()
-            {
-                var statePath = _settings.ArchiveDirPath.FullName + "/index.json";
-                var state = JsonConvert.DeserializeObject<ArchiveState>(File.ReadAllText(statePath));
-                return state;
-            }
+            return result;
         }
     }
 }

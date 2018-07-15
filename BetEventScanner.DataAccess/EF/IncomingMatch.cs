@@ -30,10 +30,4 @@ namespace BetEventScanner.DataAccess.EF
 
         public MatchStatus Status { get; set; }
     }
-
-    public enum MatchStatus
-    {
-        NotStarted,
-        Finished
-    }
 }

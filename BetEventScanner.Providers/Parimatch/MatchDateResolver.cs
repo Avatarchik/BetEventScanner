@@ -10,6 +10,11 @@ namespace BetEventScanner.Providers.Parimatch
         private readonly DateTime _endDateTime;
         private Dictionary<int, int> d = new Dictionary<int, int>();
 
+        public MatchDateResolver()
+        {
+            d.Add(DateTime.Now.Month, DateTime.Now.Year);
+        }
+
         public MatchDateResolver(ICollection<string> dates)
         {
             var ordered = dates.OrderBy(x => x).ToList();
@@ -28,6 +33,8 @@ namespace BetEventScanner.Providers.Parimatch
         public MatchDateResolver(string url) : this(new List<string> { url })
         {
         }
+
+
 
         public DateTime GetDate(string shortDate, string time)
         {

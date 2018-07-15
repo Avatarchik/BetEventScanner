@@ -43,16 +43,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\EventType.cs" />
     <Compile Include="Model\CountryEnum.cs" />
     <Compile Include="Model\FootballMatch.cs" />
     <Compile Include="Model\FootballMatchResult.cs" />
     <Compile Include="Model\FootballMatchStage.cs" />
     <Compile Include="Model\FootballMatchStatistics.cs" />
-    <Compile Include="Contracts\IProvider.cs" />
+    <Compile Include="Model\TennisMatch.cs" />
+    <Compile Include="Model\Tennis\AtpGrandSlamTennisMatchOdds.cs" />
+    <Compile Include="Model\Tennis\TennisBetEvent.cs" />
+    <Compile Include="Model\Tennis\TennisMatch.cs" />
+    <Compile Include="Model\Tennis\TennisMatchResult.cs" />
+    <Compile Include="Model\Tennis\TennisResultOdds.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BetEventScanner.DataAccess\BetEventScanner.DataAccess.csproj">
+      <Project>{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}</Project>
+      <Name>BetEventScanner.DataAccess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

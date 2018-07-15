@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BetEventScanner.DataModel.Contracts;
+using BetEventScanner.DataAccess.Contracts;
 
 namespace BetEventScanner.DataModel.Model
 {
-    public class FootballMatch  : IProvider
+    public class FootballMatch
     {
         public DateTime DateTime { get; set; }
 

@@ -11,6 +11,7 @@ namespace BetEventScanner.DogonWeb.Controllers
     {
         private ITennisService _tennisService;
         private ICalculateService _calculateService;
+
         public HomeController()
         {
             _tennisService = new TennisBetService(new UnitOfWork(), new CalculateService(new UnitOfWork()));
@@ -46,7 +47,6 @@ namespace BetEventScanner.DogonWeb.Controllers
         [HttpPost]
         public JsonResult CreateBet(BetInfoDto betInfo)
         {
-
             var result = _tennisService.ProcessBetLine(betInfo);
 
             return Json(new
@@ -66,7 +66,6 @@ namespace BetEventScanner.DogonWeb.Controllers
 
         public ActionResult List()
         {
-
             return View();
         }
 

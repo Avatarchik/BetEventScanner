@@ -17,8 +17,7 @@ namespace BetEventScanner.DataAccess
         private IRepository<City> _cities;
         private IRepository<BetInfo> _betInfoes;
         private IRepository<Line> _lines;
-
-
+        
         public IRepository<FootballTeam> FootballTeams => _footballTeams ?? (_footballTeams = new Repository<FootballTeam>(Context));
 
         public IRepository<Country> Counties => _counties ?? (_counties = new Repository<Country>(Context));
@@ -56,19 +55,5 @@ namespace BetEventScanner.DataAccess
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-    }
-
-    public interface IDefaultUnitOfWork : IUnitOfWork
-    {
-        IRepository<FootballTeam> FootballTeams { get; }
-        IRepository<BetInfo> BetInfoes { get; }
-        IRepository<Line> Lines { get; }
-    }
-
-    public interface IUnitOfWork
-    {
-        int Commit();
-
-        Task<int> CommitAsync();
     }
 }

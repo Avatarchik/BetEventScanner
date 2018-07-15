@@ -35,7 +35,7 @@ namespace BetEventScanner.DataAccess.Mongo
 
         public void InsertEntities(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            _sourceDbProvider.InsertEntities(_collectionName, entities);
         }
 
         public void Update(T entity)
@@ -60,7 +60,7 @@ namespace BetEventScanner.DataAccess.Mongo
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _sourceDbProvider.GetEntities<T>(typeof(T).Name);
         }
 
         public Task<IEnumerable<T>> GetAllAsync()

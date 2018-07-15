@@ -11,6 +11,7 @@ using HtmlAgilityPack;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Remote;
 
 namespace BetEventScanner.Providers.SoccerStandCom
 {
@@ -42,11 +43,11 @@ namespace BetEventScanner.Providers.SoccerStandCom
 
             var root = htmlDocument.GetElementbyId("summary-content");
             var partsTableElements = root.ChildNodes[0].ChildNodes.Nodes().ToList();
-            
+
             for (var i = 0; i < partsTableElements.Count; i++)
             {
                 var attrs = partsTableElements[i].Attributes.ToList();
-                if (attrs.Any(x=>x.Name == "class" && x.Value == "stage-header stage-12"))
+                if (attrs.Any(x => x.Name == "class" && x.Value == "stage-header stage-12"))
                 {
                     matchSummary.FirstHalfScore = partsTableElements[i + 1].ChildNodes[1].InnerText.Replace("-", ":");
                     continue;
@@ -89,7 +90,7 @@ namespace BetEventScanner.Providers.SoccerStandCom
 
     public class MatchOdds
     {
-         
+
     }
 
     public class MatchStatistics
@@ -475,5 +476,55 @@ namespace BetEventScanner.Providers.SoccerStandCom
                 }
             }
         }
+
+        public void ParseTennis()
+        {
+            new SoccerstandTennisParser().Parse();
+        }
+    }
+
+
+    public class SoccerstandTennisParser
+    {
+        public void Parse()
+        {
+            var url = "https://www.soccerstand.com/tennis";
+            var driver = new ChromeDriver();
+            driver.Navigate().GoToUrl(url);
+            var html = driver.PageSource;
+
+            var nds = driver.FindElementsByCssSelector("table[class=tennis]").Cast<RemoteWebElement>().ToList();
+
+            var res = new List<SoccerstandTennisMatch>();
+
+            foreach (var item in nds)
+            {
+                var innerHtml = item.GetAttribute("innerHTML");
+                var matches = Convert(innerHtml);
+
+                res.AddRange(matches);
+            }
+
+        }
+
+        private List<SoccerstandTennisMatch> Convert(string html)
+        {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            var nameContainer = doc.QuerySelector("span[class=name]");
+            var countryPart = nameContainer.QuerySelector("span[class=country_part]").InnerText;
+            var tournamentPart = nameContainer.QuerySelector("span[class=tournament_part]").InnerText;
+
+            var matches = doc.QuerySelectorAll("tbody > tr").Where(x => !string.IsNullOrEmpty(x.Id)).ToList();
+            
+            return new List<SoccerstandTennisMatch>();
+        }
+
+
+    }
+
+    public class SoccerstandTennisMatch
+    {
+
     }
 }

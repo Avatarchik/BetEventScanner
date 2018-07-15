@@ -6,8 +6,6 @@
 
 <h2>Bets list</h2>
 
-
-
 @(Html.Kendo().Grid<BetEventScanner.DogonWeb.Models.BetInfoListDto>()
                 .Name("grid")
                 .Columns(columns =>
@@ -52,6 +50,4 @@
                     .Update(update => update.Action("UpdateBet", "Home"))
                     .PageSize(20)
                 )
-
-
 )

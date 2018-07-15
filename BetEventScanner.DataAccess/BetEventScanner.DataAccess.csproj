@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="Contracts\IEntity.cs" />
     <Compile Include="Contracts\IRepository.cs" />
+    <Compile Include="EF\MatchStatus.cs" />
     <Compile Include="Entities\BetInfo.cs" />
     <Compile Include="Entities\City.cs" />
     <Compile Include="Entities\Country.cs" />
@@ -106,6 +107,8 @@
     <Compile Include="Entities\Tresult.cs" />
     <Compile Include="EF\BetEventScannerContext.cs" />
     <Compile Include="EF\IncomingMatch.cs" />
+    <Compile Include="IDefaultUnitOfWork.cs" />
+    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Migrations\201804272248285_Initial.cs" />
     <Compile Include="Migrations\201804272248285_Initial.Designer.cs">
       <DependentUpon>201804272248285_Initial.cs</DependentUpon>
