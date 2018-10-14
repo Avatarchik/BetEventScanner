@@ -9,15 +9,13 @@ namespace ParimatchDayOddsParser
 {
     public class IncomingBetEventsProcessor
     {
-        private ChromeDriver driver;
-
         public void ProcessGettingIncomingBetEvents()
         {
             var url = "https://www.parimatch.com/en/bet.html?filter=today";
 
             string sourceHtml = null;
 
-            using (driver = new ChromeDriver())
+            using (var driver = new ChromeDriver())
             {
                 driver.Navigate().GoToUrl(url);
                 sourceHtml = driver.PageSource;
