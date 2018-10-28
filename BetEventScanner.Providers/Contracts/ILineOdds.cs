@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace BetEventScanner.Providers.Contracts
 {
-    public interface IOddsParser
+    public interface IOddsProvider
     {
         ICollection<IParimatchEvent> GetFutureOddsBetEvents();
 
-        ICollection<IParimatchEvent> GetFutureOddsBetEvents(string sourceHtml);
+        ICollection<IParimatchEvent> ParsePreMatchOdds(string sourceHtml);
     }
 }

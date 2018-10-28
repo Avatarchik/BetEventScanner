@@ -72,6 +72,7 @@
     <Compile Include="FootballDataOrg\Maps\FootballDataOrgCountryMap.cs" />
     <Compile Include="FootballDataOrg\Model\BaseDataModel.cs" />
     <Compile Include="FootballDataOrg\Model\CompetitionNew.cs" />
+    <Compile Include="AirParimatch\AirParimatchProvider.cs" />
     <Compile Include="Parimatch\MatchDateResolver.cs" />
     <Compile Include="Parimatch\Model\Base\BetEventBase.cs" />
     <Compile Include="Contracts\IParimatchEvent.cs" />

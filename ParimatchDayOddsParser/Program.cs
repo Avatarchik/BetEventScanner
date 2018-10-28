@@ -1,34 +1,59 @@
 ﻿using BetEventScanner.Providers.Parimatch;
 using BetEventScanner.Providers.Parimatch.Model;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ParimatchDayOddsParser
 {
-    public class IncomingBetEventsProcessor
+    public class HtmlParser
     {
-        public void ProcessGettingIncomingBetEvents()
-        {
-            var url = "https://www.parimatch.com/en/bet.html?filter=today";
+        private static ChromeDriver driver = null;
 
+        public static string ParseWebDriver(string url)
+        {
             string sourceHtml = null;
 
-            using (var driver = new ChromeDriver())
+            if (driver == null)
             {
+                driver = new ChromeDriver();
+                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
                 driver.Navigate().GoToUrl(url);
-                sourceHtml = driver.PageSource;
+
+                var els = driver.FindElementsByTagName("prematch-country");
+                Console.WriteLine(els.First().TagName);
+                Console.WriteLine(els.First().Text);
             }
+            else
+            {
+                driver.Navigate().Refresh();
+            }
+
+            sourceHtml = driver.PageSource;
+
+            return sourceHtml;
+        }
+
+        public static string ParseWebDriverWait(string url)
+        {
+            string sourceHtml = null;
+
+            if (driver == null)
+            {
+                driver = new ChromeDriver();
+                driver.Navigate().GoToUrl(url);
+            }
+
+            driver.Navigate().Refresh();
+            sourceHtml = driver.PageSource;
 
             if (sourceHtml == null) throw new Exception("Parimatch source html not loaded");
 
-            var incomingBetEvents = new ParimatchProvider(new ParimatchSettings()).GetFutureOddsBetEvents(sourceHtml);
-
-            var casted = incomingBetEvents.OfType<ParimatchTennisBetEvent>().ToList();
-
-            new FutureOddsBetEventsStorage().Store(casted);
+            return sourceHtml;
         }
+
     }
 
     class Program
@@ -36,18 +61,33 @@ namespace ParimatchDayOddsParser
         [STAThread]
         static void Main(string[] args)
         {
+            MainAsync().GetAwaiter().GetResult();
+        }
+
+        static async Task MainAsync()
+        {
+            //var parimatch = new OldParimatchProvider(new ParimatchSettings());
+            var parimatch = new AirParimatchProvider();
+
             while (true)
             {
                 try
                 {
-                    new IncomingBetEventsProcessor().ProcessGettingIncomingBetEvents();
+                    //var html = HtmlParser.ParseWebDriver("https://www.parimatch.com/en/bet.html?filter=today");
+                    var html = HtmlParser.ParseWebDriver("https://air.parimatch.com/prematch/0-24/");
+
+                    var incomingBetEvents = parimatch.ParsePreMatchOdds(html);
+
+                    //var casted = incomingBetEvents.OfType<ParimatchTennisBetEvent>().ToList();
+
+                    //new FutureOddsBetEventsStorage().Store(casted);
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
 
-                Task.Delay(TimeSpan.FromHours(1)).GetAwaiter().GetResult();
+                await Task.Delay(TimeSpan.FromMinutes(1));
             }
         }
     }

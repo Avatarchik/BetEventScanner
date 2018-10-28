@@ -95,7 +95,7 @@ namespace BetEventScanner.ConsoleApp
 
                 case 10:
 
-                    new Providers.Parimatch.ParimatchProvider(new Providers.Parimatch.ParimatchSettings()).ParseAllTennsis();
+                    new Providers.Parimatch.OldParimatchProvider(new Providers.Parimatch.ParimatchSettings()).ParseAllTennsis();
                     return;
                     //var fixtures = new FootballDataCoUkService();
                     //var headers = new List<string> { "Date" };
@@ -110,7 +110,7 @@ namespace BetEventScanner.ConsoleApp
                         dates.Add(st.AddDays(1));
                     }
 
-                    new Providers.Parimatch.ParimatchProvider(new Providers.Parimatch.ParimatchSettings()).LoadByDates(dates);
+                    new Providers.Parimatch.OldParimatchProvider(new Providers.Parimatch.ParimatchSettings()).LoadByDates(dates);
                     //Providers.Parimatch.Provider.Test1();
                     //new Providers.Parimatch.Provider(new Providers.Parimatch.ParimatchSettings()).Parse(new Providers.Parimatch.ParseSettings { CountryDivision = "FOOTBALL. ENGLAND. CHAMPIONSHIP" });
                     return;

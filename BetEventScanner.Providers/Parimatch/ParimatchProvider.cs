@@ -9,35 +9,15 @@ using Newtonsoft.Json;
 
 namespace BetEventScanner.Providers.Parimatch
 {
-    public class ParimatchProvider : IOddsParser
+    public class OldParimatchProvider : IOddsProvider
     {
-        //private static DirectoryInfo _baseDir = new DirectoryInfo(@"C:\BetEventScanner\Services\Parimatch\archive");
-        //private static string _baseUrl = @"https://www.parimatch.com/en/bet.html?ha=";
         private readonly ParimatchSettings _settings;
         private readonly ParimatchApiClient _client;
-  //      private readonly Archive _archive;
 
-        public ParimatchProvider(ParimatchSettings settings)
+        public OldParimatchProvider(ParimatchSettings settings)
         {
             _client = new ParimatchApiClient();
             _settings = settings;
-            //_archive = new Archive(settings);
-        }
-
-//        public Archive ArchiveState => _archive;
-
-        public void Start()
-        {
-            //var driver = new ChromeDriver();
-            //var today = DateTime.Now.Date;
-
-            ////List<string> tableCategorieslist = File.ReadAllLines("C:\\scores\\categories.txt").ToList();
-
-            //foreach (var date in listOfDates)
-            //{
-            //    var url = "https://www.parimatch.com/en/bet.html?ha=" + date;
-            //    driver.Navigate
-            //}
         }
 
         public ICollection<string> LoadByDates(ICollection<DateTime> dates)
@@ -81,7 +61,6 @@ namespace BetEventScanner.Providers.Parimatch
             File.WriteAllText($@"{_settings.ArchiveDirPath}\{dt}", html);
             return html;
         }
-
 
         public void Parse(ParseSettings parseSettings)
         {
@@ -194,7 +173,7 @@ namespace BetEventScanner.Providers.Parimatch
             return ProcessParseFutureOddsBetEvents(sourceHtml);
         }
 
-        public ICollection<IParimatchEvent> GetFutureOddsBetEvents(string sourceHtml)
+        public ICollection<IParimatchEvent> ParsePreMatchOdds(string sourceHtml)
         {
             return ProcessParseFutureOddsBetEvents(sourceHtml);
         }
@@ -208,9 +187,9 @@ namespace BetEventScanner.Providers.Parimatch
 
             var result = new List<IParimatchEvent>();
 
-            foreach (var node in eventContainers)
+            foreach (var htmlNode in eventContainers)
             {
-                var odds = ParimatchEventsConverter.ConvertToOddsEvent(node);
+                var odds = ParimatchEventsConverter.ConvertToOddsEvent(htmlNode);
                 if (odds == null || odds.Count == 0) continue;
 
                 result.AddRange(odds);
