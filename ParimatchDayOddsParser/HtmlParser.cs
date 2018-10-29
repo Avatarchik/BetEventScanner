@@ -4,6 +4,19 @@ using System.Linq;
 
 namespace ParimatchDayOddsParser
 {
+    class Ex
+    {
+        public static ChromeDriver Navigate(string url)
+        {
+            using (var driver = new ChromeDriver())
+            {
+                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
+                driver.Navigate().GoToUrl(url);
+                return driver;
+            }
+        }
+    }
+
     public class HtmlParser
     {
         private static ChromeDriver driver = null;
@@ -52,7 +65,7 @@ namespace ParimatchDayOddsParser
             return sourceHtml;
         }
 
-        
+
 
     }
 }

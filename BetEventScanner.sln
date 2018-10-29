@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlAgilityPack.CssSelector
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParimatchDayOddsParser", "ParimatchDayOddsParser\ParimatchDayOddsParser.csproj", "{551F6F77-8AB3-494A-A8DD-A713985A7597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DogonWeb", "BetEventScanner.DogonWeb\BetEventScanner.DogonWeb.csproj", "{9AED9CEE-8C63-4719-8CAC-F89F57ED5209}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,10 +57,6 @@ Global
 		{551F6F77-8AB3-494A-A8DD-A713985A7597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{551F6F77-8AB3-494A-A8DD-A713985A7597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{551F6F77-8AB3-494A-A8DD-A713985A7597}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9AED9CEE-8C63-4719-8CAC-F89F57ED5209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AED9CEE-8C63-4719-8CAC-F89F57ED5209}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AED9CEE-8C63-4719-8CAC-F89F57ED5209}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AED9CEE-8C63-4719-8CAC-F89F57ED5209}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
