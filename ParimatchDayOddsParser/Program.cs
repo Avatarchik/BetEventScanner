@@ -1,61 +1,10 @@
 ﻿using BetEventScanner.Providers.Parimatch;
-using BetEventScanner.Providers.Parimatch.Model;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
+using BetEventScanner.Providers.Vprognoze;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ParimatchDayOddsParser
 {
-    public class HtmlParser
-    {
-        private static ChromeDriver driver = null;
-
-        public static string ParseWebDriver(string url)
-        {
-            string sourceHtml = null;
-
-            if (driver == null)
-            {
-                driver = new ChromeDriver();
-                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
-                driver.Navigate().GoToUrl(url);
-
-                var els = driver.FindElementsByTagName("prematch-country");
-                Console.WriteLine(els.First().TagName);
-                Console.WriteLine(els.First().Text);
-            }
-            else
-            {
-                driver.Navigate().Refresh();
-            }
-
-            sourceHtml = driver.PageSource;
-
-            return sourceHtml;
-        }
-
-        public static string ParseWebDriverWait(string url)
-        {
-            string sourceHtml = null;
-
-            if (driver == null)
-            {
-                driver = new ChromeDriver();
-                driver.Navigate().GoToUrl(url);
-            }
-
-            driver.Navigate().Refresh();
-            sourceHtml = driver.PageSource;
-
-            if (sourceHtml == null) throw new Exception("Parimatch source html not loaded");
-
-            return sourceHtml;
-        }
-
-    }
-
     class Program
     {
         [STAThread]
@@ -66,21 +15,12 @@ namespace ParimatchDayOddsParser
 
         static async Task MainAsync()
         {
-            //var parimatch = new OldParimatchProvider(new ParimatchSettings());
-            var parimatch = new AirParimatchProvider();
-
             while (true)
             {
                 try
                 {
-                    //var html = HtmlParser.ParseWebDriver("https://www.parimatch.com/en/bet.html?filter=today");
-                    var html = HtmlParser.ParseWebDriver("https://air.parimatch.com/prematch/0-24/");
-
-                    var incomingBetEvents = parimatch.ParsePreMatchOdds(html);
-
-                    //var casted = incomingBetEvents.OfType<ParimatchTennisBetEvent>().ToList();
-
-                    //new FutureOddsBetEventsStorage().Store(casted);
+                    //ParseParimatch();
+                    ParseVprognoze();
                 }
                 catch (Exception e)
                 {
@@ -89,6 +29,20 @@ namespace ParimatchDayOddsParser
 
                 await Task.Delay(TimeSpan.FromMinutes(1));
             }
+        }
+
+        private static void ParseParimatch()
+        {
+            var html = HtmlParser.ParseWebDriverFromAttribute("https://air.parimatch.com/en/prematch/0-24/");
+            var parimatch = new AirParimatchProvider();
+
+            var prematchEvents = parimatch.ParsePreMatchOdds(html);
+        }
+
+        private static void ParseVprognoze()
+        {
+            var html = HtmlParser.ParseWebDriver("http://vprognoze.ru/statalluser/");
+            var users = new VprProvider().GetCurrentTopUsers(html);
         }
     }
 }

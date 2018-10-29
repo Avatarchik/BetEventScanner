@@ -72,20 +72,22 @@
     <Compile Include="FootballDataOrg\Maps\FootballDataOrgCountryMap.cs" />
     <Compile Include="FootballDataOrg\Model\BaseDataModel.cs" />
     <Compile Include="FootballDataOrg\Model\CompetitionNew.cs" />
-    <Compile Include="AirParimatch\AirParimatchProvider.cs" />
-    <Compile Include="Parimatch\MatchDateResolver.cs" />
-    <Compile Include="Parimatch\Model\Base\BetEventBase.cs" />
+    <Compile Include="HtmlEx.cs" />
+    <Compile Include="Parimatch\AirParimatch\AirParimatchProvider.cs" />
+    <Compile Include="Parimatch\AirParimatch\Total.cs" />
+    <Compile Include="Parimatch\OldParimatch\MatchDateResolver.cs" />
+    <Compile Include="Parimatch\OldParimatch\Model\Base\BetEventBase.cs" />
     <Compile Include="Contracts\IParimatchEvent.cs" />
-    <Compile Include="Parimatch\Model\Football\ParimatchFootballBetEvent.cs" />
-    <Compile Include="Parimatch\Model\Tennis\ParimatchTennisBetEvent.cs" />
-    <Compile Include="Parimatch\ParimatchApiClient.cs" />
-    <Compile Include="Parimatch\ParimatchEventsConverter.cs" />
-    <Compile Include="Parimatch\ParimatchFootballOddsBetEvent.cs" />
-    <Compile Include="Parimatch\ParimatchProvider.cs" />
-    <Compile Include="Parimatch\ParimatchSettings.cs" />
-    <Compile Include="Parimatch\ParimatchTennisOddsBetEvent.cs" />
-    <Compile Include="Parimatch\ParseSettings.cs" />
-    <Compile Include="Parimatch\SupportedEvents.cs" />
+    <Compile Include="Parimatch\OldParimatch\Model\Football\ParimatchFootballBetEvent.cs" />
+    <Compile Include="Parimatch\OldParimatch\Model\Tennis\ParimatchTennisBetEvent.cs" />
+    <Compile Include="Parimatch\OldParimatch\ParimatchApiClient.cs" />
+    <Compile Include="Parimatch\OldParimatch\ParimatchEventsConverter.cs" />
+    <Compile Include="Parimatch\OldParimatch\ParimatchFootballOddsBetEvent.cs" />
+    <Compile Include="Parimatch\OldParimatch\ParimatchProvider.cs" />
+    <Compile Include="Parimatch\OldParimatch\ParimatchSettings.cs" />
+    <Compile Include="Parimatch\OldParimatch\ParimatchTennisOddsBetEvent.cs" />
+    <Compile Include="Parimatch\OldParimatch\ParseSettings.cs" />
+    <Compile Include="Parimatch\OldParimatch\SupportedEvents.cs" />
     <Compile Include="SourceProvider.cs" />
     <Compile Include="Contracts\IStorage.cs" />
     <Compile Include="Contracts\IDataSource.cs" />
@@ -135,6 +137,11 @@
     <Compile Include="TennisAbstract\DataSource\TennisAbstractPlayerMapping.cs" />
     <Compile Include="TennisAbstract\Model\AtpPlayer.cs" />
     <Compile Include="TennisAbstract\TennisAbstractService.cs" />
+    <Compile Include="Vprognoze\Model\Bettor.cs" />
+    <Compile Include="Vprognoze\Provider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vprognoze\Service.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BetEventScanner.Common\BetEventScanner.Common.csproj">
