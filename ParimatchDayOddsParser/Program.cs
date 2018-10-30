@@ -1,8 +1,10 @@
 ﻿using BetEventScanner.Providers.Parimatch;
 using BetEventScanner.Providers.Vprognoze;
+using BetEventScanner.Providers.Vprognoze.Model;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +12,9 @@ namespace ParimatchDayOddsParser
 {
     public class BrowserParser
     {
+        private BlockingCollection<string> _parsingQueue = new BlockingCollection<string>();
+        private Queue<string> _processed = new Queue<string>();
+
         private ChromeDriver _driver;
 
         private IDictionary<string, int> _tabs = new Dictionary<string, int>();
@@ -66,7 +71,7 @@ namespace ParimatchDayOddsParser
             {
                 try
                 {
-                    ParseParimatch();
+                    //ParseParimatch();
                     ParseVprognoze();
                 }
                 catch (Exception e)
@@ -89,7 +94,20 @@ namespace ParimatchDayOddsParser
         private static void ParseVprognoze()
         {
             var html = HtmlParser.ParseWebDriver("http://vprognoze.ru/statalluser/");
-            var users = new VprProvider().GetCurrentTopUsers(html);
+            var vpr = new VprProvider();
+            var bettors = vpr.GetCurrentTopUsers(html);
+
+            var d = new Dictionary<Bettor, Bet[]>();
+
+            foreach (var bettor in bettors)
+            {
+                var link = vpr.GetBettorBetLink(bettor);
+                var betsHtml = HtmlParser.ParseWebDriver(link);
+                var bettotBets = vpr.ParseBettorBets(bettor, betsHtml);
+
+                d.Add(bettor, bettotBets);
+
+            }
         }
     }
 }

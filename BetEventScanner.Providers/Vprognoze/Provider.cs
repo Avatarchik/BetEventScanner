@@ -1,32 +1,19 @@
 ﻿using BetEventScanner.Providers.Vprognoze.Model;
 using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Net;
 
 namespace BetEventScanner.Providers.Vprognoze
 {
-    class MyWebClient : WebClient
-    {
-        protected override WebRequest GetWebRequest(Uri address)
-        {
-            HttpWebRequest request = base.GetWebRequest(address) as HttpWebRequest;
-            request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
-            return request;
-        }
-    }
-
     public class VprProvider
     {
         public Bettor[] GetCurrentTopUsers(string html)
         {
             try
             {
-                var htmlDoc = new HtmlDocument();
-                htmlDoc.LoadHtml(html);
-                var usersTable = htmlDoc.GetIdNode("ratingTable");
-                return usersTable.QuerySelectorAll("tbody > tr").Select(Convert).ToArray();
+                var usersTable = html.GetIdNode("ratingTable");
+                return usersTable.QuerySelectorAll("tbody > tr").Select(ConvertToBettor).ToArray();
 
             }
             catch (Exception e)
@@ -37,16 +24,7 @@ namespace BetEventScanner.Providers.Vprognoze
             return null;
         }
 
-        public Bettor[] GetCurrentTopUsers()
-        {
-            var html = Get("https://vprognoze.ru/statalluser/");
-            var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(html);
-            var usersTable = htmlDoc.GetIdNode("ratingTable");
-            return usersTable.QuerySelectorAll("tbody > tr").Select(Convert).ToArray();
-        }
-
-        private Bettor Convert(HtmlNode node)
+        private Bettor ConvertToBettor(HtmlNode node)
         {
             var bettor = new Bettor();
             var nodes = node.ChildNodes.Where(x => x.Name != "#text").ToList();
@@ -54,7 +32,14 @@ namespace BetEventScanner.Providers.Vprognoze
             var rankStr = nodes[0].InnerText;
             bettor.Rank = int.Parse(rankStr);
 
-            bettor.Name = nodes[1].InnerText.SkipLastN(3);
+            var nameNode = nodes[1];
+            bettor.Name = nameNode.InnerText.SkipLastN(3);
+
+            var linkParamsStr = nameNode.FirstChild.Attributes.FirstOrDefault(x => x.Name == "onclick").Value;
+            var temp = linkParamsStr.TakeBetween("'", "'),").Split(new char[] { '\'', ',', '\'' }).Where(q => !string.IsNullOrEmpty(q)).ToArray();
+
+            bettor.Cid = temp[1];
+            bettor.Uid = temp[0];
 
             var profitStr = nodes[2].InnerText;
             var profitValue = profitStr.SkipFirstAndLast();
@@ -90,21 +75,67 @@ namespace BetEventScanner.Providers.Vprognoze
             return bettor;
         }
 
-        private string Get(string url)
+        public Bet[] ParseBettorBets(Bettor bettor, string html)
         {
-            string response = null;
+            var t = html.GetIdNode("usertable");
+            var tt = t.QuerySelectorAll("tbody > tr[class*=\"bgr\"]").ToList();
+            return tt.Select(ConvertToBettorBets).ToArray();
+        }
 
-            using (var wc = new MyWebClient())
+        private Bet ConvertToBettorBets(HtmlNode node)
+        {
+            var nodes = node.ChildNodes.Where(x => x.Name != "#text").ToList();
+            var bet = new Bet();
+
+            var year = DateTime.Now.Year;
+            var tmp = nodes[2].FirstChild.InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
+            var dt = DateTime.ParseExact($"{tmp[0]}-{year} {tmp[1]}", "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+            bet.DateTime = dt;
+
+            // TODO Handle express betvariants
+            var compTemp = nodes[3].ChildNodes.ToList();
+            bet.Competition = compTemp[0].InnerText;
+            bet.BetEvent = compTemp[2].InnerText;
+
+            bet.BetVar = nodes[4].InnerHtml;
+
+            bet.Odds = double.Parse(nodes[5].InnerHtml);
+
+            var resTemp = nodes[6];
+            bet.EventResult = resTemp.InnerHtml;
+            var br = resTemp.Attributes.FirstOrDefault(x => x.Name == "bgcolor").Value;
+            bet.BetResult = FromColor(br); 
+
+            return bet;
+        }
+
+        private BetResult FromColor(string color)
+        {
+            switch (color)
             {
-                wc.Headers.Add("Referer", "https://vprognoze.ru/");
-                wc.Headers.Add("Conten-type", "text/html");
-                wc.Headers.Add("Charset", "windows-1251");
-                wc.Headers.Add("Accept-Encoding", "gzip, deflate, br");
+                case "#66CC66":
+                    return BetResult.Win;
 
-                response = wc.DownloadString(url);
+                case "#FF3333":
+                    return BetResult.Lost;
+
+                case "#F0FFF0":
+                    return BetResult.Draw;
+
+                default:
+                    return BetResult.None;
+
             }
+        }
 
-            return response;
+        public string GetBettorBetLink(Bettor bettor)
+        {
+            return $"https://vprognoze.ru/?do=cmptopall&action=rating&cid={bettor.Cid}&uid={bettor.Uid}";
+        }
+
+        public string[] GetBettotBetLinks(Bettor[] bettors)
+        {
+            return bettors.Select(GetBettorBetLink).ToArray();
         }
     }
 }

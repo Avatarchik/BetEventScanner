@@ -23,20 +23,13 @@ namespace ParimatchDayOddsParser
 
         public static string ParseWebDriver(string url)
         {
-            string sourceHtml = null;
-
             if (driver == null)
             {
                 driver = new ChromeDriver();
                 driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
-                driver.Navigate().GoToUrl(url);
-
-            }
-            else
-            {
-                driver.Navigate().Refresh();
             }
 
+            driver.Navigate().GoToUrl(url);
 
             return driver.PageSource;
         }

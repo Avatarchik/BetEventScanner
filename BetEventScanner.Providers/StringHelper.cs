@@ -5,6 +5,14 @@ namespace BetEventScanner.Providers
 {
     public static class StringHelper
     {
+        public static string TakeBetween(this string str, string from, string to)
+        {
+            var startIndex = str.IndexOf(from);
+            var endIndex = str.LastIndexOf(to);
+            startIndex = ++startIndex;
+            return str.Substring(startIndex, endIndex - startIndex);
+        }
+
         public static string SkipLastN(this string str, int n)
         {
             return new string(str.ToArray().Take(str.Length - n).ToArray());

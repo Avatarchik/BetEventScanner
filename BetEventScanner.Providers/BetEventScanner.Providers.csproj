@@ -137,6 +137,7 @@
     <Compile Include="TennisAbstract\DataSource\TennisAbstractPlayerMapping.cs" />
     <Compile Include="TennisAbstract\Model\AtpPlayer.cs" />
     <Compile Include="TennisAbstract\TennisAbstractService.cs" />
+    <Compile Include="Vprognoze\Model\Bet.cs" />
     <Compile Include="Vprognoze\Model\Bettor.cs" />
     <Compile Include="Vprognoze\Provider.cs">
       <SubType>Component</SubType>

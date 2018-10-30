@@ -2,9 +2,12 @@
 
 namespace BetEventScanner.Providers.Vprognoze.Model
 {
+
     public class Bettor
     {
         public string Name { get; set; }
+        public string Cid { get; set; }
+        public string Uid { get; set; }
         public int Rank { get; set; }
         public double Profit { get; set; }
         public int TotalBets { get; set; }
