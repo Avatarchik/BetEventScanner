@@ -1,11 +1,18 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BetEventScanner.Providers
 {
     public static class HtmlEx
     {
+        public static List<HtmlNode> RemoveTextNodes(this HtmlNodeCollection nodes)
+            => nodes.Where(x => x.Name != "#text").ToList();
+
+        public static string TrimmedRemoveLR(this string str)
+            => str.Replace("\\r\\n", "").Trim();
+
         public static HtmlNode GetIdNode(this string html, string id)
             => Load(html).GetIdNode(id);
 

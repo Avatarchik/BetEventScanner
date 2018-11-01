@@ -72,7 +72,8 @@ namespace ParimatchDayOddsParser
                 try
                 {
                     //ParseParimatch();
-                    ParseVprognoze();
+                    //ParseVprognoze();
+                    ParseVprognozeIncomingAllBets();
                 }
                 catch (Exception e)
                 {
@@ -85,7 +86,7 @@ namespace ParimatchDayOddsParser
 
         private static void ParseParimatch()
         {
-            var html = HtmlParser.ParseWebDriverFromAttribute("https://air.parimatch.com/en/prematch/0-24/");
+            var html = HtmlParser.ParseWebDriverFromAttribute("https://air.parimatch.com/en/prematch/0-24/", "prematch-sports");
             var parimatch = new AirParimatchProvider();
 
             var prematchEvents = parimatch.ParsePreMatchOdds(html);
@@ -106,8 +107,17 @@ namespace ParimatchDayOddsParser
                 var bettotBets = vpr.ParseBettorBets(bettor, betsHtml);
 
                 d.Add(bettor, bettotBets);
-
             }
+        }
+
+        private static void ParseVprognozeIncomingAllBets()
+        {
+            var html = HtmlParser.ParseWebDriver("https://vprognoze.ru/?do=searchbar&page=1");
+            var vpr = new VprProvider();
+           
+            var incomingBetEvents = new Dictionary<Bettor, Bet[]>();
+
+            var betEvents = vpr.ParseIncomingBets(html);
         }
     }
 }

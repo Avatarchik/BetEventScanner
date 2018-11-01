@@ -6,6 +6,14 @@ using System.Linq;
 
 namespace BetEventScanner.Providers.Vprognoze
 {
+    public class IncomingBet
+    {
+        public int DateTimeOrigin { get; set; }
+        public string Match { get; internal set; }
+        public string Competition { get; internal set; }
+        public string UserName { get; internal set; }
+    }
+
     public class VprProvider
     {
         public Bettor[] GetCurrentTopUsers(string html)
@@ -103,9 +111,33 @@ namespace BetEventScanner.Providers.Vprognoze
             var resTemp = nodes[6];
             bet.EventResult = resTemp.InnerHtml;
             var br = resTemp.Attributes.FirstOrDefault(x => x.Name == "bgcolor").Value;
-            bet.BetResult = FromColor(br); 
+            bet.BetResult = FromColor(br);
 
             return bet;
+        }
+
+        public object ParseIncomingBets(string html)
+        {
+            var table = html.GetIdNode("filtertable");
+            var rows = table.QuerySelectorAll("tbody > tr").Select(ToIcomingBet).ToArray();
+            return null;
+        }
+
+        private object ToIcomingBet(HtmlNode node)
+        {
+            var ibe = new IncomingBet();
+            var nodes = node.ChildNodes.RemoveTextNodes();
+
+            var userTmp = nodes[0].ChildNodes.RemoveTextNodes();
+            ibe.UserName = userTmp[0].ChildNodes[1].InnerText;
+
+            //ibe.UserId = 
+            //ibe.userUrl =
+            var matchTmp = nodes[1].ChildNodes.RemoveTextNodes();
+            ibe.Competition = matchTmp[1].InnerText;
+            ibe.Match = matchTmp[0].InnerText;
+
+            return ibe;
         }
 
         private BetResult FromColor(string color)

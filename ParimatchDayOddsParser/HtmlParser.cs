@@ -4,19 +4,6 @@ using System.Linq;
 
 namespace ParimatchDayOddsParser
 {
-    class Ex
-    {
-        public static ChromeDriver Navigate(string url)
-        {
-            using (var driver = new ChromeDriver())
-            {
-                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
-                driver.Navigate().GoToUrl(url);
-                return driver;
-            }
-        }
-    }
-
     public class HtmlParser
     {
         private static ChromeDriver driver = null;
@@ -34,7 +21,7 @@ namespace ParimatchDayOddsParser
             return driver.PageSource;
         }
 
-        public static string ParseWebDriverFromAttribute(string url)
+        public static string ParseWebDriverFromAttribute(string url, string anchor)
         {
             string sourceHtml = null;
 
@@ -50,7 +37,7 @@ namespace ParimatchDayOddsParser
                 driver.Navigate().Refresh();
             }
 
-            var els = driver.FindElementsByTagName("prematch-sports");
+            var els = driver.FindElementsByTagName(anchor);
 
             //var el1 = els.First();
             sourceHtml = els.First().GetAttribute("innerHTML");
