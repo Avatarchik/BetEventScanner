@@ -61,10 +61,6 @@
       <Project>{37d64b7d-9bc4-42a5-80ac-a0808dfffd6c}</Project>
       <Name>BetEventScanner.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BetEventScanner.DataAccess\BetEventScanner.DataAccess.csproj">
-      <Project>{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}</Project>
-      <Name>BetEventScanner.DataAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BetEventScanner.DataModel\BetEventScanner.DataModel.csproj">
       <Project>{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}</Project>
       <Name>BetEventScanner.DataModel</Name>
