@@ -71,10 +71,10 @@ var CompetitionsPanelComponent = /** @class */ (function () {
             ]
         }),
         __metadata("design:paramtypes", [store_service_1.StoreService,
-            responsive_service_1.ResponsiveService,
-            router_1.Router])
+            responsive_service_1.ResponsiveService, typeof (_a = typeof router_1.Router !== "undefined" && router_1.Router) === "function" && _a || Object])
     ], CompetitionsPanelComponent);
     return CompetitionsPanelComponent;
+    var _a;
 }());
 exports.CompetitionsPanelComponent = CompetitionsPanelComponent;
 //# sourceMappingURL=competitions-panel.component.js.map

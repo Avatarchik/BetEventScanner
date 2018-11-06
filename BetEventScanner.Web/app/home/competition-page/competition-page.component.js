@@ -124,11 +124,10 @@ var CompetitionPageComponent = /** @class */ (function () {
                 ]),
             ]
         }),
-        __metadata("design:paramtypes", [router_1.ActivatedRoute,
-            store_service_1.StoreService,
-            core_1.NgZone])
+        __metadata("design:paramtypes", [typeof (_a = typeof router_1.ActivatedRoute !== "undefined" && router_1.ActivatedRoute) === "function" && _a || Object, store_service_1.StoreService, typeof (_b = typeof core_1.NgZone !== "undefined" && core_1.NgZone) === "function" && _b || Object])
     ], CompetitionPageComponent);
     return CompetitionPageComponent;
+    var _a, _b;
 }());
 exports.CompetitionPageComponent = CompetitionPageComponent;
 //# sourceMappingURL=competition-page.component.js.map

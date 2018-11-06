@@ -220,11 +220,10 @@ var StoreService = /** @class */ (function () {
     };
     StoreService = StoreService_1 = __decorate([
         core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http,
-            data_actions_1.DataActions])
+        __metadata("design:paramtypes", [typeof (_a = typeof http_1.Http !== "undefined" && http_1.Http) === "function" && _a || Object, data_actions_1.DataActions])
     ], StoreService);
     return StoreService;
-    var StoreService_1;
+    var StoreService_1, _a;
 }());
 exports.StoreService = StoreService;
 //# sourceMappingURL=store.service.js.map

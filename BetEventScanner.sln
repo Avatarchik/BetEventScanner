@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.DataModel",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Providers", "BetEventScanner.Providers\BetEventScanner.Providers.csproj", "{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetEventScanner.Web", "BetEventScanner.Web\BetEventScanner.Web.csproj", "{9370BBB2-D302-48B9-A758-179C933D165E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlAgilityPack.CssSelectors", "HtmlAgilityPack.CssSelector-master\HtmlAgilityPack.CssSelector-master\HapCss\HtmlAgilityPack.CssSelectors.csproj", "{F5A65D54-A578-4A58-AAD2-4A602C36DDA7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParimatchDayOddsParser", "ParimatchDayOddsParser\ParimatchDayOddsParser.csproj", "{551F6F77-8AB3-494A-A8DD-A713985A7597}"
@@ -45,10 +43,6 @@ Global
 		{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9370BBB2-D302-48B9-A758-179C933D165E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9370BBB2-D302-48B9-A758-179C933D165E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9370BBB2-D302-48B9-A758-179C933D165E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9370BBB2-D302-48B9-A758-179C933D165E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5A65D54-A578-4A58-AAD2-4A602C36DDA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5A65D54-A578-4A58-AAD2-4A602C36DDA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5A65D54-A578-4A58-AAD2-4A602C36DDA7}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -14,7 +14,7 @@ namespace BetEventScanner.Providers.FootballDataCoUk
     {
         public readonly string Url = "http://www.football-data.co.uk/";
         private DataSourceFootballDataCoUk _dataSource = new DataSourceFootballDataCoUk();
-        private readonly IFileService _fileService = new FileService();
+        private readonly FileService _fileService = new FileService();
         private IEnumerable<string> _supportedLeagues = new List<string> { "E0"/*, "E1", "E2", "E3", "E1", "EC"*/ };
         private IResultsService _resultsService;
         private string directory = "c:\\BetEventScanner\\Services\\FootballDataCoUk";
@@ -105,7 +105,7 @@ namespace BetEventScanner.Providers.FootballDataCoUk
                 if (directory != null) Directory.CreateDirectory(directory);
             }
 
-            _fileService.SaveFile(statusFilePath, new Status
+            _fileService.WriteJson(statusFilePath, new Status
             {
                 IsUpdated = false,
                 LastCheck = DateTime.Now,
