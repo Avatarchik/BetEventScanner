@@ -7,43 +7,7 @@ using HtmlAgilityPack;
 
 namespace BetEventScanner.Providers.Parimatch
 {
-    public class Handicap
-    {
-        public string Hand1Value { get; set; }
-
-        public string Hand2Value { get; set; }
-
-        public double Hand1Odds { get; set; }
-
-        public double Hand2Odds { get; set; }
-    }
-
-    public class FootballMatch
-    {
-        public string SportId { get; set; }
-
-        public string CountryId { get; set; }
-
-        public int Id { get; set; }
-
-        public DateTime Date { get; set; }
-
-        public string HomeTeam { get; set; }
-
-        public string AwayTeam { get; set; }
-
-        public Handicap Handicap { get; set; }
-
-        public Total Total { get; set; }
-
-        public double HomeWin { get; set; }
-
-        public double Draw { get; set; }
-
-        public double AwayWin { get; set; }
-    }
-
-    public class AirParimatchProvider : IOddsProvider
+    public class AirParimatchProvider : IOddsProvider, IAirParimatchProvider
     {
         public ICollection<IParimatchEvent> GetFutureOddsBetEvents()
         {

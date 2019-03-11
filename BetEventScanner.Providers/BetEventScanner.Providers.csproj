@@ -64,6 +64,8 @@
     <Compile Include="BalanceFinanceStrategy.cs" />
     <Compile Include="Contracts\ILineOdds.cs" />
     <Compile Include="Contracts\OddsBetEvent.cs" />
+    <Compile Include="Domain\Player.cs" />
+    <Compile Include="FifaonlinecupOrg\Service.cs" />
     <Compile Include="FootballDataCoUk\Mappings\CustomHeadersMapping.cs" />
     <Compile Include="Contracts\IBetEvent.cs" />
     <Compile Include="FootballDataOrg\FootballDataOrgApiClient.cs" />
@@ -73,8 +75,14 @@
     <Compile Include="FootballDataOrg\Model\BaseDataModel.cs" />
     <Compile Include="FootballDataOrg\Model\CompetitionNew.cs" />
     <Compile Include="HtmlEx.cs" />
+    <Compile Include="Parimatch\AccountHistoryParser.cs" />
     <Compile Include="Parimatch\AirParimatch\AirParimatchProvider.cs" />
+    <Compile Include="Parimatch\AirParimatch\FootballMatch.cs" />
+    <Compile Include="Parimatch\AirParimatch\Handicap.cs" />
+    <Compile Include="Parimatch\AirParimatch\IAirParimatchProvider.cs" />
     <Compile Include="Parimatch\AirParimatch\Total.cs" />
+    <Compile Include="Parimatch\Converter.cs" />
+    <Compile Include="Parimatch\Models\CyberFootball\LiveMatch.cs" />
     <Compile Include="Parimatch\OldParimatch\MatchDateResolver.cs" />
     <Compile Include="Parimatch\OldParimatch\Model\Base\BetEventBase.cs" />
     <Compile Include="Contracts\IParimatchEvent.cs" />
@@ -85,7 +93,6 @@
     <Compile Include="Parimatch\OldParimatch\ParimatchFootballOddsBetEvent.cs" />
     <Compile Include="Parimatch\OldParimatch\ParimatchProvider.cs" />
     <Compile Include="Parimatch\OldParimatch\ParimatchSettings.cs" />
-    <Compile Include="Parimatch\OldParimatch\ParimatchTennisOddsBetEvent.cs" />
     <Compile Include="Parimatch\OldParimatch\ParseSettings.cs" />
     <Compile Include="Parimatch\OldParimatch\SupportedEvents.cs" />
     <Compile Include="SourceProvider.cs" />
@@ -132,6 +139,7 @@
     <Compile Include="SoccerStandCom\SoccerStandMatchConverter.cs" />
     <Compile Include="SoccerStandCom\SoccerStandParser.cs" />
     <Compile Include="SoccerStandCom\SoccerstandStorage.cs" />
+    <Compile Include="StringEx.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="TennisAbstract\DataSource\TennisAbstractParser.cs" />
     <Compile Include="TennisAbstract\DataSource\TennisAbstractPlayerMapping.cs" />
@@ -139,9 +147,7 @@
     <Compile Include="TennisAbstract\TennisAbstractService.cs" />
     <Compile Include="Vprognoze\Model\Bet.cs" />
     <Compile Include="Vprognoze\Model\Bettor.cs" />
-    <Compile Include="Vprognoze\Provider.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Vprognoze\Provider.cs" />
     <Compile Include="Vprognoze\Service.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +171,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="FifaonlinecupOrg\Contracts\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

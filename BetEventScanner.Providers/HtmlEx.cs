@@ -19,14 +19,17 @@ namespace BetEventScanner.Providers
         public static HtmlNode GetCssNode(this string html, string css)
             => Load(html).GetCssNode(css);
 
-        public static HtmlNode GetIdNode(this HtmlDocument doc, string id)
+        public static List<HtmlNode> GetCssNodes(this string html, string css)
+           => Load(html).GetCssNodes(css);
+
+        private static HtmlNode GetIdNode(this HtmlDocument doc, string id)
             => doc.GetElementbyId(id);
 
-        public static HtmlNode GetCssNode(this HtmlDocument doc, string cssSelector)
+        private static HtmlNode GetCssNode(this HtmlDocument doc, string cssSelector)
             => doc.DocumentNode.QuerySelector(cssSelector);
 
-        public static IList<HtmlNode> GetCssNodes(this HtmlDocument doc, string cssSelector)
-            => doc.DocumentNode.QuerySelectorAll(cssSelector);
+        private static List<HtmlNode> GetCssNodes(this HtmlDocument doc, string cssSelector)
+            => doc.DocumentNode.QuerySelectorAll(cssSelector).ToList();
 
         private static HtmlDocument Load(string html)
         {
