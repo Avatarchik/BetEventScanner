@@ -1,7 +1,9 @@
 ﻿using BetEventScanner.Providers.FifaonlinecupOrg;
 using BetEventScanner.Providers.Parimatch;
+using BetEventScanner.Providers.Parimatch.Models.CyberFootball;
 using BetEventScanner.Providers.Vprognoze;
 using BetEventScanner.Providers.Vprognoze.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,14 +19,7 @@ namespace ParimatchDayOddsParser
         {
             //new AccountHistoryParser().ParseFromFile(@"C:\BetEventScanner\account_history_parimatch.html");
 
-            var h = File.ReadAllText(@"C:\BetEventScanner\tmp_1.html");
-            var r = Converter.ToLiveBetMatches(h);
-            var s = new Service();
-
-            foreach (var item in r)
-            {
-                var h2h = s.GetHeadToHead(item.Player1.Name, item.Player2.Name);
-            }
+            var rs = new Service().GetResults().Length;
 
             MainAsync().GetAwaiter().GetResult();
         }
@@ -53,32 +48,34 @@ namespace ParimatchDayOddsParser
 
         private static void ParseParimatchLive()
         {
-            var url = "https://www.parimatch.com/en/live.html";
-
-            var events = new Dictionary<string, string>
-            {
-                //{"apl", "football11794772Item"},
-                {"bundes1", "football11794770Item"}
-            };
+            var pmLiveService = new LiveService();
+            var cache = new Dictionary<string, string>();
 
             while (true)
             {
-                var htmls = HtmlParser.GetElementsByIds(url, events.Values.ToArray());
-                var s = new Service();
+                var htmls = HtmlParser.GetElementsByIds(pmLiveService.GetLiveUrl, pmLiveService.GetEventItems());
+                var csl = new Service();
 
-                foreach (var h in htmls)
+                foreach (var lbe in pmLiveService.ConvertToLiveBetEvets(htmls))
                 {
-                    var r1 = Converter.ToLiveBetMatches(h);
+                    if (!Directory.Exists($@"C:\BetEventScanner\parimatch_live\{lbe.EventNo}"))
+                        Directory.CreateDirectory($@"C:\BetEventScanner\parimatch_live\{lbe.EventNo}");
 
-                    foreach (var item in r1)
-                    {
-                        var h2h = s.GetHeadToHead(item.Player1.Name, item.Player2.Name);
-                    }
+                    File.WriteAllText($@"C:\BetEventScanner\parimatch_live\{lbe.EventNo}\{DateTime.Now.Ticks}.html", JsonConvert.SerializeObject(lbe));
 
-                    File.WriteAllText($@"C:\BetEventScanner\parimatch_live_1\{DateTime.Now.Ticks}.html", h);
+                    var key = LiveBetMatch.Key(lbe);
+                    if (cache.ContainsKey(key))
+                        continue;
+
+                    cache.Add(key, key);
+
+                    var h2h = csl.GetHeadToHead(lbe.Player1.Name, lbe.Player2.Name);
+                    var h2hStatistics = csl.CalculateHead2Head(h2h);
+                    Console.WriteLine($"Match:({lbe.Player1.Name}/{lbe.Player1.Team}) - ({lbe.Player2.Name}/{lbe.Player2.Team})");
+                    Console.WriteLine($"P1:{h2hStatistics.P1WinsCount} - D:{h2hStatistics.DrawsCount} - P2:{h2hStatistics.P2WinsCount}");
                 }
 
-                Task.Delay(TimeSpan.FromSeconds(3)).GetAwaiter().GetResult();
+                Task.Delay(TimeSpan.FromSeconds(30)).GetAwaiter().GetResult();
             }
         }
 

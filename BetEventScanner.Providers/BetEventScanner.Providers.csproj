@@ -65,6 +65,10 @@
     <Compile Include="Contracts\ILineOdds.cs" />
     <Compile Include="Contracts\OddsBetEvent.cs" />
     <Compile Include="Domain\Player.cs" />
+    <Compile Include="FifaonlinecupOrg\ApliClient.cs" />
+    <Compile Include="FifaonlinecupOrg\HeadToHead.cs" />
+    <Compile Include="FifaonlinecupOrg\HeadToHeadCalculation.cs" />
+    <Compile Include="FifaonlinecupOrg\MatchResult.cs" />
     <Compile Include="FifaonlinecupOrg\Service.cs" />
     <Compile Include="FootballDataCoUk\Mappings\CustomHeadersMapping.cs" />
     <Compile Include="Contracts\IBetEvent.cs" />
@@ -82,6 +86,7 @@
     <Compile Include="Parimatch\AirParimatch\IAirParimatchProvider.cs" />
     <Compile Include="Parimatch\AirParimatch\Total.cs" />
     <Compile Include="Parimatch\Converter.cs" />
+    <Compile Include="Parimatch\LiveService.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\LiveMatch.cs" />
     <Compile Include="Parimatch\OldParimatch\MatchDateResolver.cs" />
     <Compile Include="Parimatch\OldParimatch\Model\Base\BetEventBase.cs" />

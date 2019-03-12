@@ -9,17 +9,30 @@ namespace BetEventScanner.Providers.Parimatch
     {
         public static LiveBetMatch[] ToLiveBetMatches(string html)
         {
-            var sourceMatches = html.GetCssNodes("td.td_n > a");
+            var betEvents = html.GetCssNodes("table");
+            var r = new List<LiveBetMatch>(betEvents.Count);
 
-            var r = new List<LiveBetMatch>(sourceMatches.Count);
-
-            sourceMatches.ForEach(x =>
+            foreach (var betEvent in betEvents)
             {
-                var nodes = x.InnerText.Split('-');
-                var cn = x.ChildNodes.Where(q => !string.IsNullOrWhiteSpace(q.InnerText) && q.InnerText.Trim() != "-" && (q.Name == "small" || q.Name == "#text")).ToList();
+                var evno = betEvent.Attributes["evno"].Value;
+                var a = betEvent.InnerHtml.GetCssNode("td.td_n > a");
 
-                var p1origin = cn[0].Name == "small" ? cn[0].InnerText : cn[0].InnerText.Replace("-", "").Trim();
-                var p2origin = cn[1].Name == "#text" ? cn[1].InnerText.Replace("-", "").Trim() : cn[1].InnerText;
+                var cn = a.ChildNodes.Where(q => !string.IsNullOrWhiteSpace(q.InnerText) && q.InnerText.Trim() != "-" && (q.Name == "small" || q.Name == "#text")).ToList();
+
+                string p1origin = string.Empty;
+                string p2origin = string.Empty;
+
+                if (cn.Count > 1)
+                {
+                    p1origin = cn[0].Name == "small" ? cn[0].InnerText : cn[0].InnerText.Replace("-", "").Trim();
+                    p2origin = cn[1].Name == "#text" ? cn[1].InnerText.Replace("-", "").Trim() : cn[1].InnerText;
+                }
+                else
+                {
+                    var n = cn.First().InnerText.Split('-').ToArray();
+                    p1origin = n[0];
+                    p2origin = n[1];
+                }
 
                 var startIndex = p1origin.IndexOf("(");
                 var endIndex = p1origin.IndexOf(")");
@@ -33,6 +46,7 @@ namespace BetEventScanner.Providers.Parimatch
 
                 r.Add(new LiveBetMatch
                 {
+                    EventNo = evno,
                     Player1 = new Player
                     {
                         Name = p1n,
@@ -42,9 +56,10 @@ namespace BetEventScanner.Providers.Parimatch
                     {
                         Name = p2n,
                         Team = p2t
-                    }
+                    },
+                    OriginHtml = betEvent.InnerHtml
                 });
-            });
+            }
 
             return r.ToArray();
         }

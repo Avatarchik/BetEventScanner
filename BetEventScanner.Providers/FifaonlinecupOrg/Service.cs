@@ -2,46 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Net;
+using System.Linq;
 
 namespace BetEventScanner.Providers.FifaonlinecupOrg
 {
-    public class HeadToHead
-    {
-        public string Player1 { get; set; }
-
-        public string Player2 { get; set; }
-
-        public MatchResult[] Results { get; set; }
-    }
-
-    public static class ApliClient
-    {
-        public static string Get(string url)
-        {
-            using (var wc = new WebClient())
-            {
-                return wc.DownloadString(url);
-            }
-        }
-    }
-
     public class Service
     {
         private readonly Dictionary<string, int> playerMapping = new Dictionary<string, int>
         {
-            {"olle", 87 },
-            {"olego",142 },
-            {"skeptik",82 },
+            { "olle", 87 },
+            { "olego", 142 },
+            { "skeptik", 82 },
             { "goodslayer", 151 },
             { "spenish", 132 },
         };
-
-        public object GetRatings()
-        {
-            var res = ApliClient.Get("http://fifaonlinecup.org/en/rating-en");
-            return null;
-        }
 
         public HeadToHead GetHeadToHead(string p1, string p2)
         {
@@ -78,7 +52,7 @@ namespace BetEventScanner.Providers.FifaonlinecupOrg
                         continue;
                     }
 
-                    var p1nm = item.InnerHtml.GetCssNode("td.result-player-left > a").InnerText.ExtractBetween('(',')');
+                    var p1nm = item.InnerHtml.GetCssNode("td.result-player-left > a").InnerText.ExtractBetween('(', ')');
                     var p1tm = item.InnerHtml.GetCssNode("td.result-player-left").InnerText.Trim().ExtractBefore('(').Trim();
 
                     var htr = item.InnerHtml.GetCssNode("td.result-account > a > span").InnerText.ExtractBetween('(', ')');
@@ -113,26 +87,146 @@ namespace BetEventScanner.Providers.FifaonlinecupOrg
             return h2h;
         }
 
-        public object GetResults()
+        public HeadToHeadCalculation CalculateHead2Head(HeadToHead h2h, int take = 20)
         {
-            var res = ApliClient.Get("http://fifaonlinecup.org/en/results-en");
+            var r = new HeadToHeadCalculation
+            {
+                Player1 = h2h.Player1,
+                Player2 = h2h.Player2
+            };
 
-            return null;
+            foreach (var q in h2h.Results.Where(v => v.Status != "cancelled").OrderByDescending(x => x.Date).Take(take))
+            {
+                var p1 = q.Player1.Name;
+                var p2 = q.Player2.Name;
+                var result = q.FT.Split(':').Select(int.Parse).ToList();
+
+                if (result[0] == result[1])
+                {
+                    r.DrawsCount++;
+                    continue;
+                }
+
+                if (result[0] > result[1])
+                {
+                    if (p1 == r.Player1)
+                    {
+                        r.P1WinsCount++;
+                    }
+                    else
+                    {
+                        r.P2WinsCount++;
+                    }
+                    continue;
+                }
+
+                if (result[0] < result[1])
+                {
+                    if (p2 == r.Player2)
+                    {
+                        r.P2WinsCount++;
+                    }
+                    else
+                    {
+                        r.P1WinsCount++;
+                    }
+                }
+            }
+
+            return r;
         }
-    }
 
-    public class MatchResult
-    {
-        public DateTime Date { get; set; }
+        public MatchResult[] GetResults(int days = 1)
+        {
+            var r = new List<MatchResult>();
+            for (int i = 0; i < days; i++)
+            {
+                var html = ApliClient.Get($"http://fifaonlinecup.org/en/results-en/schedule/" + i);
+                var matchNodes = html.GetCssNodes("table.table-result > tr");
 
-        public string Tournament { get; set; }
+                DateTime matchDate = DateTime.Now;
+                var tournament = string.Empty;
 
-        public Player Player1 { get; set; }
+                foreach (var item in matchNodes)
+                {
+                    if (item.InnerHtml.GetCssNodes(".result-date").Any())
+                    {
+                        var date = item.InnerHtml.GetCssNode("span").InnerText.Trim();
+                        matchDate = DateTime.ParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
 
-        public Player Player2 { get; set; }
+                        tournament = item.InnerHtml.GetCssNode("a").InnerText;
+                        continue;
+                    }
 
-        public string HT { get; set; }
+                    r.Add(ConvertToMatchResult(matchDate, tournament, item.InnerHtml));
+                }
+            }
 
-        public string FT { get; set; }
+            return r.ToArray();
+        }
+
+        private static bool TryGetDateTime(string input, out DateTime dt)
+        {
+            dt = DateTime.Now;
+
+            if (input.Replace("\n", "").Trim().GetCssNode("td").Attributes["class"].Value == "result-date")
+            {
+                var date = input.GetCssNode("span").InnerText.Trim();
+                dt = DateTime.ParseExact(date, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryGetTournament(string input, out string tournament)
+        {
+            tournament = string.Empty;
+
+            if (input.Replace("\n", "").Trim().GetCssNode("td").Attributes["class"].Value == "result-tournament")
+            {
+                tournament = input.Replace("\r", "").Trim();
+                return true;
+            }
+
+            return false;
+        }
+
+        private static MatchResult ConvertToMatchResult(DateTime dt, string tournament, string innerHtml)
+        {
+            var mr = new MatchResult
+            {
+                Date = dt,
+                Tournament = tournament
+            };
+
+            var p1nm = innerHtml.GetCssNode("td.result-player-left > a").InnerText.ExtractBetween('(', ')');
+            var p1tm = innerHtml.GetCssNode("td.result-player-left").InnerText.Trim().ExtractBefore('(').Trim();
+            mr.Player1 = new Player
+            {
+                Name = p1nm,
+                Team = p1tm
+            };
+
+            if (innerHtml.GetCssNode("td.result-account > a").InnerText.ToLower() != "cancelled")
+            {
+                mr.HT = innerHtml.GetCssNode("td.result-account > a > span").InnerText.ExtractBetween('(', ')');
+                mr.FT = innerHtml.GetCssNode("td.result-account > a").InnerText.ExtractBefore('(').Trim();
+            }
+            else
+            {
+                mr.Status = "cancelled";
+            }
+
+            var p2nm = innerHtml.GetCssNode("td.result-player-right > a").InnerText.ExtractBetween('(', ')');
+            var p2tm = innerHtml.GetCssNode("td.result-player-right").InnerText.Trim().ExtractBefore('(').Trim();
+            mr.Player2 = new Player
+            {
+                Name = p2nm,
+                Team = p2tm
+            };
+
+            return mr;
+        }
     }
 }
