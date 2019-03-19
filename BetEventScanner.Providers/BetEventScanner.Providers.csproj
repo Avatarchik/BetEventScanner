@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BetEventScanner.Providers</RootNamespace>
     <AssemblyName>BetEventScanner.Providers</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -65,11 +65,12 @@
     <Compile Include="Contracts\ILineOdds.cs" />
     <Compile Include="Contracts\OddsBetEvent.cs" />
     <Compile Include="Domain\Player.cs" />
-    <Compile Include="FifaonlinecupOrg\ApliClient.cs" />
-    <Compile Include="FifaonlinecupOrg\HeadToHead.cs" />
-    <Compile Include="FifaonlinecupOrg\HeadToHeadCalculation.cs" />
-    <Compile Include="FifaonlinecupOrg\MatchResult.cs" />
-    <Compile Include="FifaonlinecupOrg\Service.cs" />
+    <Compile Include="FifaOnlineCupOrg\ApliClient.cs" />
+    <Compile Include="FifaOnlineCupOrg\HeadToHead.cs" />
+    <Compile Include="FifaOnlineCupOrg\HeadToHeadCalculation.cs" />
+    <Compile Include="FifaOnlineCupOrg\IHeadToHeadProvider.cs" />
+    <Compile Include="FifaOnlineCupOrg\MatchResult.cs" />
+    <Compile Include="FifaOnlineCupOrg\Service.cs" />
     <Compile Include="FootballDataCoUk\Mappings\CustomHeadersMapping.cs" />
     <Compile Include="Contracts\IBetEvent.cs" />
     <Compile Include="FootballDataOrg\FootballDataOrgApiClient.cs" />
@@ -86,8 +87,10 @@
     <Compile Include="Parimatch\AirParimatch\IAirParimatchProvider.cs" />
     <Compile Include="Parimatch\AirParimatch\Total.cs" />
     <Compile Include="Parimatch\Converter.cs" />
-    <Compile Include="Parimatch\LiveService.cs" />
+    <Compile Include="Parimatch\LiveParser.cs" />
+    <Compile Include="Parimatch\Models\CyberFootball\Form.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\LiveMatch.cs" />
+    <Compile Include="Parimatch\Models\CyberFootball\SportLiveMatch.cs" />
     <Compile Include="Parimatch\OldParimatch\MatchDateResolver.cs" />
     <Compile Include="Parimatch\OldParimatch\Model\Base\BetEventBase.cs" />
     <Compile Include="Contracts\IParimatchEvent.cs" />
@@ -100,6 +103,8 @@
     <Compile Include="Parimatch\OldParimatch\ParimatchSettings.cs" />
     <Compile Include="Parimatch\OldParimatch\ParseSettings.cs" />
     <Compile Include="Parimatch\OldParimatch\SupportedEvents.cs" />
+    <Compile Include="Parimatch\ParimatchCyberFootball.cs" />
+    <Compile Include="Parimatch\StatisticsParser.cs" />
     <Compile Include="SourceProvider.cs" />
     <Compile Include="Contracts\IStorage.cs" />
     <Compile Include="Contracts\IDataSource.cs" />
@@ -177,7 +182,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="FifaonlinecupOrg\Contracts\" />
+    <Folder Include="FifaOnlineCupOrg\Contracts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

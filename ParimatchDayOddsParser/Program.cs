@@ -1,6 +1,5 @@
 ﻿using BetEventScanner.Providers.FifaonlinecupOrg;
 using BetEventScanner.Providers.Parimatch;
-using BetEventScanner.Providers.Parimatch.Models.CyberFootball;
 using BetEventScanner.Providers.Vprognoze;
 using BetEventScanner.Providers.Vprognoze.Model;
 using Newtonsoft.Json;
@@ -12,20 +11,28 @@ using System.Threading.Tasks;
 
 namespace ParimatchDayOddsParser
 {
+
     class Program
     {
         [STAThread]
         static void Main(string[] args)
         {
-            //new AccountHistoryParser().ParseFromFile(@"C:\BetEventScanner\account_history_parimatch.html");
-
-            var rs = new Service().GetResults().Length;
-
             MainAsync().GetAwaiter().GetResult();
         }
 
         static async Task MainAsync()
         {
+            var parimatchCyberFootball = new ParimatchCyberFootballProcessor(new Service());
+            var pmLive = new ParimatchLiveBetProcessor();
+            //var pmCreds = JsonConvert.DeserializeObject<ParimatchCredentials>(File.ReadAllText(@"C:\BetEventScanner\Parimatch\creds.json"));
+            //ParimatchWebBrowser.Login(pmCreds);
+            //ParimatchWebBrowser.PlaceBet("39816954");
+            // TODO Complete creating stats table
+            //var html = ParimatchApiClient.DownloadHtmlWC("https://s5.sir.sportradar.com/parimatch/en/1/season/55737");
+            //var table = new StatisticsParser().GetTableStats(html);
+            var cyberLive = false;
+            var generalLive = true;
+
             while (true)
             {
                 try
@@ -33,8 +40,12 @@ namespace ParimatchDayOddsParser
                     //ParseParimatch();
                     //ParseVprognoze();
                     //ParseVprognozeIncomingAllBets();
+                    if (cyberLive)
+                        parimatchCyberFootball.Process();
 
-                    ParseParimatchLive();
+                    if (generalLive)
+                        pmLive.Process();
+
 
                 }
                 catch (Exception e)
@@ -42,46 +53,15 @@ namespace ParimatchDayOddsParser
                     Console.WriteLine(e);
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(1));
+                await Task.Delay(TimeSpan.FromSeconds(30));
             }
         }
 
-        private static void ParseParimatchLive()
-        {
-            var pmLiveService = new LiveService();
-            var cache = new Dictionary<string, string>();
 
-            while (true)
-            {
-                var htmls = HtmlParser.GetElementsByIds(pmLiveService.GetLiveUrl, pmLiveService.GetEventItems());
-                var csl = new Service();
-
-                foreach (var lbe in pmLiveService.ConvertToLiveBetEvets(htmls))
-                {
-                    if (!Directory.Exists($@"C:\BetEventScanner\parimatch_live\{lbe.EventNo}"))
-                        Directory.CreateDirectory($@"C:\BetEventScanner\parimatch_live\{lbe.EventNo}");
-
-                    File.WriteAllText($@"C:\BetEventScanner\parimatch_live\{lbe.EventNo}\{DateTime.Now.Ticks}.html", JsonConvert.SerializeObject(lbe));
-
-                    var key = LiveBetMatch.Key(lbe);
-                    if (cache.ContainsKey(key))
-                        continue;
-
-                    cache.Add(key, key);
-
-                    var h2h = csl.GetHeadToHead(lbe.Player1.Name, lbe.Player2.Name);
-                    var h2hStatistics = csl.CalculateHead2Head(h2h);
-                    Console.WriteLine($"Match:({lbe.Player1.Name}/{lbe.Player1.Team}) - ({lbe.Player2.Name}/{lbe.Player2.Team})");
-                    Console.WriteLine($"P1:{h2hStatistics.P1WinsCount} - D:{h2hStatistics.DrawsCount} - P2:{h2hStatistics.P2WinsCount}");
-                }
-
-                Task.Delay(TimeSpan.FromSeconds(30)).GetAwaiter().GetResult();
-            }
-        }
 
         private static void ParseParimatch()
         {
-            var html = HtmlParser.GetElementByTagName("https://air.parimatch.com/en/prematch/0-24/", "prematch-sports");
+            var html = ParimatchWebBrowser.GetElementByTagName("https://air.parimatch.com/en/prematch/0-24/", "prematch-sports");
             var parimatch = new AirParimatchProvider();
 
             var prematchEvents = parimatch.ParsePreMatchOdds(html);
@@ -89,7 +69,7 @@ namespace ParimatchDayOddsParser
 
         private static void ParseVprognoze()
         {
-            var html = HtmlParser.ParseWebDriver("http://vprognoze.ru/statalluser/");
+            var html = ParimatchWebBrowser.ParseWebDriver("http://vprognoze.ru/statalluser/");
             var vpr = new VprProvider();
             var bettors = vpr.GetCurrentTopUsers(html);
 
@@ -98,7 +78,7 @@ namespace ParimatchDayOddsParser
             foreach (var bettor in bettors)
             {
                 var link = vpr.GetBettorBetLink(bettor);
-                var betsHtml = HtmlParser.ParseWebDriver(link);
+                var betsHtml = ParimatchWebBrowser.ParseWebDriver(link);
                 var bettotBets = vpr.ParseBettorBets(bettor, betsHtml);
 
                 d.Add(bettor, bettotBets);
@@ -107,17 +87,12 @@ namespace ParimatchDayOddsParser
 
         private static void ParseVprognozeIncomingAllBets()
         {
-            var html = HtmlParser.ParseWebDriver("https://vprognoze.ru/?do=searchbar&page=1");
+            var html = ParimatchWebBrowser.ParseWebDriver("https://vprognoze.ru/?do=searchbar&page=1");
             var vpr = new VprProvider();
 
             var incomingBetEvents = new Dictionary<Bettor, Bet[]>();
 
             var betEvents = vpr.ParseIncomingBets(html);
-        }
-
-        private static void ParseFifaonlinecupOrg()
-        {
-
         }
     }
 }

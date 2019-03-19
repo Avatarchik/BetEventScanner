@@ -29,7 +29,7 @@ namespace BetEventScanner.Providers.Parimatch
             return html.ParsedText;
         }
 
-        public string DownloadHtmlWC(string url)
+        public static string DownloadHtmlWC(string url)
         {
             using (var wc = new WebClient())
             {

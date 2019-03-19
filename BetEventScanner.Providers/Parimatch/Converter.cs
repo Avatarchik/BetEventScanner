@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace BetEventScanner.Providers.Parimatch
 {
-    public static class Converter
+    internal static class Converter
     {
-        public static LiveBetMatch[] ToLiveBetMatches(string html)
+        public static CyberFootballLiveMatch[] ToLiveBetMatches(string html)
         {
             var betEvents = html.GetCssNodes("table");
-            var r = new List<LiveBetMatch>(betEvents.Count);
+            var r = new List<CyberFootballLiveMatch>(betEvents.Count);
 
             foreach (var betEvent in betEvents)
             {
@@ -44,7 +44,7 @@ namespace BetEventScanner.Providers.Parimatch
                 var p2n = p2origin.Substring(++startIndex2, endIndex2 - startIndex2);
                 var p2t = p2origin.Substring(0, --startIndex2).Trim();
 
-                r.Add(new LiveBetMatch
+                r.Add(new CyberFootballLiveMatch
                 {
                     EventNo = evno,
                     Player1 = new Player
@@ -63,5 +63,41 @@ namespace BetEventScanner.Providers.Parimatch
 
             return r.ToArray();
         }
+
+        public static StatsTable ConvertToStatisticsTable(string html)
+        {
+            var rows = html.GetCssNodes("div.visible-md-up > table.table.table-condensed > tbody > tr");
+
+            var positions = new List<StatsTableItem>();
+
+            foreach (var row in rows)
+            {
+                var tds = row.InnerHtml.GetCssNodes("td");
+
+                var pos = int.Parse(tds[1].InnerText);
+                var name = tds[3].InnerHtml.GetCssNode("div.hidden-xs-up.visible-sm-up.wrap").InnerText;
+                var played = tds[4].InnerText;
+                var win = int.Parse(tds[5].InnerText);
+                var draw = int.Parse(tds[6].InnerText);
+                var lost = int.Parse(tds[7].InnerText);
+                var gf = int.Parse(tds[8].InnerText);
+                var ga = int.Parse(tds[9].InnerText);
+                var diff = int.Parse(tds[10].InnerText);
+                var points = int.Parse(tds[11].InnerHtml);
+                var form = ConvertToForm(tds[12].InnerHtml);
+
+                positions.Add(new StatsTableItem
+                {
+                    Form = form
+                });
+            }
+
+            return new StatsTable
+            {
+                Positions = positions.ToArray()
+            };
+        }
+
+        private static Form ConvertToForm(string html) => new Form();
     }
 }

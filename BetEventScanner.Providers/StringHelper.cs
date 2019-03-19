@@ -37,5 +37,8 @@ namespace BetEventScanner.Providers
 
             return sb.ToString();
         }
+
+        public static string RemoveDashWithTrim(this string str) =>
+            str.Replace("-", "").Trim();
     }
 }

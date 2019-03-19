@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace BetEventScanner.Providers.FifaonlinecupOrg
 {
-    public class Service
+    public class Service : IHeadToHeadProvider
     {
         private readonly Dictionary<string, int> playerMapping = new Dictionary<string, int>
         {
@@ -15,17 +15,21 @@ namespace BetEventScanner.Providers.FifaonlinecupOrg
             { "skeptik", 82 },
             { "goodslayer", 151 },
             { "spenish", 132 },
+            { "furman", 131 },
+            { "a4s", 53 },
+            { "kray", 157 },
+            { "quavo", 96 }
         };
 
-        public HeadToHead GetHeadToHead(string p1, string p2)
+        public HeadToHead GetHeadToHead(string t1, string t2)
         {
-            var p1n = p1.ToLower();
-            var p2n = p2.ToLower();
+            var p1n = t1.ToLower();
+            var p2n = t2.ToLower();
 
             var h2h = new HeadToHead
             {
-                Player1 = p1,
-                Player2 = p2
+                Player1 = t1,
+                Player2 = t2
             };
 
             if (playerMapping.ContainsKey(p1n) && playerMapping.ContainsKey(p2n))
@@ -85,55 +89,6 @@ namespace BetEventScanner.Providers.FifaonlinecupOrg
             }
 
             return h2h;
-        }
-
-        public HeadToHeadCalculation CalculateHead2Head(HeadToHead h2h, int take = 20)
-        {
-            var r = new HeadToHeadCalculation
-            {
-                Player1 = h2h.Player1,
-                Player2 = h2h.Player2
-            };
-
-            foreach (var q in h2h.Results.Where(v => v.Status != "cancelled").OrderByDescending(x => x.Date).Take(take))
-            {
-                var p1 = q.Player1.Name;
-                var p2 = q.Player2.Name;
-                var result = q.FT.Split(':').Select(int.Parse).ToList();
-
-                if (result[0] == result[1])
-                {
-                    r.DrawsCount++;
-                    continue;
-                }
-
-                if (result[0] > result[1])
-                {
-                    if (p1 == r.Player1)
-                    {
-                        r.P1WinsCount++;
-                    }
-                    else
-                    {
-                        r.P2WinsCount++;
-                    }
-                    continue;
-                }
-
-                if (result[0] < result[1])
-                {
-                    if (p2 == r.Player2)
-                    {
-                        r.P2WinsCount++;
-                    }
-                    else
-                    {
-                        r.P1WinsCount++;
-                    }
-                }
-            }
-
-            return r;
         }
 
         public MatchResult[] GetResults(int days = 1)

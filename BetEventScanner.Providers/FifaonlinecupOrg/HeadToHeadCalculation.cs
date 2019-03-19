@@ -1,6 +1,6 @@
 ﻿namespace BetEventScanner.Providers.FifaonlinecupOrg
 {
-    public class HeadToHeadCalculation
+    public class HeadToHeadStats
     {
         public string Player1 { get; set; }
 
