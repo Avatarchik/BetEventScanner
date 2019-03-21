@@ -70,10 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IOddsBetEvent.cs" />
-    <Compile Include="Contracts\IProvider.cs" />
     <Compile Include="Services\Csv\CsvParserBase.cs" />
-    <Compile Include="Contracts\IHistoricalResultsDataSource.cs" />
-    <Compile Include="Contracts\IDataImport.cs" />
     <Compile Include="Contracts\IMatchResult.cs" />
     <Compile Include="Extensions\CommonExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,7 +78,6 @@
     <Compile Include="Services\File\FileService.cs" />
     <Compile Include="Services\FootballHistoricalStatistics.cs" />
     <Compile Include="Contracts\IApiClient.cs" />
-    <Compile Include="Contracts\Services\IStatisticsService.cs" />
     <Compile Include="Contracts\Services\IResultsService.cs" />
     <Compile Include="Services\FutureOddsBetEventsStorage.cs" />
     <Compile Include="Services\Providers\Parimatch\ParimatchService.cs" />

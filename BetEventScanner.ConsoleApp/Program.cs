@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using BetEventScanner.Providers.FootballDataCoUk;
-using BetEventScanner.Providers.FootballDataOrg;
-using BetEventScanner.Providers.FootballDataOrg.Model;
-using BetEventScanner.Providers.Parimatch.Model;
 using BetEventScanner.Providers.SoccerStandCom;
 using Newtonsoft.Json;
 
@@ -159,7 +155,8 @@ namespace BetEventScanner.ConsoleApp
 
                 case 13:
                     var json = File.ReadAllText(@"C:\BetEventScanner\response_example.json");
-                    var model = JsonConvert.DeserializeObject<CompetitionNew[]>(json);
+                    //var model = JsonConvert.DeserializeObject<CompetitionNew[]>(json);
+                    var model = JsonConvert.DeserializeObject<object>(json);
                     break;
 
                 default:

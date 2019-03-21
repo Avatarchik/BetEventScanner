@@ -1,7 +1,4 @@
 using System;
-using System.Linq;
-using BetEventScanner.DataAccess.DataModel;
-using BetEventScanner.DataAccess.EF;
 using BetEventScanner.DataAccess.Entities;
 
 namespace BetEventScanner.ConsoleApp

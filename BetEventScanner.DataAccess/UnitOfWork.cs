@@ -28,15 +28,11 @@ namespace BetEventScanner.DataAccess
 
         public IRepository<Line> Lines => _lines ?? (_lines = new Repository<Line>(Context));
 
-        public int Commit()
-        {
-            return Context.SaveChanges();
-        }
-
-        public Task<int> CommitAsync()
-        {
-            throw new NotImplementedException();
-        }
+        public int Commit() => 
+            Context.SaveChanges();
+        
+        public async Task<int> CommitAsync() => 
+            await Context.SaveChangesAsync();
 
         protected virtual void Dispose(bool disposing)
         {

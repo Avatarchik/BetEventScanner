@@ -1,4 +1,3 @@
-using BetEventScanner.DataModel;
 using BetEventScanner.DataModel.Model;
 
 namespace BetEventScanner.ConsoleApp.TheoryStrateges.Equalizer

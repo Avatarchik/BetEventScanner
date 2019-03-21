@@ -113,7 +113,6 @@
     <Compile Include="FootballDataCoUk\FootballDataCoUkParser.cs" />
     <Compile Include="FootballDataCoUk\FootballDataCoUkService.cs" />
     <Compile Include="FootballDataCoUk\FootballMatchResult.cs" />
-    <Compile Include="FootballDataCoUk\IFootballService.cs" />
     <Compile Include="FootballDataCoUk\Mappings\FootballDataCoUkFixtureMapping.cs" />
     <Compile Include="FootballDataCoUk\Mappings\FootballDataCoUkHistoricalMapping.cs" />
     <Compile Include="FootballDataCoUk\Model\FixtureMatch.cs" />

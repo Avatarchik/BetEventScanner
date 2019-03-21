@@ -2,27 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using BetEventScanner.Common.Contracts.Services;
 using BetEventScanner.Common.Services.Common;
 using BetEventScanner.Common.Services.FootbalDataCoUk;
 using BetEventScanner.Common.Services.FootbalDataCoUk.Model;
-using Status = BetEventScanner.Common.Services.FootbalDataCoUk.Model.Status;
+using BetEventScanner.Providers.FootballDataCoUk.Model;
 
 namespace BetEventScanner.Providers.FootballDataCoUk
 {
-    public class FootballDataCoUkService : IFootballService
+    public class FootballDataCoUkService
     {
         public readonly string Url = "http://www.football-data.co.uk/";
-        private DataSourceFootballDataCoUk _dataSource = new DataSourceFootballDataCoUk();
+        private readonly DataSourceFootballDataCoUk _dataSource = new DataSourceFootballDataCoUk();
         private readonly FileService _fileService = new FileService();
-        private IEnumerable<string> _supportedLeagues = new List<string> { "E0"/*, "E1", "E2", "E3", "E1", "EC"*/ };
-        private IResultsService _resultsService;
-        private string directory = "c:\\BetEventScanner\\Services\\FootballDataCoUk";
-        private string statusFile = "status.json";
+        private readonly IEnumerable<string> _supportedLeagues = new List<string> { "E0"/*, "E1", "E2", "E3", "E1", "EC"*/ };
+        private readonly string _directory = "c:\\BetEventScanner\\Services\\FootballDataCoUk";
+        private readonly string _statusFile = "status.json";
 
         public string Name { get; } = "FootballDataCoUk";
-
-        public SourceProvider Provider => throw new NotImplementedException();
 
         public FootballDataCoUkService()
         {
@@ -31,7 +27,7 @@ namespace BetEventScanner.Providers.FootballDataCoUk
 
         private void Init()
         {
-            var statusFilePath = Path.Combine(directory, statusFile);
+            var statusFilePath = Path.Combine(_directory, _statusFile);
 
             var status = _fileService.ReadJson<Status>(statusFilePath);
             if (status != null && status.Initialized) return;
@@ -51,7 +47,7 @@ namespace BetEventScanner.Providers.FootballDataCoUk
 
             var curYear = DateTime.Now.Year.ToString().Remove(0, 2);
 
-            var dataDirectory = directory + "\\Data\\Origin";
+            var dataDirectory = _directory + "\\Data\\Origin";
             if (!Directory.Exists(dataDirectory))
             {
                 Directory.CreateDirectory(dataDirectory);
@@ -96,13 +92,13 @@ namespace BetEventScanner.Providers.FootballDataCoUk
 
         private void CheckStatusFile()
         {
-            var statusFilePath = Path.Combine(directory, statusFile);
+            var statusFilePath = Path.Combine(_directory, _statusFile);
 
             if (File.Exists(statusFilePath)) return;
 
-            if (!Directory.Exists(directory))
+            if (!Directory.Exists(_directory))
             {
-                if (directory != null) Directory.CreateDirectory(directory);
+                if (_directory != null) Directory.CreateDirectory(_directory);
             }
 
             _fileService.WriteJson(statusFilePath, new Status
@@ -262,27 +258,6 @@ namespace BetEventScanner.Providers.FootballDataCoUk
                 //OverallTotal = homeScored + awayScored,
                 //ParsingErrors = parsingErrors
             };
-        }
-
-        public IEnumerable<FootballMatchResult> GetAllResults()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SmartParser(IDictionary<string, string> headerMapping)
-        {
-            var file = @"C:\BetEventScanner\Services\FootballDataCoUk\Data\E0_1617.csv";
-
-            using (var reader = new StreamReader(file))
-            {
-                var csv = new CsvHelper.CsvReader(reader);
-                if (csv.ReadHeader())
-                {
-                    var headers = csv.FieldHeaders;
-                }
-                
-            }
-
         }
     }
 }

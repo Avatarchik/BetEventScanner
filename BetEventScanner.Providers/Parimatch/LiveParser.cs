@@ -50,7 +50,7 @@ namespace BetEventScanner.Providers.Parimatch
                     var requireOddsCount = GetHeaderCount(sportType);
                     var odds = item.InnerHtml.GetCssNodes("td>u>a").ToList();
 
-                    if (odds.Count != requireOddsCount)
+                    if (odds.Count != requireOddsCount.required)
                     {
                         res.Add(SportLiveMatch.Error("oods!=headers", $"odds:{odds.Count}-header:{headers.Count}"));
                         continue;
@@ -86,7 +86,7 @@ namespace BetEventScanner.Providers.Parimatch
             return res.ToArray();
         }
 
-        private (int skip, int req) GetHeaderCount(string sportType)
+        private static (int skip, int required) GetHeaderCount(string sportType)
         {
             switch (sportType)
             {

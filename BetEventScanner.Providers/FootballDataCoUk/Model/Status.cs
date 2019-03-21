@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BetEventScanner.Common.Services.FootbalDataCoUk.Model
+namespace BetEventScanner.Providers.FootballDataCoUk.Model
 {
     public class Status
     {
