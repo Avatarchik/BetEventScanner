@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using BetEventScanner.Providers.Contracts;
 using BetEventScanner.Providers.Parimatch.Model;
+using BetEventScanner.Providers.Parimatch.Models.CyberFootball;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 
@@ -20,24 +21,15 @@ namespace BetEventScanner.Providers.Parimatch
             _settings = settings;
         }
 
-        public ICollection<string> LoadByDates(ICollection<DateTime> dates)
+        public ICollection<string> LoadHistoricalResultsByDates(ICollection<DateTime> dates)
         {
             var distinct = dates.Distinct();
             var total = distinct.ToList().Count;
-            var existingFiles = _settings.ArchiveDirPath.GetFiles().ToList();
-
             var res = new List<string>();
 
             foreach (var date in distinct)
             {
                 var dt = date.ToString("yyyyMMdd");
-                if (existingFiles.Any(x => x.Name == dt))
-                {
-                    var file = existingFiles.FirstOrDefault(x => x.Name == dt);
-                    res.Add(File.ReadAllText(file.FullName));
-                    continue;
-                }
-
                 var html = _client.DownloadHtml($"{_settings.BaseUrl}{dt}");
                 File.WriteAllText($@"{_settings.ArchiveDirPath}\{dt}", html);
                 res.Add(html);
@@ -46,23 +38,36 @@ namespace BetEventScanner.Providers.Parimatch
             return res;
         }
 
-        public string LoadArchiveDate(DateTime date)
+        public void GetHistoricalResultsByDate(DateTime dt)
         {
-            var existingFiles = _settings.ArchiveDirPath.GetFiles().ToList();
-
-            var dt = date.ToString("yyyyMMdd");
-            if (existingFiles.Any(x => x.Name == dt))
-            {
-                var file = existingFiles.FirstOrDefault(x => x.Name == dt);
-                return File.ReadAllText(file.FullName);
-            }
-
-            var html = _client.DownloadHtml($"{_settings.BaseUrl}{dt}");
-            File.WriteAllText($@"{_settings.ArchiveDirPath}\{dt}", html);
-            return html;
+            var html = DownloadHistoricalResultsByDateHtml(dt);
+            ParseHistoricalResults(html);
         }
 
-        public void Parse(ParseSettings parseSettings)
+        private string DownloadHistoricalResultsByDateHtml(DateTime date)
+        {
+            var dt = date.ToString("yyyyMMdd");
+            return _client.DownloadHtmlWebClient($"{_settings.BaseUrl}{dt}");
+        }
+
+        public HistoricalMatchResult[] ParseHistoricalResults(string htmlText)
+        {
+            var containers = htmlText.GetCssNodes("div.container");
+
+            var l = new List<HistoricalMatchResult>();
+
+            foreach (var c in containers)
+            {
+                var ms = Converter.ToHistoricalResultMatches(c.InnerHtml);
+                if (ms == null || ms.Length == 0)
+                    continue;
+
+                l.AddRange(ms);
+            }
+            return l.ToArray();
+        }
+
+        public void ParseHistoricalResults(ParseSettings parseSettings)
         {
             var fulleList = new Dictionary<string, ParimatchFootballBetEvent>();
             var allFiles = _settings.BaseDirectory.GetFiles().Where(x => !x.Name.Contains("oddslist")).Select(x => x.Name).ToList();
@@ -159,7 +164,7 @@ namespace BetEventScanner.Providers.Parimatch
                     continue;
                 }
 
-                var data = LoadArchiveDate(dt);
+                var data = DownloadHistoricalResultsByDateHtml(dt);
                 var tennis = ParseArchive(data, x => x.Contains("tennis") && !x.Contains("futures") && !x.Contains("doubles") && !x.Contains("table tennis") && !x.Contains("outright") && !x.Contains("davis cup") && !x.Contains("winner") && !x.Contains("ADDITIONAL OUTCOMES".ToLower()));
                 //var pmEvents = ParimatchEventsConverter.Convert<TennisMathOdds>(new MatchDateResolver(dateStr), tennis, "tennis");
                 //File.WriteAllText($@"C:\BetEventScanner\Services\Parimatch\archive\Results\Tennis\{dateStr}.json", JsonConvert.SerializeObject(pmEvents));
@@ -167,16 +172,14 @@ namespace BetEventScanner.Providers.Parimatch
             }
         }
 
-        public ICollection<IParimatchEvent> GetFutureOddsBetEvents()
+        public ICollection<IParimatchEvent> GetTodayBetEvents()
         {
             var sourceHtml = _client.DownloadHtmlSelenium("https://www.parimatch.com/en/bet.html?filter=today");
             return ProcessParseFutureOddsBetEvents(sourceHtml);
         }
 
-        public ICollection<IParimatchEvent> ParsePreMatchOdds(string sourceHtml)
-        {
-            return ProcessParseFutureOddsBetEvents(sourceHtml);
-        }
+        public ICollection<IParimatchEvent> ParsePreMatchOdds(string sourceHtml) =>
+            ProcessParseFutureOddsBetEvents(sourceHtml);
 
         private ICollection<IParimatchEvent> ProcessParseFutureOddsBetEvents(string sourceHtml)
         {
@@ -186,15 +189,6 @@ namespace BetEventScanner.Providers.Parimatch
             var eventContainers = htmlDoc.QuerySelectorAll("div.container.gray").ToList();
 
             var result = new List<IParimatchEvent>();
-
-            foreach (var htmlNode in eventContainers)
-            {
-                var odds = ParimatchEventsConverter.ConvertToOddsEvent(htmlNode);
-                if (odds == null || odds.Count == 0) continue;
-
-                result.AddRange(odds);
-            }
-
             return result;
         }
     }

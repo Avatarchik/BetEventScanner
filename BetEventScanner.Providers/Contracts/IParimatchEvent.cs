@@ -2,6 +2,6 @@
 {
     public interface IParimatchEvent : IOddsBetEvent
     {
-        string ParimatchId { get; set; }
+        string Evno { get; set; }
     }
 }

@@ -25,6 +25,16 @@ namespace ParimatchDayOddsParser
             return driver.PageSource;
         }
 
+        internal static string GetPageHtml(string url)
+        {
+            if (driver == null)
+            {
+                OpenRefresh(url);
+            }
+
+            return driver.PageSource;
+        }
+
         public static HtmlNode GetElementById(string url, string id, bool inTab = false)
         {
             OpenRefresh(url);
@@ -40,7 +50,10 @@ namespace ParimatchDayOddsParser
 
         public static HtmlNode[] GetElementsByIds(string url, string[] ids, bool inTab = false)
         {
-            OpenRefresh(url);
+            if (driver == null)
+            {
+                OpenRefresh(url);
+            }
 
             var r = new List<HtmlNode>();
 
@@ -146,7 +159,11 @@ namespace ParimatchDayOddsParser
 
         public static string GetElementByCssSelector(string url, string selector)
         {
-            OpenRefresh(url);
+            if (driver == null)
+            {
+                OpenRefresh(url);
+            }
+            
             var e = driver.FindElementByCssSelector(selector);
 
             var sourceHtml = e.GetAttribute("innerHTML");

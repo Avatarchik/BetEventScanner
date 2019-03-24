@@ -100,11 +100,8 @@
     <Compile Include="Entities\DbEntities\Tbet.cs" />
     <Compile Include="Entities\DbEntities\Tmatch.cs" />
     <Compile Include="Entities\FootballTeam.cs" />
-    <Compile Include="Entities\Gender.cs" />
     <Compile Include="Entities\Line.cs" />
-    <Compile Include="Entities\Stadium.cs" />
     <Compile Include="Entities\TennisPlayer.cs" />
-    <Compile Include="Entities\Tresult.cs" />
     <Compile Include="EF\BetEventScannerContext.cs" />
     <Compile Include="EF\IncomingMatch.cs" />
     <Compile Include="IDefaultUnitOfWork.cs" />

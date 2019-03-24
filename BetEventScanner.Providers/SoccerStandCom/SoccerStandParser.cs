@@ -1,27 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using BetEventScanner.DataAccess.Providers;
-using BetEventScanner.DataModel.Model;
 using BetEventScanner.Providers.Contracts;
 using BetEventScanner.Providers.SoccerStandCom.Model;
 using HtmlAgilityPack;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Remote;
 
 namespace BetEventScanner.Providers.SoccerStandCom
 {
-    public enum ConverterParth
-    {
-        MatchSummary,
-        Statistics,
-        Odds
-    }
-
     public interface IConverter<out T>
     {
         ConverterParth Parth { get; }
@@ -61,85 +51,6 @@ namespace BetEventScanner.Providers.SoccerStandCom
 
             return matchSummary;
         }
-    }
-
-    public class StatisticsConverter : IConverter<MatchStatistics>
-    {
-        public ConverterParth Parth { get; } = ConverterParth.Statistics;
-
-        public MatchStatistics Convert(string html)
-        {
-            var htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(html);
-
-
-
-            return new MatchStatistics();
-        }
-    }
-
-    public class OddsConverter : IConverter<MatchOdds>
-    {
-        public ConverterParth Parth { get; } = ConverterParth.Odds;
-
-        public MatchOdds Convert(string html)
-        {
-            return new MatchOdds();
-        }
-    }
-
-    public class MatchOdds
-    {
-
-    }
-
-    public class MatchStatistics
-    {
-        public IDictionary<FootballMatchStage, MatchStageStatistics> StageStatistics { get; set; }
-    }
-
-    public class MatchStageStatistics
-    {
-        public string BallPossession { get; set; }
-
-        public string GoalAttempts { get; set; }
-
-        public string ShotsOnGoal { get; set; }
-
-        public string ShotsOffGoal { get; set; }
-
-        public string BlockedShots { get; set; }
-
-        public string FreeKicks { get; set; }
-
-        public string CornerKicks { get; set; }
-
-        public string Offsides { get; set; }
-
-        public string GoalkeeperSaves { get; set; }
-
-        public string Fouls { get; set; }
-
-        public string YellowCards { get; set; }
-
-        public string TotalPasses { get; set; }
-
-        public string Tackles { get; set; }
-    }
-
-    public class MatchSummary
-    {
-        public string FinalScore { get; set; }
-
-        public string FirstHalfScore { get; set; }
-
-        public string SecondHalfScore { get; set; }
-
-        public string Referee { get; set; }
-
-        public string Venue { get; set; }
-
-        public string Attendance { get; set; }
     }
 
     public class SoccerStandParser
@@ -462,7 +373,7 @@ namespace BetEventScanner.Providers.SoccerStandCom
                                 break;
 
                             case ConverterParth.Statistics:
-                                var matchStatistics = new StatisticsConverter().Convert(source);
+                                //var matchStatistics = new StatisticsConverter().Convert(source);
                                 break;
 
                             case ConverterParth.Odds:
@@ -481,50 +392,5 @@ namespace BetEventScanner.Providers.SoccerStandCom
         {
             new SoccerstandTennisParser().Parse();
         }
-    }
-
-
-    public class SoccerstandTennisParser
-    {
-        public void Parse()
-        {
-            var url = "https://www.soccerstand.com/tennis";
-            var driver = new ChromeDriver();
-            driver.Navigate().GoToUrl(url);
-            var html = driver.PageSource;
-
-            var nds = driver.FindElementsByCssSelector("table[class=tennis]").Cast<RemoteWebElement>().ToList();
-
-            var res = new List<SoccerstandTennisMatch>();
-
-            foreach (var item in nds)
-            {
-                var innerHtml = item.GetAttribute("innerHTML");
-                var matches = Convert(innerHtml);
-
-                res.AddRange(matches);
-            }
-
-        }
-
-        private List<SoccerstandTennisMatch> Convert(string html)
-        {
-            var doc = new HtmlDocument();
-            doc.LoadHtml(html);
-            var nameContainer = doc.QuerySelector("span[class=name]");
-            var countryPart = nameContainer.QuerySelector("span[class=country_part]").InnerText;
-            var tournamentPart = nameContainer.QuerySelector("span[class=tournament_part]").InnerText;
-
-            var matches = doc.QuerySelectorAll("tbody > tr").Where(x => !string.IsNullOrEmpty(x.Id)).ToList();
-            
-            return new List<SoccerstandTennisMatch>();
-        }
-
-
-    }
-
-    public class SoccerstandTennisMatch
-    {
-
     }
 }

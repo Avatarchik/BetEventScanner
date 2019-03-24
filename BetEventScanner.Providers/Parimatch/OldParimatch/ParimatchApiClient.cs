@@ -2,23 +2,12 @@
 using System.IO;
 using System.Net;
 using HtmlAgilityPack;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace BetEventScanner.Providers.Parimatch
 {
     public class ParimatchApiClient
     {
-        //public ICollection<ParimatchFootballBetEvent> GetArchiveBetEvents(DateTime date)
-        //{
-        //    return null;
-        //}
-
-        //public ICollection<ParimatchFootballBetEvent> GetArchiveBetEvents(ICollection<DateTime> dates)
-        //{
-        //    return null;
-        //}
-
         public string DownloadHtml(string url)
         {
             var web = new HtmlWeb
@@ -29,7 +18,7 @@ namespace BetEventScanner.Providers.Parimatch
             return html.ParsedText;
         }
 
-        public static string DownloadHtmlWC(string url)
+        public string DownloadHtmlWebClient(string url)
         {
             using (var wc = new WebClient())
             {
@@ -50,7 +39,7 @@ namespace BetEventScanner.Providers.Parimatch
             return sourceHtml;
         }
 
-        public string DownloadHtmlHWR(string url)
+        public string DownloadHtmlHttpWebRequest(string url)
         {
             var response = "";
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);

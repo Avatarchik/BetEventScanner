@@ -11,13 +11,8 @@ namespace BetEventScanner.Providers.Parimatch
                 { "fr1", "football11803586Item" },
                 { "wc", "football11803588Item" },
                 { "fr", "football11837462Item" },
-                { "wc2","football11837464Item" }
+                { "wc2","football11837464Item" },
+                { "apl2", "football11888451Item" }
             };
-    }
-
-    public class ParimatchCredentials
-    {
-        public string User { get; set; }
-        public string Pasw { get; set; }
     }
 }

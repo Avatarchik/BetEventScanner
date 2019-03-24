@@ -2,8 +2,6 @@
 {
     public interface IOddsBetEvent
     {
-        EventType EventType { get; set; }
-
         string Header { get; set; }
     }
 }

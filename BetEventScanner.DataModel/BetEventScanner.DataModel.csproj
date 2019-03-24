@@ -43,18 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contracts\EventType.cs" />
-    <Compile Include="Model\CountryEnum.cs" />
-    <Compile Include="Model\FootballMatch.cs" />
-    <Compile Include="Model\FootballMatchResult.cs" />
-    <Compile Include="Model\FootballMatchStage.cs" />
-    <Compile Include="Model\FootballMatchStatistics.cs" />
-    <Compile Include="Model\TennisMatch.cs" />
-    <Compile Include="Model\Tennis\AtpGrandSlamTennisMatchOdds.cs" />
-    <Compile Include="Model\Tennis\TennisBetEvent.cs" />
-    <Compile Include="Model\Tennis\TennisMatch.cs" />
-    <Compile Include="Model\Tennis\TennisMatchResult.cs" />
-    <Compile Include="Model\Tennis\TennisResultOdds.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="SportType.cs" />
+    <Compile Include="CountryEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

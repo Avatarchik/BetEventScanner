@@ -17,6 +17,11 @@ namespace ParimatchDayOddsParser
         [STAThread]
         static void Main(string[] args)
         {
+            var html = ParimatchWebBrowser.GetPageHtml("https://www.parimatch.com/en/bet.html?ha=20181213");
+            var dateRes = new OldParimatchProvider(new ParimatchSettings()).ParseHistoricalResults(html);
+
+            return;
+
             MainAsync().GetAwaiter().GetResult();
         }
 
@@ -24,6 +29,7 @@ namespace ParimatchDayOddsParser
         {
             var parimatchCyberFootball = new ParimatchCyberFootballProcessor(new Service());
             var pmLive = new ParimatchLiveBetProcessor();
+            var pmHistorical = new ParimatchHistoricalResultsProcessor();
             //var pmCreds = JsonConvert.DeserializeObject<ParimatchCredentials>(File.ReadAllText(@"C:\BetEventScanner\Parimatch\creds.json"));
             //ParimatchWebBrowser.Login(pmCreds);
             //ParimatchWebBrowser.PlaceBet("39816954");
@@ -31,12 +37,13 @@ namespace ParimatchDayOddsParser
             //var html = ParimatchApiClient.DownloadHtmlWC("https://s5.sir.sportradar.com/parimatch/en/1/season/55737");
             //var table = new StatisticsParser().GetTableStats(html);
             var cyberLive = false;
-            var generalLive = true;
+            var generalLive = false;
 
             while (true)
             {
                 try
                 {
+                    Console.Clear();
                     //ParseParimatch();
                     //ParseVprognoze();
                     //ParseVprognozeIncomingAllBets();
@@ -58,14 +65,6 @@ namespace ParimatchDayOddsParser
         }
 
 
-
-        private static void ParseParimatch()
-        {
-            var html = ParimatchWebBrowser.GetElementByTagName("https://air.parimatch.com/en/prematch/0-24/", "prematch-sports");
-            var parimatch = new AirParimatchProvider();
-
-            var prematchEvents = parimatch.ParsePreMatchOdds(html);
-        }
 
         private static void ParseVprognoze()
         {

@@ -30,12 +30,6 @@ namespace BetEventScanner.Providers.Parimatch
             }
         }
 
-        public MatchDateResolver(string url) : this(new List<string> { url })
-        {
-        }
-
-
-
         public DateTime GetDate(string shortDate, string time)
         {
             var md = shortDate.Split('/');

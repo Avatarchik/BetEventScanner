@@ -12,7 +12,7 @@ namespace BetEventScanner.Providers.Parimatch
         public class ConvertMeta
         {
             public string Header { get; set; }
-            public EventType EventType { get; set; }
+            public SportType EventType { get; set; }
             public MatchDateResolver DateResolver { get; set; }
             public IList<string> Headers { get; set; }
             public HtmlNode HtmlNode { get; set; }
@@ -237,36 +237,6 @@ namespace BetEventScanner.Providers.Parimatch
         //    return res;
         //}
 
-        public static ICollection<IParimatchEvent> ConvertToOddsEvent(HtmlNode node)
-        {
-            var header = node.SelectSingleNode("h3")?.InnerText;
-            if (header == null) return null;
-
-            var eventType = SupportedEvents.GetSupportedEventType(header);
-            if (eventType == EventType.None) return null;
-            Console.WriteLine(header);
-            var oddsBetEvents = new List<IParimatchEvent>();
-
-            switch (eventType)
-            {
-                case EventType.Tennis:
-
-                    oddsBetEvents.AddRange(ConvertToTennisOddsBetEvent(header, node));
-                        
-                    //oddsBetEvents.Add(ConvertToTennisOddsBetEvent(header, node));
-                    break;
-
-                //case EventType.Football:
-                //    ConvertToFootballOddsBetEvent(header, node);
-                //    break;
-
-                default:
-                    break;
-            }
-
-            return oddsBetEvents;
-        }
-
         //public static ICollection<IParimatchEvent> ConvertToFootballOddsBetEvent(string header, HtmlNode node)
         //{
         //    var betEvents = new List<IParimatchEvent>();
@@ -296,7 +266,7 @@ namespace BetEventScanner.Providers.Parimatch
                 var meta = new ConvertMeta
                 {
                     Header = header,
-                    EventType = EventType.Tennis,
+                    EventType = SportType.Tennis,
                     DateResolver = new MatchDateResolver(),
                     Headers = headers,
                     HtmlNode = item,
@@ -325,7 +295,7 @@ namespace BetEventScanner.Providers.Parimatch
                     case "#":
                         try
                         {
-                            res.ParimatchId = row[i].InnerText;
+                            res.Evno = row[i].InnerText;
                         }
                         catch (Exception e)
                         {

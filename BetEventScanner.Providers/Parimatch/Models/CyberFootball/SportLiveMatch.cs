@@ -8,11 +8,12 @@ namespace BetEventScanner.Providers.Parimatch.Models.CyberFootball
         public string ErrorText { get; set; }
         public string EventNo { get; set; }
         public string Link { get; set; }
-        public string SportType { get; set; }
+        public string SportTypeStr { get; set; }
+        public SportType SportType { get; set; }
         public string Team1 { get; set; }
         public string Team2 { get; set; }
         public string Result { get; set; }
-        public string totalOverBetKey { get; set; }
+        public string TotalOverBetKey { get; set; }
         public string TotalUnderOdds { get; set; }
         public string TotalUnderBetKey { get; set; }
         public string DrawOdds { get; set; }
@@ -39,6 +40,5 @@ namespace BetEventScanner.Providers.Parimatch.Models.CyberFootball
             ErrorName = en,
             ErrorText = et
         };
-        
     }
 }

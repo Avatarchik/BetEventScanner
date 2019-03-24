@@ -76,17 +76,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TheoryStrateges\BubbelLadderFromThree\Service.cs" />
-    <Compile Include="TheoryStrateges\Equalizer\EqualizerService.cs" />
-    <Compile Include="TheoryStrateges\Equalizer\EqualizerState.cs" />
-    <Compile Include="FixturesService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeasonService.cs" />
-    <Compile Include="TheoryTesters\SimulationResult.cs" />
-    <Compile Include="TheoryTesters\Simulator.cs" />
-    <Compile Include="TeamOddsMock.cs" />
-    <Compile Include="TransactionType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

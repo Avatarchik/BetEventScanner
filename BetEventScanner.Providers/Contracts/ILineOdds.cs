@@ -5,7 +5,7 @@ namespace BetEventScanner.Providers.Contracts
 {
     public interface IOddsProvider
     {
-        ICollection<IParimatchEvent> GetFutureOddsBetEvents();
+        ICollection<IParimatchEvent> GetTodayBetEvents();
 
         ICollection<IParimatchEvent> ParsePreMatchOdds(string sourceHtml);
     }

@@ -64,6 +64,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BetEventScanner.DataModel\BetEventScanner.DataModel.csproj">
+      <Project>{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}</Project>
+      <Name>BetEventScanner.DataModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BetEventScanner.Providers\BetEventScanner.Providers.csproj">
       <Project>{39AC1221-16D3-46FA-89CB-0D4E95EBC3E5}</Project>
       <Name>BetEventScanner.Providers</Name>

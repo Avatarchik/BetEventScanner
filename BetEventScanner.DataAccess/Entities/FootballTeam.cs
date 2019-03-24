@@ -21,7 +21,5 @@ namespace BetEventScanner.DataAccess.DataModel
         public string ShortName { get; set; }
 
         public int StadiumId { get; set; }
-
-        public Stadium Stadium { get; set; }
     }
 }
