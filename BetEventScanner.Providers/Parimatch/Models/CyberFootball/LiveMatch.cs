@@ -1,4 +1,4 @@
-﻿using BetEventScanner.Providers.Domain;
+﻿using BetEventScanner.DataModel;
 
 namespace BetEventScanner.Providers.Parimatch.Models.CyberFootball
 {

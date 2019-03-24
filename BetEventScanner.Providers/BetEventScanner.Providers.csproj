@@ -105,12 +105,10 @@
     <Compile Include="SoccerStandCom\ConverterParth.cs" />
     <Compile Include="SoccerStandCom\MatchOdds.cs" />
     <Compile Include="SoccerStandCom\MatchStageStatistics.cs" />
-    <Compile Include="SoccerStandCom\MatchStatistics.cs" />
     <Compile Include="SoccerStandCom\MatchSummary.cs" />
     <Compile Include="SoccerStandCom\OddsConverter.cs" />
     <Compile Include="SoccerStandCom\SoccerstandTennisMatch.cs" />
     <Compile Include="SoccerStandCom\SoccerstandTennisParser.cs" />
-    <Compile Include="SoccerStandCom\StatisticsConverter.cs" />
     <Compile Include="SourceProvider.cs" />
     <Compile Include="Contracts\IStorage.cs" />
     <Compile Include="Contracts\IDataSource.cs" />

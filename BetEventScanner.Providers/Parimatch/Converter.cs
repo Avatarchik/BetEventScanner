@@ -1,4 +1,4 @@
-﻿using BetEventScanner.Providers.Domain;
+﻿using BetEventScanner.DataModel;
 using BetEventScanner.Providers.Parimatch.Models.CyberFootball;
 using System;
 using System.Collections.Generic;
@@ -80,7 +80,7 @@ namespace BetEventScanner.Providers.Parimatch
             var names = name.ToLower().Split('.').Select(x => x.Trim()).ToArray();
 
             var sportType = names[0].ToSportType();
-            if (sportType == null)
+            if (!sportType.HasValue)
                 return null;
 
             if (_nonSupportedOddsBetEvents[sportType.Value].Length == 0 || _nonSupportedOddsBetEvents[sportType.Value].Contains(names.Last()))

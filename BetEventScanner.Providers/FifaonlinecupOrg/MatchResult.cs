@@ -1,4 +1,4 @@
-﻿using BetEventScanner.Providers.Domain;
+﻿using BetEventScanner.DataModel;
 using System;
 
 namespace BetEventScanner.Providers.FifaonlinecupOrg

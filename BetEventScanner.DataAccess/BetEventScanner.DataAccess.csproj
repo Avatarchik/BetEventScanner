@@ -93,7 +93,6 @@
     <Compile Include="Entities\DbEntities\Old\MatchCommentaries.cs" />
     <Compile Include="Entities\DbEntities\Old\Match.cs" />
     <Compile Include="Entities\DbEntities\Old\MatchEvent.cs" />
-    <Compile Include="Entities\DbEntities\Old\Player.cs" />
     <Compile Include="Entities\DbEntities\Old\SchedulerAndResults.cs" />
     <Compile Include="Entities\DbEntities\Old\StandinfTeam.cs" />
     <Compile Include="Entities\DbEntities\CountryCompetitionsStatisticsDocEntity.cs" />

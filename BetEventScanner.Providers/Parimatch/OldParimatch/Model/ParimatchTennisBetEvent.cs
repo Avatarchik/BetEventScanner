@@ -1,5 +1,6 @@
 ﻿using System;
 using BetEventScanner.DataAccess.Contracts;
+using BetEventScanner.DataModel;
 using MongoDB.Bson;
 
 namespace BetEventScanner.Providers.Parimatch.Model

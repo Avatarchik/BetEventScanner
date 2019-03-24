@@ -1,4 +1,4 @@
-﻿namespace BetEventScanner.Providers.Parimatch
+﻿namespace BetEventScanner.DataModel
 {
     public enum SportType
     {

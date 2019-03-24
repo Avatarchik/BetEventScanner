@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BetEventScanner.DataModel;
+using System;
 
 namespace BetEventScanner.Providers.Parimatch.Models.CyberFootball
 {

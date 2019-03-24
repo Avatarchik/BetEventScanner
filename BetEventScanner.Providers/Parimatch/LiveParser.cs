@@ -1,4 +1,5 @@
-﻿using BetEventScanner.Providers.Parimatch.Models.CyberFootball;
+﻿using BetEventScanner.DataModel;
+using BetEventScanner.Providers.Parimatch.Models.CyberFootball;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;

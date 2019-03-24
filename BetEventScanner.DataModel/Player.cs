@@ -1,4 +1,4 @@
-﻿namespace BetEventScanner.Providers.Domain
+﻿namespace BetEventScanner.DataModel
 {
     public class Player
     {
