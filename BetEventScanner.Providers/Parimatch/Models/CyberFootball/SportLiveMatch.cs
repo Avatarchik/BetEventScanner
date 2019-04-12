@@ -32,6 +32,7 @@ namespace BetEventScanner.Providers.Parimatch.Models.CyberFootball
         public string Win1Odds { get; set; }
         public string Win1betKey { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
+        public string Competition { get; set; }
 
         public static string Key(CyberFootballLiveMatch lbm) =>
             $"{lbm.EventNo}{lbm.Player1.Team}{lbm.Player1.Name}{lbm.Player2.Team}{lbm.Player1.Name}";

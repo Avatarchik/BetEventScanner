@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BetEventScanner.Providers
 {
-    public static class StringHelper
+    public static class StringEx
     {
         public static string ExtractBefore(this string input, char before)
         {

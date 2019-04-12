@@ -47,7 +47,7 @@ namespace BetEventScanner.Providers.SoccerStandCom
 
         public void Store(SoccerstandData data)
         {
-            var name = StringHelper.RemoveSpecialSymbols(data.Url);
+            var name = StringEx.RemoveSpecialSymbols(data.Url);
 
             File.WriteAllText($@"C:\BetEventScanner\soccer_stand\{name}.json", JsonConvert.SerializeObject(data));
         }

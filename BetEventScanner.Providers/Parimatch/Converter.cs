@@ -12,7 +12,7 @@ namespace BetEventScanner.Providers.Parimatch
         public static Dictionary<SportType, string[]> _nonSupportedOddsBetEvents = new Dictionary<SportType, string[]>
         {
             {SportType.Tennis, new string[0]},
-            {SportType.Basketball, new[]{ "futures", "3 point fg", "1-st quarter", "reb" } },
+            {SportType.Basketball, new[]{ "futures", "3 point fg", "1-st quarter", "reb", "points" } },
             {SportType.Football, new string[0]}
         };
 
@@ -56,12 +56,12 @@ namespace BetEventScanner.Providers.Parimatch
                 r.Add(new CyberFootballLiveMatch
                 {
                     EventNo = evno,
-                    Player1 = new Player
+                    Player1 = new CyberFootballPlayer
                     {
                         Name = p1n,
                         Team = p1t
                     },
-                    Player2 = new Player
+                    Player2 = new CyberFootballPlayer
                     {
                         Name = p2n,
                         Team = p2t

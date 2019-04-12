@@ -73,12 +73,12 @@ namespace BetEventScanner.Providers.FifaonlinecupOrg
                     {
                         Date = dt,
                         Tournament = tournament,
-                        Player1 = new Player
+                        Player1 = new CyberFootballPlayer
                         {
                             Name = p1nm,
                             Team = p1tm
                         },
-                        Player2 = new Player
+                        Player2 = new CyberFootballPlayer
                         {
                             Name = p2nm,
                             Team = p2tm
@@ -160,7 +160,7 @@ namespace BetEventScanner.Providers.FifaonlinecupOrg
 
             var p1nm = innerHtml.GetCssNode("td.result-player-left > a").InnerText.ExtractBetween('(', ')');
             var p1tm = innerHtml.GetCssNode("td.result-player-left").InnerText.Trim().ExtractBefore('(').Trim();
-            mr.Player1 = new Player
+            mr.Player1 = new CyberFootballPlayer
             {
                 Name = p1nm,
                 Team = p1tm
@@ -178,7 +178,7 @@ namespace BetEventScanner.Providers.FifaonlinecupOrg
 
             var p2nm = innerHtml.GetCssNode("td.result-player-right > a").InnerText.ExtractBetween('(', ')');
             var p2tm = innerHtml.GetCssNode("td.result-player-right").InnerText.Trim().ExtractBefore('(').Trim();
-            mr.Player2 = new Player
+            mr.Player2 = new CyberFootballPlayer
             {
                 Name = p2nm,
                 Team = p2tm

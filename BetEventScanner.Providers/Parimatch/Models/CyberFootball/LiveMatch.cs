@@ -5,8 +5,8 @@ namespace BetEventScanner.Providers.Parimatch.Models.CyberFootball
     public class CyberFootballLiveMatch
     {
         public string EventNo { get; set; }
-        public Player Player1 { get; set; }
-        public Player Player2 { get; set; }
+        public CyberFootballPlayer Player1 { get; set; }
+        public CyberFootballPlayer Player2 { get; set; }
         public string OriginHtml { get; set; }
 
         public static string Key(CyberFootballLiveMatch lbm) =>

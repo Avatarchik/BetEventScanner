@@ -61,7 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BalanceFinanceStrategy.cs" />
+    <Compile Include="BasketballEx.cs" />
     <Compile Include="Contracts\ILineOdds.cs" />
     <Compile Include="FifaOnlineCupOrg\ApliClient.cs" />
     <Compile Include="FifaOnlineCupOrg\HeadToHead.cs" />
@@ -82,7 +82,6 @@
     <Compile Include="Parimatch\LiveParser.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\BasketballLiveResult.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\Form.cs" />
-    <Compile Include="Parimatch\Models\CyberFootball\Form1.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\HistoricalMatchResult.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\LiveMatch.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\SportLiveMatch.cs" />
@@ -153,6 +152,8 @@
     <Compile Include="SoccerStandCom\SoccerStandParser.cs" />
     <Compile Include="SoccerStandCom\SoccerstandStorage.cs" />
     <Compile Include="SportType.cs" />
+    <Compile Include="Strategies\Basketball\HumptyDumpty\HumptyDumpty.cs" />
+    <Compile Include="Strategies\Basketball\HumptyDumpty\HumptyDumptyResult.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="TennisAbstract\DataSource\TennisAbstractParser.cs" />
     <Compile Include="TennisAbstract\DataSource\TennisAbstractPlayerMapping.cs" />

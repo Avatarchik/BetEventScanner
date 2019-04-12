@@ -4,29 +4,17 @@ using BetEventScanner.Providers.Parimatch;
 
 namespace ParimatchDayOddsParser
 {
-    public class ParimatchHistoricalResultsProcessor
-    {
-
-    }
-
     public class ParimatchLiveBetProcessor
     {
-        private readonly LiveParser _liveParser;
-
-        public ParimatchLiveBetProcessor()
-        {
-            _liveParser = new LiveParser();
-        }
-
         public void Process()
         {
-            var container = ParimatchWebBrowser.GetElementByCssSelector(LiveParser.LiveUrl, "div.container > div.wrapper");
-            var liveEvents = _liveParser.GetListLiveEvents(container);
+            var container = ParimatchWebBrowser.GetElementByCssSelector(ParimatchConverter.LiveUrl, "div.container > div.wrapper");
+            var liveEvents = ParimatchConverter.GetListLiveEvents(container);
             Console.Clear();
             Console.WriteLine($"Live matches: {liveEvents.Length} / failed: {liveEvents.Count(x => !string.IsNullOrEmpty(x.ErrorName))}");
             var nle = liveEvents.Where(x => string.IsNullOrEmpty(x.ErrorName)).ToArray();
 
-            var basketball = _liveParser.GetBasketballLiveResults(nle);
+            var basketball = ParimatchConverter.GetBasketballLiveResults(nle);
 
             foreach (var item in nle)
             {

@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Player.cs" />
+    <Compile Include="BasketballMetchResult.cs" />
+    <Compile Include="BasketballPeriod.cs" />
+    <Compile Include="CyberFootballPlayer.cs" />
     <Compile Include="SportType.cs" />
     <Compile Include="CountryEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

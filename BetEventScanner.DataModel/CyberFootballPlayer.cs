@@ -1,6 +1,6 @@
 ﻿namespace BetEventScanner.DataModel
 {
-    public class Player
+    public class CyberFootballPlayer
     {
         public string Name { get; set; }
         public string Team { get; set; }
