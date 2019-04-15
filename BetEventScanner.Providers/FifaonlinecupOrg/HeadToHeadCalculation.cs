@@ -11,5 +11,7 @@
         public int DrawsCount { get; set; }
 
         public int P2WinsCount { get; set; }
+
+        public string LastResult { get; set; }
     }
 }

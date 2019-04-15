@@ -98,6 +98,7 @@
     <Compile Include="Parimatch\OldParimatch\ParimatchSettings.cs" />
     <Compile Include="Parimatch\OldParimatch\ParseSettings.cs" />
     <Compile Include="Parimatch\OldParimatch\SupportedEvents.cs" />
+    <Compile Include="Parimatch\ParimatchConverter.cs" />
     <Compile Include="Parimatch\ParimatchCredentials.cs" />
     <Compile Include="Parimatch\ParimatchCyberFootball.cs" />
     <Compile Include="Parimatch\StatisticsParser.cs" />

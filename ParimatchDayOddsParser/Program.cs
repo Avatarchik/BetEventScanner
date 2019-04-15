@@ -14,10 +14,12 @@ namespace ParimatchDayOddsParser
 
         static async Task MainAsync()
         {
-            var parimatchCyberFootball = new ParimatchCyberFootballProcessor(new Service());
+            var cyberStarFootball = new PmCyberStarFootballProcessor(new Service(), new CyberFootballBetsProcessor());
+            var eSportBattleFootball = new PmEsportBattleFootballProcessor(new CyberFootballBetsProcessor());
             var pmLive = new ParimatchLiveBetProcessor();
 
-            var cyberLive = true;
+            var cyberLive = false;
+            var esportBattler = true;
             var generalLive = false;
 
             while (true)
@@ -27,7 +29,10 @@ namespace ParimatchDayOddsParser
                     Console.Clear();
 
                     if (cyberLive)
-                        parimatchCyberFootball.Process();
+                        cyberStarFootball.Process();
+
+                    if (esportBattler)
+                        eSportBattleFootball.Process();
 
                     if (generalLive)
                         pmLive.Process();
@@ -38,7 +43,7 @@ namespace ParimatchDayOddsParser
                     Console.WriteLine(e);
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(30));
+                await Task.Delay(TimeSpan.FromSeconds(61));
             }
         }
     }

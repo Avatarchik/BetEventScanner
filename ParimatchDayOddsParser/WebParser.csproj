@@ -38,6 +38,10 @@
   <ItemGroup>
     <Compile Include="HtmlNode.cs" />
     <Compile Include="ParimatchWebBrowser.cs" />
+    <Compile Include="Parimatch\CyberFootballBet.cs" />
+    <Compile Include="Parimatch\CyberFootballBetsProcessor.cs" />
+    <Compile Include="Parimatch\CyberFootballBetsState.cs" />
+    <Compile Include="Parimatch\IProcessor.cs" />
     <Compile Include="Parimatch\ParimatchCyberFootballProcessor.cs" />
     <Compile Include="Parimatch\ParimatchLiveBetProcessor.cs" />
     <Compile Include="Parimatch\Service.cs" />

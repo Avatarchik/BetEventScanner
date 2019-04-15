@@ -9,16 +9,14 @@ namespace ParimatchDayOddsParser
         public void Process()
         {
             var container = ParimatchWebBrowser.GetElementByCssSelector(ParimatchConverter.LiveUrl, "div.container > div.wrapper");
-            var liveEvents = ParimatchConverter.GetListLiveEvents(container);
+            var liveEvents = ParimatchConverter.GetListLiveEvents2(container);
             Console.Clear();
-            Console.WriteLine($"Live matches: {liveEvents.Length} / failed: {liveEvents.Count(x => !string.IsNullOrEmpty(x.ErrorName))}");
-            var nle = liveEvents.Where(x => string.IsNullOrEmpty(x.ErrorName)).ToArray();
+            Console.WriteLine($"Live matches: {liveEvents.Length}");
+            var basketball = ParimatchConverter.GetBasketballLiveResults(liveEvents);
 
-            var basketball = ParimatchConverter.GetBasketballLiveResults(nle);
-
-            foreach (var item in nle)
+            foreach (var item in liveEvents)
             {
-                Console.WriteLine($"{item.SportTypeStr}: {item.Team1} - {item.Team2} {item.Result}");
+                Console.WriteLine($"{item.SportType}: {item.Team1} - {item.Team2} {item.Result}");
                 Console.WriteLine($"w={item.Win1Odds}; x={item.DrawOdds} l={item.Win2Odds} r={item.Result}");
                 Console.WriteLine($"f1={item.Fora1Value}:{item.Fora1Odds}; f2={item.Fora2Value}:{item.Fora2Odds}; t={item.TotalValue} o={item.TotalOverOdds} u={item.TotalUnderOdds}");
             }

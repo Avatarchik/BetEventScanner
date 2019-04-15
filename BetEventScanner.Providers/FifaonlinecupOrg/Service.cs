@@ -21,7 +21,8 @@ namespace BetEventScanner.Providers.FifaonlinecupOrg
             { "quavo", 96 },
             { "kiker", 130 },
             { "whitehorse", 156},
-            { "hrusch",113}
+            { "hrusch",113},
+            { "vitor",119}
         };
 
         public HeadToHead GetHeadToHead(string t1, string t2)

@@ -5,11 +5,7 @@ namespace BetEventScanner.Providers.Parimatch.Models.CyberFootball
 {
     public class SportLiveMatch
     {
-        public string ErrorName { get; set; }
-        public string ErrorText { get; set; }
         public string EventNo { get; set; }
-        public string Link { get; set; }
-        public string SportTypeStr { get; set; }
         public SportType SportType { get; set; }
         public string Team1 { get; set; }
         public string Team2 { get; set; }
@@ -36,11 +32,5 @@ namespace BetEventScanner.Providers.Parimatch.Models.CyberFootball
 
         public static string Key(CyberFootballLiveMatch lbm) =>
             $"{lbm.EventNo}{lbm.Player1.Team}{lbm.Player1.Name}{lbm.Player2.Team}{lbm.Player1.Name}";
-
-        public static SportLiveMatch Error(string en, string et) => new SportLiveMatch
-        {
-            ErrorName = en,
-            ErrorText = et
-        };
     }
 }

@@ -16,7 +16,7 @@ namespace BetEventScanner.DataModel
                 Score = r
             };
 
-            var scores = r.Split(':').Select(int.Parse).ToArray();
+            var scores = r.Split('-').Select(int.Parse).ToArray();
             p.Total = scores.Sum();
             p.Score1 = scores[0];
             p.Score2 = scores[1];
