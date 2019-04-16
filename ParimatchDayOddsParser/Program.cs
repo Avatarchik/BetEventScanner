@@ -16,7 +16,7 @@ namespace ParimatchDayOddsParser
         static async Task MainAsync()
         {
             var hist = new HistoricalResultsProcessor();
-            var cyberStarFootball = new PmCyberStarFootballProcessor(new Service(), new CyberFootballBetsProcessor());
+            var cyberStarFootball = new PmCyberStarFootballProcessor(new BetEventScanner.Providers.FifaonlinecupOrg.Service(), new CyberFootballBetsProcessor());
             var eSportBattleFootball = new PmEsportBattleFootballProcessor(new CyberFootballBetsProcessor());
             var pmLive = new ParimatchLiveBetProcessor();
 
