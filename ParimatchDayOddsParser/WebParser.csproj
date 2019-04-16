@@ -41,6 +41,7 @@
     <Compile Include="Parimatch\CyberFootballBet.cs" />
     <Compile Include="Parimatch\CyberFootballBetsProcessor.cs" />
     <Compile Include="Parimatch\CyberFootballBetsState.cs" />
+    <Compile Include="Parimatch\HistoricalResultsProcessor.cs" />
     <Compile Include="Parimatch\IProcessor.cs" />
     <Compile Include="Parimatch\ParimatchCyberFootballProcessor.cs" />
     <Compile Include="Parimatch\ParimatchLiveBetProcessor.cs" />

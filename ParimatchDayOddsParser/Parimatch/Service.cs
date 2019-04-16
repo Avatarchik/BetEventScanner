@@ -11,7 +11,7 @@ namespace ParimatchDayOddsParser.Parimatch
         {
             var html = ParimatchWebBrowser.GetPageHtml("https://www.parimatch.com/en/bet.html?ha=20181213");
             var hd = new HumptyDumpty();
-            var dateRes = new OldParimatchProvider(new ParimatchSettings()).ParseHistoricalResults(html);
+            var dateRes = new HistoricalResultsParser(new ParimatchSettings()).ParseHistoricalResults(html);
             Console.WriteLine($"parsed:{dateRes.Length}, errors:{dateRes.Count(x => x.Error)}");
             hd.Process(dateRes.Where(x => !x.Error && !x.Result.Contains("0:0") && x.SportType == BetEventScanner.DataModel.SportType.Basketball && decimal.Parse(x.Win1Odds) >= 1.1m && decimal.Parse(x.Win2Odds) >= 1.1m).ToArray());
             var r = hd.GetResult();

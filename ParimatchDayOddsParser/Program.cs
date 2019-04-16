@@ -1,4 +1,5 @@
 ﻿using BetEventScanner.Providers.FifaonlinecupOrg;
+using ParimatchDayOddsParser.Parimatch;
 using System;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace ParimatchDayOddsParser
 
         static async Task MainAsync()
         {
+            var hist = new HistoricalResultsProcessor();
             var cyberStarFootball = new PmCyberStarFootballProcessor(new Service(), new CyberFootballBetsProcessor());
             var eSportBattleFootball = new PmEsportBattleFootballProcessor(new CyberFootballBetsProcessor());
             var pmLive = new ParimatchLiveBetProcessor();
@@ -27,6 +29,9 @@ namespace ParimatchDayOddsParser
                 try
                 {
                     Console.Clear();
+
+                    hist.Process();
+                        return;
 
                     if (cyberLive)
                         cyberStarFootball.Process();

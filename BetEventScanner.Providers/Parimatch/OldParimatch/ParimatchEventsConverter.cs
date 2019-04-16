@@ -20,60 +20,6 @@ namespace BetEventScanner.Providers.Parimatch
             public string Result { get; set; }
         }
 
-        public static ICollection<T> Convert<T>(MatchDateResolver dateResolver, ICollection<string> htmlNodes, string type) where T : class
-        {
-            var pmEvents = new List<T>();
-
-            foreach (var htmlNode in htmlNodes)
-            {
-                var node = new HtmlDocument();
-                node.LoadHtml(htmlNode);
-                var table = node.QuerySelector("table[class=dt]");
-                var headers = table.QuerySelectorAll("tbody[class=processed] > tr > th").Select(x => x.InnerText).ToList();
-                var rows = table.QuerySelectorAll("tbody[class^=row]").ToList();
-
-                var source = rows[0].QuerySelectorAll("tr").Where(x => !string.IsNullOrEmpty(x.InnerText)).ToList();
-                for (int i = 0; i < source.Count; i++)
-                {
-                    var m = source[i];
-                    var resultIndex = ++i;
-                    if (resultIndex > source.Count - 1)
-                    {
-                        continue;
-                    }
-                    var res = source[resultIndex].QuerySelector("td > .p2r")?.InnerText;
-                    if (res == null)
-                    {
-                        i++;
-                        continue;
-                    }
-
-                    T pmEvent = null;
-
-                    Console.WriteLine(m.InnerText);
-
-                    if (type == "tennis")
-                    {
-                        //pmEvent = (T)(object)ConvertToTennisOddsBetEvent(dateResolver, headers, m, res);
-                    }
-
-                    //if (type == "football")
-                    //{
-                    //    pmEvent = (T)ConvertToFootballOddsBetEvent(dateResolver, headers, m, res);
-                    //}
-
-                    if (pmEvent == null)
-                    {
-                        continue;
-                    }
-
-                    pmEvents.Add(pmEvent);
-                }
-            }
-
-            return pmEvents;
-        }
-
         //public static ParimatchFootballBetEvent ConvertToFootballEvent(MatchDateResolver dateResolver, List<string> headers, HtmlNode htmlNode, string result)
         //{
         //    var res = new ParimatchFootballBetEvent();

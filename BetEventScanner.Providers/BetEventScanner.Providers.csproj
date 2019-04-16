@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasketballEx.cs" />
-    <Compile Include="Contracts\ILineOdds.cs" />
     <Compile Include="FifaOnlineCupOrg\ApliClient.cs" />
     <Compile Include="FifaOnlineCupOrg\HeadToHead.cs" />
     <Compile Include="FifaOnlineCupOrg\HeadToHeadCalculation.cs" />
@@ -88,19 +87,13 @@
     <Compile Include="Parimatch\Models\CyberFootball\StatsTable.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\StatsTableItem.cs" />
     <Compile Include="Parimatch\OldParimatch\MatchDateResolver.cs" />
-    <Compile Include="Parimatch\OldParimatch\Model\BetEventBase.cs" />
     <Compile Include="Contracts\IParimatchEvent.cs" />
-    <Compile Include="Parimatch\OldParimatch\Model\ParimatchFootballBetEvent.cs" />
-    <Compile Include="Parimatch\OldParimatch\Model\ParimatchTennisBetEvent.cs" />
-    <Compile Include="Parimatch\OldParimatch\ParimatchApiClient.cs" />
     <Compile Include="Parimatch\OldParimatch\ParimatchEventsConverter.cs" />
     <Compile Include="Parimatch\OldParimatch\ParimatchProvider.cs" />
     <Compile Include="Parimatch\OldParimatch\ParimatchSettings.cs" />
     <Compile Include="Parimatch\OldParimatch\ParseSettings.cs" />
-    <Compile Include="Parimatch\OldParimatch\SupportedEvents.cs" />
     <Compile Include="Parimatch\ParimatchConverter.cs" />
     <Compile Include="Parimatch\ParimatchCredentials.cs" />
-    <Compile Include="Parimatch\ParimatchCyberFootball.cs" />
     <Compile Include="Parimatch\StatisticsParser.cs" />
     <Compile Include="SoccerStandCom\ConverterParth.cs" />
     <Compile Include="SoccerStandCom\MatchOdds.cs" />
@@ -155,7 +148,7 @@
     <Compile Include="SportType.cs" />
     <Compile Include="Strategies\Basketball\HumptyDumpty\HumptyDumpty.cs" />
     <Compile Include="Strategies\Basketball\HumptyDumpty\HumptyDumptyResult.cs" />
-    <Compile Include="StringHelper.cs" />
+    <Compile Include="StringEx.cs" />
     <Compile Include="TennisAbstract\DataSource\TennisAbstractParser.cs" />
     <Compile Include="TennisAbstract\DataSource\TennisAbstractPlayerMapping.cs" />
     <Compile Include="TennisAbstract\Model\AtpPlayer.cs" />
