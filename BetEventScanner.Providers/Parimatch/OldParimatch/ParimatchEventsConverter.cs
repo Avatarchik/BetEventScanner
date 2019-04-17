@@ -201,278 +201,278 @@ namespace BetEventScanner.Providers.Parimatch
         //    return new List<IParimatchEvent>();
         //}
 
-        public static ICollection<IParimatchEvent> ConvertToTennisOddsBetEvent(string header, HtmlNode node)
-        {
-            var betEvents = new List<IParimatchEvent>();
+        //public static ICollection<IParimatchEvent> ConvertToTennisOddsBetEvent(string header, HtmlNode node)
+        //{
+        //    var betEvents = new List<IParimatchEvent>();
 
-            var headers = node.QuerySelectorAll("tbody[class=processed] > tr > th").Select(x => x.InnerText).ToList();
-            var rows = node.QuerySelectorAll("tbody[class^='row'] .processed").ToList();
+        //    var headers = node.QuerySelectorAll("tbody[class=processed] > tr > th").Select(x => x.InnerText).ToList();
+        //    var rows = node.QuerySelectorAll("tbody[class^='row'] .processed").ToList();
 
-            foreach (var item in rows)
-            {
-                var meta = new ConvertMeta
-                {
-                    Header = header,
-                    EventType = SportType.Tennis,
-                    DateResolver = new MatchDateResolver(),
-                    Headers = headers,
-                    HtmlNode = item,
-                };
+        //    foreach (var item in rows)
+        //    {
+        //        var meta = new ConvertMeta
+        //        {
+        //            Header = header,
+        //            EventType = SportType.Tennis,
+        //            DateResolver = new MatchDateResolver(),
+        //            Headers = headers,
+        //            HtmlNode = item,
+        //        };
 
-                var tennisEvent = ConvertToTennisBetEvent(meta);
-                betEvents.Add(tennisEvent);
-            }
+        //        var tennisEvent = ConvertToTennisBetEvent(meta);
+        //        betEvents.Add(tennisEvent);
+        //    }
 
-            return betEvents;
-        }
+        //    return betEvents;
+        //}
 
-        private static IParimatchEvent ConvertToTennisBetEvent(ConvertMeta meta)
-        {
-            var res = new ParimatchTennisBetEvent
-            {
-                Header = meta.Header,
-                EventType = meta.EventType,
-                Tournament = meta.Header
-            };
-            var row = meta.HtmlNode.QuerySelectorAll("td").ToList();
-            for (var i = 0; i < meta.Headers.Count; i++)
-            {
-                switch (meta.Headers[i])
-                {
-                    case "#":
-                        try
-                        {
-                            res.Evno = row[i].InnerText;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //private static IParimatchEvent ConvertToTennisBetEvent(ConvertMeta meta)
+        //{
+        //    var res = new ParimatchTennisBetEvent
+        //    {
+        //        Header = meta.Header,
+        //        EventType = meta.EventType,
+        //        Tournament = meta.Header
+        //    };
+        //    var row = meta.HtmlNode.QuerySelectorAll("td").ToList();
+        //    for (var i = 0; i < meta.Headers.Count; i++)
+        //    {
+        //        switch (meta.Headers[i])
+        //        {
+        //            case "#":
+        //                try
+        //                {
+        //                    res.Evno = row[i].InnerText;
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "Date":
-                        try
-                        {
-                            var t = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
-                            var dateTime = meta.DateResolver.GetDate(t[0], t[1]);
-                            res.DateTime = dateTime;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //            case "Date":
+        //                try
+        //                {
+        //                    var t = row[i].InnerHtml.Split(new[] { "<br>" }, StringSplitOptions.None);
+        //                    var dateTime = meta.DateResolver.GetDate(t[0], t[1]);
+        //                    res.DateTime = dateTime;
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "Event":
-                        try
-                        {
-                            string playersHtml = string.Empty;
+        //            case "Event":
+        //                try
+        //                {
+        //                    string playersHtml = string.Empty;
 
-                            if (row[i].InnerHtml.Contains("</a>"))
-                            {
-                                playersHtml = row[i].QuerySelector("a").InnerHtml;
-                            }
-                            else
-                            {
-                                playersHtml = row[i].InnerHtml;
-                            }
+        //                    if (row[i].InnerHtml.Contains("</a>"))
+        //                    {
+        //                        playersHtml = row[i].QuerySelector("a").InnerHtml;
+        //                    }
+        //                    else
+        //                    {
+        //                        playersHtml = row[i].InnerHtml;
+        //                    }
 
-                            var players = playersHtml.Split(new[] { "<br>" }, StringSplitOptions.None).ToList();
+        //                    var players = playersHtml.Split(new[] { "<br>" }, StringSplitOptions.None).ToList();
 
-                            res.Player1 = players[0];
-                            res.Player2 = players[1];
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //                    res.Player1 = players[0];
+        //                    res.Player2 = players[1];
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "Hand.":
-                        try
-                        {
-                            var handicaps = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
-                            if (handicaps.Count == 0) return null;
+        //            case "Hand.":
+        //                try
+        //                {
+        //                    var handicaps = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
+        //                    if (handicaps.Count == 0) return null;
 
-                            res.Player1Handicap = handicaps[0];
-                            res.Player2Handicap = handicaps[1];
+        //                    res.Player1Handicap = handicaps[0];
+        //                    res.Player2Handicap = handicaps[1];
 
-                            var handicapOdds = row[++i].QuerySelectorAll("a").Select(x => x.InnerText).ToList();
-                            res.Player1HandicapOdds = handicapOdds[0];
-                            res.Player2HandicapOdds = handicapOdds[1];
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //                    var handicapOdds = row[++i].QuerySelectorAll("a").Select(x => x.InnerText).ToList();
+        //                    res.Player1HandicapOdds = handicapOdds[0];
+        //                    res.Player2HandicapOdds = handicapOdds[1];
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "Total":
-                        try
-                        {
-                            res.Total = row[i].InnerText;
-                            res.TotalOver = row[++i].QuerySelector("a").InnerText;
-                            res.TotalUnder = row[++i].QuerySelector("a").InnerText;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //            case "Total":
+        //                try
+        //                {
+        //                    res.Total = row[i].InnerText;
+        //                    res.TotalOver = row[++i].QuerySelector("a").InnerText;
+        //                    res.TotalUnder = row[++i].QuerySelector("a").InnerText;
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "1":
-                        try
-                        {
-                            res.Player1Win = row[i].QuerySelector("a")?.InnerText;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //            case "1":
+        //                try
+        //                {
+        //                    res.Player1Win = row[i].QuerySelector("a")?.InnerText;
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "2":
-                        try
-                        {
-                            res.Player2Win = row[i].QuerySelector("a")?.InnerText;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //            case "2":
+        //                try
+        //                {
+        //                    res.Player2Win = row[i].QuerySelector("a")?.InnerText;
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "2:0":
-                        try
-                        {
-                            res.TwoZero = row[i].QuerySelector("a")?.InnerText;
-                            if (res.TwoZero == null) return null;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //            case "2:0":
+        //                try
+        //                {
+        //                    res.TwoZero = row[i].QuerySelector("a")?.InnerText;
+        //                    if (res.TwoZero == null) return null;
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "2:1":
-                        try
-                        {
-                            res.TwoOne = row[i].QuerySelector("a")?.InnerText;
-                            if (res.TwoOne == null) return null;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //            case "2:1":
+        //                try
+        //                {
+        //                    res.TwoOne = row[i].QuerySelector("a")?.InnerText;
+        //                    if (res.TwoOne == null) return null;
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "1:2":
-                        try
-                        {
-                            res.OneTwo = row[i].QuerySelector("a")?.InnerText;
-                            if (res.OneTwo == null) return null;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //            case "1:2":
+        //                try
+        //                {
+        //                    res.OneTwo = row[i].QuerySelector("a")?.InnerText;
+        //                    if (res.OneTwo == null) return null;
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "0:2":
-                        try
-                        {
-                            res.ZeroTwo = row[i].QuerySelector("a")?.InnerText;
-                            if (res.ZeroTwo == null) return null;
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            Debugger.Break();
-                        }
-                        break;
+        //            case "0:2":
+        //                try
+        //                {
+        //                    res.ZeroTwo = row[i].QuerySelector("a")?.InnerText;
+        //                    if (res.ZeroTwo == null) return null;
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                    Debugger.Break();
+        //                }
+        //                break;
 
-                    case "iTotal":
-                        try
-                        {
-                            var indTotals = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
-                            if (indTotals.Count == 2)
-                            {
-                                res.Player1ITotal = indTotals[0];
-                                res.Player2ITotal = indTotals[1];
-                            }
+        //            case "iTotal":
+        //                try
+        //                {
+        //                    var indTotals = row[i].QuerySelectorAll("b").Select(x => x.InnerText).ToList();
+        //                    if (indTotals.Count == 2)
+        //                    {
+        //                        res.Player1ITotal = indTotals[0];
+        //                        res.Player2ITotal = indTotals[1];
+        //                    }
 
-                            var indTotalOverOdds = row[++i].QuerySelectorAll("a").Select(x => x.InnerText).ToList();
-                            if (indTotalOverOdds.Count == 2)
-                            {
-                                res.Player1ITotalOverOdds = indTotalOverOdds[0];
-                                res.Player2ITotalOverOdds = indTotalOverOdds[1];
-                            }
+        //                    var indTotalOverOdds = row[++i].QuerySelectorAll("a").Select(x => x.InnerText).ToList();
+        //                    if (indTotalOverOdds.Count == 2)
+        //                    {
+        //                        res.Player1ITotalOverOdds = indTotalOverOdds[0];
+        //                        res.Player2ITotalOverOdds = indTotalOverOdds[1];
+        //                    }
 
-                            var indTotalUnderOdds = row[++i].QuerySelectorAll("a").Select(x => x.InnerText).ToList();
-                            if (indTotalUnderOdds.Count == 2)
-                            {
-                                res.Player1ITotalUnderOdds = indTotalUnderOdds[0];
-                                res.Player2ITotalUnderOdds = indTotalUnderOdds[1];
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
+        //                    var indTotalUnderOdds = row[++i].QuerySelectorAll("a").Select(x => x.InnerText).ToList();
+        //                    if (indTotalUnderOdds.Count == 2)
+        //                    {
+        //                        res.Player1ITotalUnderOdds = indTotalUnderOdds[0];
+        //                        res.Player2ITotalUnderOdds = indTotalUnderOdds[1];
+        //                    }
+        //                }
+        //                catch (Exception e)
+        //                {
+        //                    Console.WriteLine(e);
+        //                }
 
-                        break;
-                }
-            }
-            // ToDo commented while developing odds parsing, incoming odds not have result
-            //try
-            //{
-            //    var result = meta.Result;
-            //    if (!string.IsNullOrEmpty(result))
-            //    {
-            //        if (!result.Contains("cancelled"))
-            //        {
-            //            var tempRes = result.Substring(0, result.Length - 1);
-            //            var splitResult = tempRes.Split('(');
-            //            var finalResult = splitResult[0];
-            //            res.FinalScore = finalResult;
-            //            var setsResult = splitResult[1].Split(',').ToList();
-            //            res.SetsResult = setsResult;
-            //            res.Status = "ok";
-            //        }
-            //        else
-            //        {
-            //            res.Status = result;
-            //        }
+        //                break;
+        //        }
+        //    }
+        //    // ToDo commented while developing odds parsing, incoming odds not have result
+        //    //try
+        //    //{
+        //    //    var result = meta.Result;
+        //    //    if (!string.IsNullOrEmpty(result))
+        //    //    {
+        //    //        if (!result.Contains("cancelled"))
+        //    //        {
+        //    //            var tempRes = result.Substring(0, result.Length - 1);
+        //    //            var splitResult = tempRes.Split('(');
+        //    //            var finalResult = splitResult[0];
+        //    //            res.FinalScore = finalResult;
+        //    //            var setsResult = splitResult[1].Split(',').ToList();
+        //    //            res.SetsResult = setsResult;
+        //    //            res.Status = "ok";
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            res.Status = result;
+        //    //        }
 
-            //        res.MatchId = res.DateTime.ToString("yyyyMMdd") + res.Player1.Substring(0, 3) + res.Player2.Substring(0, 3);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    //Debugger.Break();
-            //    //throw;
-            //}
+        //    //        res.MatchId = res.DateTime.ToString("yyyyMMdd") + res.Player1.Substring(0, 3) + res.Player2.Substring(0, 3);
+        //    //    }
+        //    //}
+        //    //catch (Exception e)
+        //    //{
+        //    //    Console.WriteLine(e);
+        //    //    //Debugger.Break();
+        //    //    //throw;
+        //    //}
 
-            res.Status = "Scheduled";
+        //    res.Status = "Scheduled";
 
-            var part1 = new String(res.Player1.Take(3).ToArray());
-            var part2 = new String(res.Player2.Take(3).ToArray());
-            var part3 = res.DateTime.ToString("ddMMyyyy");
+        //    var part1 = new String(res.Player1.Take(3).ToArray());
+        //    var part2 = new String(res.Player2.Take(3).ToArray());
+        //    var part3 = res.DateTime.ToString("ddMMyyyy");
 
-            res.MatchId = $"{part1}{part2}{part3}";
+        //    res.MatchId = $"{part1}{part2}{part3}";
 
-            return res;
-        }
+        //    return res;
+        //}
     }
 }

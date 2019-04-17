@@ -1,6 +1,10 @@
 ﻿using BetEventScanner.Providers.FifaonlinecupOrg;
+using BetEventScanner.Providers.Parimatch;
+using Newtonsoft.Json;
 using ParimatchDayOddsParser.Parimatch;
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ParimatchDayOddsParser
@@ -15,6 +19,9 @@ namespace ParimatchDayOddsParser
 
         static async Task MainAsync()
         {
+            //var hm = JsonConvert.DeserializeObject<CyberFootballHistoricalMatchResult[]>(File.ReadAllText($@"C:\BetEventScanner\cyberFootball\results\index.json"));
+            //var c = hm.Count(x => x.Date == null);
+
             var hist = new HistoricalResultsProcessor();
             var cyberStarFootball = new PmCyberStarFootballProcessor(new BetEventScanner.Providers.FifaonlinecupOrg.Service(), new CyberFootballBetsProcessor());
             var eSportBattleFootball = new PmEsportBattleFootballProcessor(new CyberFootballBetsProcessor());
@@ -31,7 +38,7 @@ namespace ParimatchDayOddsParser
                     Console.Clear();
 
                     hist.Process();
-                        return;
+                    return;
 
                     if (cyberLive)
                         cyberStarFootball.Process();

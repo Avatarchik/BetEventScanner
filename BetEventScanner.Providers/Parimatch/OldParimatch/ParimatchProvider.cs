@@ -9,68 +9,51 @@ namespace BetEventScanner.Providers.Parimatch
 {
     public class HistoricalResultsParser
     {
-        public static string footballUrl = $"https://www.parimatch.com/en/res.html?&Date={0}&SK=21";
+        public static string footballUrl = "https://www.parimatch.com/en/res.html?&Date={0}&SK=21";
 
         public static string FootballUrl(DateTime date) =>
             string.Format(footballUrl, date.ToString("yyyyMMdd"));
 
-        public static HistoricalMatchResult[] GetMatches(string container) =>
-            container.GetCssNodes("table.TT > tbody").Select(x => HistoricalMatchResult.FromString(x.InnerHtml)).ToArray();
+        public static CyberFootballHistoricalMatchResult[] GetMatches(string container) =>
+            ConvertMany(container).ToArray();
 
-        private HistoricalMatchResult[] ParseHistoricalResults(string htmlText)
+
+        private static IEnumerable<CyberFootballHistoricalMatchResult> ConvertMany(string container)
         {
-            var containers = htmlText.GetCssNodes("div.container");
+            string competition = "";
 
-            var l = new List<HistoricalMatchResult>();
-
-            foreach (var c in containers)
+            foreach (var item in container.GetCssNodes("table.TT > tbody"))
             {
-                var ms = Converter.ToHistoricalResultMatches(c.InnerHtml);
-                if (ms == null || ms.Length == 0)
+                if (item.OuterHtml.GetCssNode("tr > th.TH") != null)
+                {
+                    competition = item.OuterHtml.GetCssNode("tr > th.TH").InnerText;
+                    continue;
+                }
+
+                if (!competition.ToLower().Contains("cyberfootball"))
                     continue;
 
-                l.AddRange(ms);
+                yield return Create(competition, item.InnerHtml);
             }
-
-            return l.ToArray();
         }
 
-        private void ParseHistoricalResults(ParseSettings parseSettings)
+        private static CyberFootballHistoricalMatchResult Create(string competition, string html)
         {
-            var allFiles = _settings.BaseDirectory.GetFiles().Where(x => !x.Name.Contains("oddslist")).Select(x => x.Name).ToList();
+            var monoRows = html.GetCssNodes("tr > td.Mono").Select(x => x.InnerText).ToArray();
+            var namesRows = html.GetCssNodes("tr > td.Names").Select(x => x.InnerText).ToArray();
 
-            var dateTimeResolver = new MatchDateResolver(allFiles);
-
-            foreach (var fileName in allFiles)
+            return new CyberFootballHistoricalMatchResult
             {
-                Console.WriteLine(fileName);
-                var html = new HtmlDocument();
-
-                var path = $"{_settings.ArchiveDirPath.FullName}\\{fileName}";
-
-                html.LoadHtml(File.ReadAllText(path));
-                var nodes = html.DocumentNode.SelectNodes(@"//div[@class=""container gray""]");
-
-                foreach (var node in nodes)
-                {
-                    var name = node.SelectSingleNode("h3");
-                    if (name.InnerText.ToUpper() != parseSettings.CountryDivision)
-                    {
-                        continue;
-                    }
-
-                    var table = node.QuerySelector("table[class=dt]");
-                    var headers = table.QuerySelectorAll("tbody[class=processed] > tr > th").Select(x => x.InnerText).ToList();
-                    var rows = table.QuerySelectorAll("tbody[class^=row]").ToList();
-
-                    var source = rows[0].QuerySelectorAll("tr").Where(x => !string.IsNullOrEmpty(x.InnerText)).ToList();
-
-                }
-            }
+                Date = monoRows[0],
+                Competition = competition,
+                HomeTeam = namesRows[0],
+                AwayTeam = namesRows[1],
+                Result = monoRows[1]
+            };
         }
     }
 
-    public class HistoricalMatchResult
+    public class CyberFootballHistoricalMatchResult
     {
         public string Evno { get; set; }
 
@@ -83,11 +66,6 @@ namespace BetEventScanner.Providers.Parimatch
         public string AwayTeam { get; set; }
 
         public string Result { get; set; }
-
-        public static HistoricalMatchResult FromString(string node)
-        {
-            return new HistoricalMatchResult();
-        }
-            
+        public string Date { get; internal set; }
     }
 }

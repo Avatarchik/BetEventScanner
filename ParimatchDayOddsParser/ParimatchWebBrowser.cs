@@ -29,7 +29,13 @@ namespace ParimatchDayOddsParser
         {
             if (driver == null)
             {
-                OpenRefresh(url);
+                driver = new ChromeDriver();
+                driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(120);
+                driver.Navigate().GoToUrl(url);
+            }
+            else
+            {
+                driver.Navigate().GoToUrl(url);
             }
 
             return driver.PageSource;
@@ -163,7 +169,7 @@ namespace ParimatchDayOddsParser
             {
                 OpenRefresh(url);
             }
-            
+
             var e = driver.FindElementByCssSelector(selector);
 
             var sourceHtml = e.GetAttribute("innerHTML");
