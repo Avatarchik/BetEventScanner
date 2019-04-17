@@ -56,16 +56,11 @@ namespace BetEventScanner.Providers.Parimatch
     public class CyberFootballHistoricalMatchResult
     {
         public string Evno { get; set; }
-
         public SportType Sport { get; set; }
-
         public string Competition { get; set; }
-
         public string HomeTeam { get; set; }
-
         public string AwayTeam { get; set; }
-
         public string Result { get; set; }
-        public string Date { get; internal set; }
+        public string Date { get; set; }
     }
 }

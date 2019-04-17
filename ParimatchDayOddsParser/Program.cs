@@ -19,7 +19,7 @@ namespace ParimatchDayOddsParser
 
         static async Task MainAsync()
         {
-            //var hm = JsonConvert.DeserializeObject<CyberFootballHistoricalMatchResult[]>(File.ReadAllText($@"C:\BetEventScanner\cyberFootball\results\index.json"));
+            var hm = JsonConvert.DeserializeObject<CyberFootballHistoricalMatchResult[]>(File.ReadAllText($@"C:\BetEventScanner\cyberFootball\results\index.json"));
             //var c = hm.Count(x => x.Date == null);
 
             var hist = new HistoricalResultsProcessor();
