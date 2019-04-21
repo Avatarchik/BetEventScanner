@@ -27,9 +27,9 @@ namespace ParimatchDayOddsParser
 
         public void AddBet(CyberFootballBet bet) => StoreBet(bet);
 
-        public void AddSnapshot(CyberFootballLiveMatch match) => StoreSnapshot(match);
+        public void AddSnapshot(CyberFootballMatch match) => StoreSnapshot(match);
 
-        private void StoreSnapshot(CyberFootballLiveMatch match)
+        private void StoreSnapshot(CyberFootballMatch match)
         {
             var name = match.EventNo + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm") + ".json";
             File.WriteAllText(_dirSn.FullName + "\\" + name, JsonConvert.SerializeObject(match));

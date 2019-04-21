@@ -31,19 +31,19 @@ namespace BetEventScanner.DataAccess.Providers
             _db.CreateCollection(collectionName);   
         }
 
-        public void InsertDocumentToCollection<T>(string collectionName, T document)
+        public void Insert<T>(string collectionName, T document)
         {
             var collection = _db.GetCollection<T>(collectionName);
             collection.InsertOne(document);
         }
 
-        public void InsertDocumentsToCollection<T>(string collectionName, IEnumerable<T> documents)
+        public void InsertMany<T>(string collectionName, IEnumerable<T> documents)
         {
             var collection = _db.GetCollection<T>(collectionName);
             collection.InsertMany(documents);
         }
 
-        public T GetEntity<T>(string collectionName, int id)
+        public T Get<T>(string collectionName, int id)
         {
             var collection = _db.GetCollection<T>(collectionName);
             var filter = new BsonDocument("MatchId", id);
@@ -78,8 +78,19 @@ namespace BetEventScanner.DataAccess.Providers
             var result = collection.ReplaceOne(filter, entity);
         }
 
-        public void DeleteEntity(int id)
+        public IEnumerable<T> GetMany<T>(string collectionName)
         {
+            throw new System.NotImplementedException();
+        }
+
+        public void Update<T>(string collectionName, T entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

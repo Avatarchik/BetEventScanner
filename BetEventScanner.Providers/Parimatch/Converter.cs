@@ -1,8 +1,6 @@
 ﻿using BetEventScanner.DataModel;
 using BetEventScanner.Providers.Parimatch.Models.CyberFootball;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace BetEventScanner.Providers.Parimatch
@@ -16,10 +14,10 @@ namespace BetEventScanner.Providers.Parimatch
             {SportType.Football, new string[0]}
         };
 
-        public static CyberFootballLiveMatch[] ToLiveBetMatches(string html)
+        public static CyberFootballMatch[] ToLiveBetMatches(string html)
         {
             var betEvents = html.GetCssNodes("table");
-            var r = new List<CyberFootballLiveMatch>(betEvents.Count);
+            var r = new List<CyberFootballMatch>(betEvents.Count);
 
             foreach (var betEvent in betEvents)
             {
@@ -53,7 +51,7 @@ namespace BetEventScanner.Providers.Parimatch
                 var p2n = p2origin.Substring(++startIndex2, endIndex2 - startIndex2);
                 var p2t = p2origin.Substring(0, --startIndex2).Trim();
 
-                r.Add(new CyberFootballLiveMatch
+                r.Add(new CyberFootballMatch
                 {
                     EventNo = evno,
                     Player1 = new CyberFootballPlayer

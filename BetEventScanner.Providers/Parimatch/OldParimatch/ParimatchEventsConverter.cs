@@ -1,25 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using BetEventScanner.DataModel;
-using BetEventScanner.Providers.Parimatch.Model;
-using HtmlAgilityPack;
-
-namespace BetEventScanner.Providers.Parimatch
+﻿namespace BetEventScanner.Providers.Parimatch
 {
     public class ParimatchEventsConverter
     {
-        public class ConvertMeta
-        {
-            public string Header { get; set; }
-            public SportType EventType { get; set; }
-            public MatchDateResolver DateResolver { get; set; }
-            public IList<string> Headers { get; set; }
-            public HtmlNode HtmlNode { get; set; }
-            public string Result { get; set; }
-        }
-
         //public static ParimatchFootballBetEvent ConvertToFootballEvent(MatchDateResolver dateResolver, List<string> headers, HtmlNode htmlNode, string result)
         //{
         //    var res = new ParimatchFootballBetEvent();

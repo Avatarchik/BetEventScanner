@@ -30,26 +30,16 @@ namespace BetEventScanner.Providers.SoccerStandCom
             Store(data);
         }
 
-        public void Store<T>(T data)
-        {
-            _provider.InsertEntity(_collection, data);
-        }
+        public void Store<T>(T data) => 
+            _provider.Insert(_collection, data);
+        
+        public void Store<T>(ICollection<T> data) =>
+            _provider.InsertMany(_collection, data);
 
-        public void Store<T>(ICollection<T> data)
-        {
-            _provider.InsertEntities(_collection, data);
-        }
+        public SoccerstandData LoadOriginSource(string url) =>
+            JsonConvert.DeserializeObject<SoccerstandData>(File.ReadAllText($@"C:\BetEventScanner\soccer_stand\{url.Replace("\\", "")}.json"));
 
-        public SoccerstandData LoadOriginSource(string url)
-        {
-            return JsonConvert.DeserializeObject<SoccerstandData>(File.ReadAllText($@"C:\BetEventScanner\soccer_stand\{url.Replace("\\", "")}.json"));
-        }
-
-        public void Store(SoccerstandData data)
-        {
-            var name = StringEx.RemoveSpecialSymbols(data.Url);
-
-            File.WriteAllText($@"C:\BetEventScanner\soccer_stand\{name}.json", JsonConvert.SerializeObject(data));
-        }
+        public void Store(SoccerstandData data) =>
+            File.WriteAllText($@"C:\BetEventScanner\soccer_stand\{StringEx.RemoveSpecialSymbols(data.Url)}.json", JsonConvert.SerializeObject(data));
     }
 }

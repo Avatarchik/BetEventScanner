@@ -8,10 +8,10 @@ namespace BetEventScanner.Providers.Parimatch
         public static string Url => "https://s5.sir.sportradar.com/parimatch";
         public string FootballItalySeriaA => Url + "1/category/31";
 
-        public StatsTable GetTableStats(string html) => 
+        public FootballStatsTable GetTableStats(string html) => 
             ConvertToStatisticsTable(html);
 
-        private static StatsTable ConvertToStatisticsTable(string html)
+        private static FootballStatsTable ConvertToStatisticsTable(string html)
         {
             var rows = html.GetCssNodes("div.visible-md-up > table.table.table-condensed > tbody > tr");
 
@@ -39,7 +39,7 @@ namespace BetEventScanner.Providers.Parimatch
                 });
             }
 
-            return new StatsTable
+            return new FootballStatsTable
             {
                 Positions = positions.ToArray()
             };

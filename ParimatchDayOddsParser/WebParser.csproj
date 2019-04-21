@@ -36,7 +36,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="HtmlNode.cs" />
     <Compile Include="ParimatchWebBrowser.cs" />
     <Compile Include="Parimatch\CyberFootballBet.cs" />
     <Compile Include="Parimatch\CyberFootballBetsProcessor.cs" />
@@ -48,6 +47,8 @@
     <Compile Include="Parimatch\Service.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PmCyberFootball\Service.cs" />
+    <Compile Include="StatsTesting\CyberSeries.cs" />
     <Compile Include="Vprognoze\Service.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +70,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BetEventScanner.DataAccess\BetEventScanner.DataAccess.csproj">
+      <Project>{C53CB25E-6263-4FDB-8B73-DD416A93B5C2}</Project>
+      <Name>BetEventScanner.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BetEventScanner.DataModel\BetEventScanner.DataModel.csproj">
       <Project>{D7EB59E2-B498-44E5-8D92-4DF68F828F5F}</Project>
       <Name>BetEventScanner.DataModel</Name>

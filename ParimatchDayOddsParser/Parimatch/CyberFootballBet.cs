@@ -4,7 +4,7 @@ namespace ParimatchDayOddsParser
 {
     public class CyberFootballBet
     {
-        public CyberFootballLiveMatch Match { get; set; }
+        public CyberFootballMatch Match { get; set; }
         public string EvNo => Match.EventNo;
         public string Bet { get; set; }
         public string BetKey { get; set; }

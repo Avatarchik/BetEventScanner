@@ -336,7 +336,7 @@ namespace BetEventScanner.Providers.SoccerStandCom
         public void UpdateMatchDetails()
         {
             var colName = "england";
-            var provider = new MongoDbProvider("footballdb");
+            var provider = new MongoDbProvider("soccerstand");
             var collections = provider.GetEntities<SoccerstandData>(colName);
 
             var mapping = new Dictionary<string, ConverterParth>

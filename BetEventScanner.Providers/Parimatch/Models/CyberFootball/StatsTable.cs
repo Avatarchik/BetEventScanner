@@ -1,6 +1,6 @@
 ﻿namespace BetEventScanner.Providers.Parimatch.Models.CyberFootball
 {
-    public class StatsTable
+    public class FootballStatsTable
     {
         public StatsTableItem[] Positions { get; set; }
     }

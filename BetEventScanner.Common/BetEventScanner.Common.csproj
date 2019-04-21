@@ -78,7 +78,6 @@
     <Compile Include="Services\File\FileService.cs" />
     <Compile Include="Contracts\IApiClient.cs" />
     <Compile Include="Contracts\Services\IResultsService.cs" />
-    <Compile Include="Services\FutureOddsBetEventsStorage.cs" />
     <Compile Include="Services\RestApiClient\RestApiService.cs" />
   </ItemGroup>
   <ItemGroup>

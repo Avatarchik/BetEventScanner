@@ -12,10 +12,10 @@ namespace BetEventScanner.Providers.Parimatch
         public static string LiveUrl => "https://www.parimatch.com/en/live.html";
         public static string SubLiveUrlTemplate = "https://www.parimatch.com/en/bet.html?ARDisabled=on&hl={0}";
 
-        public static CyberFootballLiveMatch[] ConvertToLiveBetEvets(string[] htmls) =>
+        public static CyberFootballMatch[] ConvertToLiveBetEvets(string[] htmls) =>
             htmls.SelectMany(Converter.ToLiveBetMatches).ToArray();
 
-        public static CyberFootballLiveMatch[] ConvertToLiveBetEvets(string htmls) =>
+        public static CyberFootballMatch[] ConvertToLiveBetEvets(string htmls) =>
            Converter.ToLiveBetMatches(htmls);
 
         public static SportLiveMatch[] GetListLiveEvents(string container)

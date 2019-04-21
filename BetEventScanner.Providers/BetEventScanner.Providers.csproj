@@ -78,8 +78,10 @@
     <Compile Include="HtmlEx.cs" />
     <Compile Include="Parimatch\AccountHistoryParser.cs" />
     <Compile Include="Parimatch\Converter.cs" />
-    <Compile Include="Parimatch\LiveParser.cs" />
+    <Compile Include="Parimatch\Ex.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\BasketballLiveResult.cs" />
+    <Compile Include="Parimatch\Models\CyberFootball\CyberPlayerStats.cs" />
+    <Compile Include="Parimatch\Models\CyberFootball\FootballResult.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\Form.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\HistoricalMatchResult.cs" />
     <Compile Include="Parimatch\Models\CyberFootball\LiveMatch.cs" />
@@ -145,7 +147,6 @@
     <Compile Include="SoccerStandCom\SoccerStandMatchConverter.cs" />
     <Compile Include="SoccerStandCom\SoccerStandParser.cs" />
     <Compile Include="SoccerStandCom\SoccerstandStorage.cs" />
-    <Compile Include="SportType.cs" />
     <Compile Include="Strategies\Basketball\HumptyDumpty\HumptyDumpty.cs" />
     <Compile Include="Strategies\Basketball\HumptyDumpty\HumptyDumptyResult.cs" />
     <Compile Include="StringEx.cs" />

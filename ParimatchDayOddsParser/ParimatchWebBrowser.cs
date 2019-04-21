@@ -3,7 +3,6 @@ using BetEventScanner.Providers.Parimatch;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ParimatchDayOddsParser
@@ -39,42 +38,6 @@ namespace ParimatchDayOddsParser
             }
 
             return driver.PageSource;
-        }
-
-        public static HtmlNode GetElementById(string url, string id, bool inTab = false)
-        {
-            OpenRefresh(url);
-
-            var e = driver?.FindElementById(id);
-
-            return new HtmlNode
-            {
-                Key = id,
-                Html = e.GetAttribute("innerHTML")
-            };
-        }
-
-        public static HtmlNode[] GetElementsByIds(string url, string[] ids, bool inTab = false)
-        {
-            if (driver == null)
-            {
-                OpenRefresh(url);
-            }
-
-            var r = new List<HtmlNode>();
-
-            foreach (var id in ids)
-            {
-                var e = driver?.FindElementsById(id)?.FirstOrDefault();
-                if (e == null) continue;
-                r.Add(new HtmlNode
-                {
-                    Key = id,
-                    Html = e.GetAttribute("innerHTML")
-                });
-            }
-
-            return r.ToArray();
         }
 
         public static void Login(ParimatchCredentials creds)

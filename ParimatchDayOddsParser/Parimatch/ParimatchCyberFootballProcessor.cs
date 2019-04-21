@@ -34,7 +34,7 @@ namespace ParimatchDayOddsParser
             }
         }
 
-        private static CyberFootballLiveMatch[] GetMatches()
+        private static CyberFootballMatch[] GetMatches()
         {
             var container = ParimatchWebBrowser.GetElementByCssSelector(ParimatchConverter.LiveUrl, "div.container > div.wrapper");
             var liveEvents = ParimatchConverter.GetListLiveEvents2(container);
@@ -42,10 +42,10 @@ namespace ParimatchDayOddsParser
             if (liveMatches.Count == 0)
             {
                 Console.WriteLine("No matches");
-                return new CyberFootballLiveMatch[0];
+                return new CyberFootballMatch[0];
             }
 
-            return liveMatches.Select(CyberFootballLiveMatch.FromLiveMatch).Where(q => q != null).ToArray();
+            return liveMatches.Select(CyberFootballMatch.FromLiveMatch).Where(q => q != null).ToArray();
         }
     }
 
@@ -72,7 +72,7 @@ namespace ParimatchDayOddsParser
             {
                 _betsProcessor.AddSnapshot(lbe);
 
-                var key = CyberFootballLiveMatch.Key(lbe);
+                var key = CyberFootballMatch.Key(lbe);
                 //if (cache.ContainsKey(key))
                 //    continue;
 
@@ -88,7 +88,7 @@ namespace ParimatchDayOddsParser
             }
         }
 
-        private static CyberFootballLiveMatch[] GetMatches()
+        private static CyberFootballMatch[] GetMatches()
         {
             var container = ParimatchWebBrowser.GetElementByCssSelector(ParimatchConverter.LiveUrl, "div.container > div.wrapper");
             var liveEvents = ParimatchConverter.GetListLiveEvents2(container);
@@ -96,13 +96,13 @@ namespace ParimatchDayOddsParser
             if (liveMatches.Count == 0)
             {
                 Console.WriteLine("No matches");
-                return new CyberFootballLiveMatch[0];
+                return new CyberFootballMatch[0];
             }
 
-            return liveMatches.Select(CyberFootballLiveMatch.FromLiveMatch).Where(q => q != null).ToArray();
+            return liveMatches.Select(CyberFootballMatch.FromLiveMatch).Where(q => q != null).ToArray();
         }
 
-        private static CyberFootballBet[] GetBets(CyberFootballLiveMatch match, HeadToHeadStats stats)
+        private static CyberFootballBet[] GetBets(CyberFootballMatch match, HeadToHeadStats stats)
         {
             var bets = new List<CyberFootballBet>();
             var lastWin = stats.LastResult;
